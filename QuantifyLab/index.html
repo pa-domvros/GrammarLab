@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantifyLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'cool-gray': '#EDF2F7',
+                        'charcoal': '#1A202C',
+                        'teal': '#38B2AC',
+                        'orange': '#ED8936',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #EDF2F7; /* cool-gray */
+            color: #1A202C; /* charcoal */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #38B2AC; /* teal */
+            border-color: #38B2AC; /* teal */
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-teal">QuantifyLab ⚖️</h1>
+            <p class="mt-2 text-lg text-slate-600">
+                Your guide to other determiners.
+            </p>
+            <p class="mt-4 text-sm text-slate-500">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-slate-300">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#distribution" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-700 hover:border-slate-400">Each, Every, All, etc.</a></li>
+                    <li><a href="#some-any" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-700 hover:border-slate-400">Some & Any</a></li>
+                    <li><a href="#quantity" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-700 hover:border-slate-400">Many & Much</a></li>
+                    <li><a href="#practice-station" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-700 hover:border-slate-400">Practice Station</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Distribution -->
+            <section id="distribution" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-teal">Distribution Determiners</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Rule Cards -->
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 space-y-4">
+                        <h3 class="text-3xl font-bold text-teal/90">Each</h3>
+                        <div><p><strong>Followed by:</strong> noun<br><strong>Verb Number:</strong> singular<br><i>Example: <i class="text-orange">Each</i> day passes quietly.</i></p></div>
+                        <div><p><strong>Followed by:</strong> of + noun/pronoun<br><strong>Verb Number:</strong> singular or plural<br><i>Example: <i class="text-orange">Each</i> of them has/have been given a single room.</i></p></div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 space-y-4">
+                        <h3 class="text-3xl font-bold text-teal/90">Every</h3>
+                        <div><p><strong>Followed by:</strong> (adjective) + noun<br><strong>Verb Number:</strong> singular<br><i>Example: <i class="text-orange">Every</i> new student is given a placement test.</i></p></div>
+                        <div><p><strong>Followed by:</strong> one + of + noun/pronoun<br><strong>Verb Number:</strong> singular<br><i>Example: <i class="text-orange">Every one</i> of us is given a test.</i></p></div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 space-y-4">
+                        <h3 class="text-3xl font-bold text-teal/90">Either</h3>
+                        <div><p><strong>Followed by:</strong> noun<br><strong>Verb Number:</strong> singular<br><i>Example: <i class="text-orange">Either</i> answer is possible.</i></p></div>
+                        <div><p><strong>Followed by:</strong> of + noun/pronoun<br><strong>Verb Number:</strong> singular/plural<br><i>Example: <i class="text-orange">Either</i> of the two answers is/are possible.</i></p></div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 space-y-4">
+                        <h3 class="text-3xl font-bold text-teal/90">All</h3>
+                        <div><p><strong>Followed by:</strong> noun, of + pronoun/noun<br><strong>Verb Number:</strong> plural<br><i>Example: <i class="text-orange">All</i> students/of us were given a test.</i></p></div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 space-y-4">
+                        <h3 class="text-3xl font-bold text-teal/90">Both</h3>
+                        <div><p><strong>Followed by:</strong> noun, of + pronoun/noun<br><strong>Verb Number:</strong> plural<br><i>Example: <i class="text-orange">Both</i> of these answers are possible. / The answers are <i class="text-orange">both</i> possible.</i></p></div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 space-y-4">
+                        <h3 class="text-3xl font-bold text-teal/90">None</h3>
+                        <div><p><strong>Followed by:</strong> of + pronoun/noun<br><strong>Verb Number:</strong> singular<br><i>Example: <i class="text-orange">None</i> of them is going to come.</i></p></div>
+                    </div>
+                </div>
+                <!-- Special Focus Card -->
+                <div class="mt-6 p-6 bg-white rounded-lg shadow-md border-2 border-teal">
+                    <h3 class="text-3xl font-bold mb-3 text-teal/90">Neither...nor / Either...or</h3>
+                    <div class="space-y-4 text-sm">
+                        <div><p><strong>Rule:</strong> Two singular subjects<br><strong>Verb Number:</strong> singular/plural<br><i>Example: <i class="text-orange">Neither</i> Mary <i class="text-orange">nor</i> John have/has any problems. / <i class="text-orange">Either</i> Mary <i class="text-orange">or</i> John can do it.</i></p></div>
+                        <div class="border-t border-slate-200 pt-4"><p><strong>Rule:</strong> One singular and one plural subject<br><strong>Verb Number:</strong> plural (agrees with the subject closest to the verb)<br><i>Example: <i class="text-orange">Neither</i> the teacher <i class="text-orange">nor</i> the students are in favour of this exam.</i></p></div>
+                        <div class="border-t border-slate-200 pt-4"><p><strong>Rule:</strong> When "you" is the second subject<br><strong>Verb Number:</strong> plural<br><i>Example: <i class="text-orange">Neither</i> she <i class="text-orange">nor</i> you have anything to say.</i></p></div>
+                        <div class="border-t border-slate-200 pt-4"><p><strong>Rule:</strong> When "you" is the first subject<br><strong>Verb Number:</strong> plural/singular<br><i>Example: <i class="text-orange">Neither</i> you <i class="text-orange">nor</i> she have/has anything to say.</i></p></div>
+                        <div class="border-t border-slate-200 pt-4"><p><strong>Rule:</strong> Two subjects, neither is a person<br><strong>Verb Number:</strong> agrees with the last subject<br><i>Example: <i class="text-orange">Neither</i> your manners <i class="text-orange">nor</i> your social position is acceptable. / <i class="text-orange">Neither</i> your social position <i class="text-orange">nor</i> your manners are acceptable.</i></p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Some & Any -->
+            <section id="some-any" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-teal">Some, Any and Compounds</h2>
+                <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                    <h3 class="text-3xl font-bold mb-3 text-teal/90">Points to Remember</h3>
+                    <ul class="list-disc list-inside space-y-3">
+                        <li><i class="text-orange">Some</i> and <i class="text-orange">any</i> are used before countable or uncountable nouns.</li>
+                        <li><i class="text-orange">Some</i> and its compounds (<i class="text-orange">somebody, somewhere</i>, etc.) are used in affirmative sentences, when we make an offer or when we expect a positive answer.</li>
+                        <li><i class="text-orange">Any</i> and its compounds are used in interrogative or negative sentences.</li>
+                        <li><i class="text-orange">No</i> and its compounds can replace <i class="text-orange">any</i> when the negation is in the noun. <br><i>Example: I haven’t got any time. = I have no time.</i></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- View: Many & Much -->
+            <section id="quantity" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-teal">A Lot Of, Lots Of, Many, Much, Few, A Few, Little, A Little</h2>
+                 <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                    <h3 class="text-3xl font-bold mb-3 text-teal/90">Points to Remember</h3>
+                     <ul class="list-disc list-inside space-y-3">
+                        <li><i class="text-orange">Many, few</i> and <i class="text-orange">a few</i> + countable nouns.</li>
+                        <li><i class="text-orange">Much, little</i> and <i class="text-orange">a little</i> + uncountable nouns.</li>
+                        <li><i class="text-orange">A lot of</i> and <i class="text-orange">lots of</i> + countable/uncountable nouns.</li>
+                        <li><i class="text-orange">Many, much</i> usually in negative and interrogative sentences.</li>
+                        <li><i class="text-orange">A little, a few</i> = not much/many but enough, only a little.</li>
+                        <li><i class="text-orange">Little, few</i> = not much/many, almost none.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- View: Practice Station -->
+            <section id="practice-station" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-teal">Practice Station</h2>
+                <div id="both-neither-exercise"></div>
+                <div id="quantifiers-exercise" class="mt-8"></div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const bothNeitherData = [
+            { q: "These glasses are wine glasses.", a: "Both these glasses are wine glasses." },
+            { q: "John and Mary can drive.", a: "Both John and Mary can drive." },
+            { q: "Those glasses are mine.", a: "Both those glasses are mine." },
+            { q: "These families are going to buy a new house.", a: "Both these families are going to buy a new house." },
+            { q: "Those men are not teachers.", a: "Neither of those men is a teacher." },
+            { q: "Those bottles are half-empty.", a: "Both those bottles are half-empty." },
+            { q: "These women are wearing white shoes.", a: "Both these women are wearing white shoes." },
+            { q: "Those men are not wearing white shoes.", a: "Neither of those men is wearing white shoes." },
+            { q: "These girls are not good.", a: "Neither of these girls is good." },
+            { q: "These children are not riding bicycles.", a: "Neither of these children is riding a bicycle." },
+            { q: "Those men are not sitting behind Mrs. West.", a: "Neither of those men is sitting behind Mrs. West." },
+            { q: "These girls are going for a walk.", a: "Both these girls are going for a walk." }
+        ];
+
+        const quantifiersData = [
+            { q: "Not many of us own cars.", a: "Few of us own cars." },
+            { q: "Some of them went by air.", a: "A few of them went by air." },
+            { q: "I like some sugar in my tea.", a: "I like a little sugar in my tea." },
+            { q: "I always drink my whisky with some water.", a: "I always drink my whisky with a little water." },
+            { q: "I have many detective stories, but not many travel stories.", a: "I have many detective stories, but few travel stories." },
+            { q: "There are not many apples left.", a: "There are few apples left." },
+            { q: "I haven’t got much time for reading.", a: "I have little time for reading." },
+            { q: "John never spends much on clothes.", a: "John spends little on clothes." },
+            { q: "Not many English people learn foreign languages.", a: "Few English people learn foreign languages." },
+            { q: "I always spend some money on books.", a: "I always spend a little money on books." },
+            { q: "He does not know much about machines.", a: "He knows little about machines." },
+            { q: "I always drink my coffee with some milk.", a: "I always drink my coffee with a little milk." },
+            { q: "I know a thing or two about machines.", a: "I know a little about machines." },
+            { q: "He does not know many things about you.", a: "He knows few things about you." },
+            { q: "Not many of the students have been to England.", a: "Few of the students have been to England." },
+            { q: "There is some wine in my glass.", a: "There is a little wine in my glass." },
+            { q: "There is not much in yours.", a: "There is little in yours." },
+            { q: "Not many men owned cars fifty years ago.", a: "Few men owned cars fifty years ago." },
+            { q: "There is not much to do.", a: "There is little to do." },
+            { q: "There was not much left.", a: "There was little left." },
+            { q: "There are not many days to Christmas.", a: "There are few days to Christmas." },
+            { q: "I met him some days ago.", a: "I met him a few days ago." },
+            { q: "Not many of us are rich enough to own an aeroplane.", a: "Few of us are rich enough to own an aeroplane." },
+            { q: "Some of us are rich enough to go by air.", a: "A few of us are rich enough to go by air." }
+        ];
+
+        function initApp() {
+            // Setup navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+
+            function updateView(hash) {
+                hash = hash || '#distribution';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+            
+            // Setup practice exercises
+            createPaginatedExercise(document.getElementById('both-neither-exercise'), bothNeitherData, "Rewrite using 'both' or 'neither'");
+            createPaginatedExercise(document.getElementById('quantifiers-exercise'), quantifiersData, "Rewrite using 'a few', 'few', 'a little', or 'little'");
+
+            // Initial view setup on page load
+            updateView(window.location.hash);
+        }
+
+        function createPaginatedExercise(container, data, title) {
+            const sanitizedTitleId = title.replace(/[^a-zA-Z0-9-]/g, '');
+            let currentPage = 0;
+            const itemsPerPage = 12;
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+
+            container.innerHTML = `
+                <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                    <h3 class="text-3xl font-bold text-teal/90 mb-2">${title}</h3>
+                    <p class="mb-4 text-slate-600">Rewrite the following sentences.</p>
+                    <div id="questions-container-${sanitizedTitleId}" class="space-y-4"></div>
+                    <div class="flex items-center justify-between mt-6">
+                        <button class="prev-btn px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-50" disabled>&larr; Previous</button>
+                        <span class="page-indicator text-sm font-semibold text-slate-600">Page 1 of ${totalPages}</span>
+                        <button class="next-btn px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300">Next &rarr;</button>
+                    </div>
+                    <div class="mt-6 border-t border-slate-200 pt-4 text-center">
+                         <button class="check-btn w-full sm:w-auto px-6 py-2 bg-orange/80 text-white font-semibold rounded-lg hover:bg-orange">Check Answers</button>
+                         <button class="reset-btn w-full sm:w-auto px-6 py-2 bg-slate-500 text-white font-semibold rounded-lg hover:bg-slate-600 ml-4 hidden">Try This Page Again</button>
+                    </div>
+                </div>
+            `;
+
+            const questionsContainer = container.querySelector(`#questions-container-${sanitizedTitleId}`);
+            const checkBtn = container.querySelector('.check-btn');
+            const resetBtn = container.querySelector('.reset-btn');
+            const nextBtn = container.querySelector('.next-btn');
+            const prevBtn = container.querySelector('.prev-btn');
+            const pageIndicator = container.querySelector('.page-indicator');
+            
+            function loadPage(page) {
+                questionsContainer.innerHTML = '';
+                const start = page * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageData = data.slice(start, end);
+
+                pageData.forEach((questionData, index) => {
+                    const questionItem = document.createElement('div');
+                    questionItem.dataset.originalIndex = start + index;
+                    questionItem.innerHTML = `
+                        <label class="block text-sm text-slate-600 italic">"${questionData.q}"</label>
+                        <input type="text" class="mt-1 w-full p-2 bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-teal" placeholder="Your rewritten sentence...">
+                        <div class="feedback-text text-sm mt-1"></div>
+                    `;
+                    questionsContainer.appendChild(questionItem);
+                });
+
+                pageIndicator.textContent = `Page ${page + 1} of ${totalPages}`;
+                prevBtn.disabled = page === 0;
+                nextBtn.disabled = page >= totalPages - 1;
+                checkBtn.classList.remove('hidden');
+                resetBtn.classList.add('hidden');
+            }
+
+            function checkAnswers() {
+                const questionItems = questionsContainer.querySelectorAll('div[data-original-index]');
+                questionItems.forEach(item => {
+                    const originalIndex = parseInt(item.dataset.originalIndex);
+                    const correctAnswer = data[originalIndex].a;
+                    const input = item.querySelector('input');
+                    const feedbackDiv = item.querySelector('.feedback-text');
+                    const userAnswer = input.value.trim();
+
+                    input.classList.remove('border-green-500', 'border-red-500');
+                    feedbackDiv.innerHTML = '';
+
+                    const formattedUserAnswer = userAnswer.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+                    const formattedCorrectAnswer = correctAnswer.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+
+                    if (formattedUserAnswer === formattedCorrectAnswer) {
+                        input.classList.add('border-green-500');
+                        feedbackDiv.innerHTML = '<span class="text-green-600 font-semibold">Correct! ✅</span>';
+                    } else {
+                        input.classList.add('border-red-500');
+                        feedbackDiv.innerHTML = `<span class="text-red-600 font-semibold">Not quite. Suggested answer: ${correctAnswer}</span>`;
+                    }
+                });
+                checkBtn.classList.add('hidden');
+                resetBtn.classList.remove('hidden');
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    loadPage(currentPage);
+                }
+            });
+            
+            checkBtn.addEventListener('click', checkAnswers);
+            resetBtn.addEventListener('click', () => loadPage(currentPage));
+
+            loadPage(currentPage);
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

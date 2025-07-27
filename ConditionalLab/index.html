@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConditionalLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'royal-purple': '#240046',
+                        'lavender-accent': '#C77DFF',
+                        'soft-white': '#E0E1DD',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #240046; /* royal-purple */
+            color: #E0E1DD; /* soft-white */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #C77DFF; /* lavender-accent */
+            border-color: #C77DFF; /* lavender-accent */
+        }
+        
+        .practice-mode { display: none; }
+        .practice-mode.active { display: block; }
+
+        .mode-button.active {
+            background-color: #C77DFF;
+            color: #240046;
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <!-- Header and Navigation -->
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-lavender-accent">ConditionalLab 🚦</h1>
+            <p class="mt-2 text-lg text-slate-200">
+                Your guide to mastering English conditionals.
+            </p>
+             <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#four-pillars" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Four Pillars</a></li>
+                    <li><a href="#advanced-structures" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Advanced Structures</a></li>
+                    <li><a href="#situation-room" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Situation Room</a></li>
+                    <li><a href="#practice-arena" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Practice Arena</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: The Four Pillars -->
+            <section id="four-pillars" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender-accent">The Four Pillars</h2>
+                <p class="mb-6 text-slate-200">These are the four main types of conditional sentences. Understand their structure and use before moving to more advanced forms.</p>
+                <div id="pillars-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Conditional cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- View: Advanced Structures -->
+            <section id="advanced-structures" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender-accent">Advanced Structures</h2>
+                <p class="mb-6 text-slate-200">Explore mixed conditionals, alternatives to "if", and formal inversions to elevate your English.</p>
+                <div id="advanced-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Advanced conditional cards will be injected here -->
+                </div>
+            </section>
+
+            <!-- View: The Situation Room -->
+            <section id="situation-room" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender-accent">The Situation Room</h2>
+                <p class="mb-6 text-slate-200">Read the situation, then write an appropriate conditional sentence in the box below. There may be more than one correct answer!</p>
+                <div id="situation-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 class="text-3xl font-bold text-lavender-accent mb-2">Situation</h3>
+                    <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                        <p id="situation-text" class="italic text-slate-200 text-lg"></p>
+                    </div>
+                    <textarea id="situation-input" rows="3" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-lavender-accent focus:border-lavender-accent" placeholder="Write your conditional sentence here..."></textarea>
+                    <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button id="situation-check-btn" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                        <button id="situation-next-btn" class="w-full sm:w-auto px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600">Next Situation &rarr;</button>
+                    </div>
+                    <div id="situation-answer" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                        <h4 class="font-bold text-lg text-green-300">Suggested Answer(s):</h4>
+                        <p id="situation-solution" class="italic mt-2"></p>
+                        <p class="mt-4 text-sm text-green-200"><strong class="font-semibold">Explanation:</strong> <span id="situation-explanation"></span></p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- View: Practice Arena -->
+            <section id="practice-arena" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender-accent">Practice Arena</h2>
+                <div class="mb-6 flex flex-wrap gap-2 border-b border-white/20 pb-4">
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-lavender-accent hover:text-royal-purple" data-target="quiz-mode">Consolidation Quiz</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-lavender-accent hover:text-royal-purple" data-target="rewrite-mode">Rewrite Challenge</button>
+                </div>
+
+                <!-- Practice Mode: Quiz -->
+                <div id="quiz-mode" class="practice-mode">
+                    <div id="quiz-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <div id="quiz-content">
+                            <p id="quiz-question" class="text-lg font-semibold mb-4"></p>
+                            <div id="quiz-options" class="space-y-3"></div>
+                        </div>
+                        <div id="quiz-feedback" class="mt-4 text-lg"></div>
+                        <button id="quiz-next-btn" class="mt-6 w-full sm:w-auto px-6 py-2 bg-lavender-accent text-royal-purple font-semibold rounded-lg hover:bg-purple-300 disabled:bg-slate-400 disabled:cursor-not-allowed">Next Question</button>
+                    </div>
+                </div>
+
+                <!-- Practice Mode: Rewrite Challenge -->
+                <div id="rewrite-mode" class="practice-mode">
+                     <div id="challenge-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 id="challenge-title" class="text-3xl font-bold text-lavender-accent mb-2"></h3>
+                        <p class="mb-4 text-slate-200">Rewrite the sentence using the given word or structure.</p>
+                        <div class="p-4 bg-black/20 rounded-md mb-2 border border-white/20">
+                            <p class="italic text-slate-300">"<span id="challenge-text"></span>"</p>
+                        </div>
+                         <p class="mb-4 text-sm">Use: <span id="challenge-instruction" class="font-bold text-lavender-accent"></span></p>
+                        <textarea id="rewrite-input" rows="3" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-lavender-accent focus:border-lavender-accent" placeholder="Rewrite the sentence here..."></textarea>
+                        <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button id="rewrite-check-btn" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                            <button id="rewrite-next-btn" class="w-full sm:w-auto px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600">Next Challenge &rarr;</button>
+                        </div>
+                        <div id="rewrite-answer" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                            <h4 class="font-bold text-lg text-green-300">Suggested Answer:</h4>
+                            <p id="rewrite-solution" class="italic mt-2"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- NAVIGATION / VIEW MANAGEMENT ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const views = document.querySelectorAll('.view');
+
+        function updateView(hash) {
+            hash = hash || '#four-pillars';
+            
+            navLinks.forEach(link => {
+                const linkHash = link.getAttribute('href');
+                if (linkHash === hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            views.forEach(view => {
+                if ('#' + view.id === hash) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const hash = e.target.getAttribute('href');
+                window.location.hash = hash;
+            });
+        });
+        
+        window.addEventListener('hashchange', () => updateView(window.location.hash));
+        updateView(window.location.hash);
+
+        // --- THE FOUR PILLARS LOGIC ---
+        const conditionalData = [
+            { id: 'zero', title: 'Zero Conditional', use: 'General truths, facts, and scientific laws.', structure: 'If + Present Simple, ... Present Simple.', example: 'If you heat water to 100°C, it boils.', exampleFlipped: 'Water boils if you heat it to 100°C.' },
+            { id: 'first', title: 'First Conditional', use: 'Real and possible future situations.', structure: 'If + Present Simple, ... will + base verb.', example: 'If it rains tomorrow, we will stay home.', exampleFlipped: 'We will stay home if it rains tomorrow.' },
+            { id: 'second', title: 'Second Conditional', use: 'Hypothetical or unreal situations in the present or future.', structure: 'If + Past Simple, ... would + base verb.', example: 'If I had a million dollars, I would buy a big house.', exampleFlipped: 'I would buy a big house if I had a million dollars.' },
+            { id: 'third', title: 'Third Conditional', use: 'Hypothetical situations or regrets about the past.', structure: 'If + Past Perfect, ... would have + past participle.', example: 'If I had studied harder, I would have passed the exam.', exampleFlipped: 'I would have passed the exam if I had studied harder.' }
+        ];
+
+        const pillarsGrid = document.getElementById('pillars-grid');
+        conditionalData.forEach((cond) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            card.innerHTML = `
+                <h3 class="text-3xl font-bold mb-2 text-lavender-accent">${cond.title}</h3>
+                <p class="text-slate-300 text-sm mb-1"><strong class="font-semibold text-white">Use:</strong> ${cond.use}</p>
+                <p class="text-slate-300 text-sm mb-4"><strong class="font-semibold text-white">Structure:</strong> <span class="font-mono">${cond.structure}</span></p>
+                <div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="font-semibold text-slate-300">Example</p>
+                        <button class="flip-clause-btn text-xs font-semibold text-lavender-accent hover:underline" data-id="${cond.id}">Flip Clauses</button>
+                    </div>
+                    <p class="font-mono text-white text-base" id="cond-display-${cond.id}">${cond.example}</p>
+                </div>
+            `;
+            pillarsGrid.appendChild(card);
+        });
+
+        document.querySelectorAll('.flip-clause-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                const cond = conditionalData.find(c => c.id === id);
+                const display = document.getElementById(`cond-display-${id}`);
+                
+                const isCurrentlyStandard = display.textContent === cond.example;
+                display.textContent = isCurrentlyStandard ? cond.exampleFlipped : cond.example;
+            });
+        });
+
+        // --- ADVANCED STRUCTURES LOGIC ---
+        const advancedData = [
+            { id: 'mixed1', title: 'Mixed Conditional (Past -> Present)', use: 'A hypothetical past condition with a present result.', structure: 'If + Past Perfect, ... would + base verb.', example: 'If I had taken that job, I would be rich now.' },
+            { id: 'mixed2', title: 'Mixed Conditional (Present -> Past)', use: 'A hypothetical present condition with a past result.', structure: 'If + Past Simple, ... would have + past participle.', example: 'If I were a good cook, I would have made dinner.' },
+            { id: 'alternatives', title: 'Alternatives to "If"', use: 'To express conditions with more specific meanings.', examples: [
+                { word: 'unless', sentence: 'You won\'t pass the exam unless you study.' },
+                { word: 'as long as', sentence: 'You can borrow my car as long as you drive carefully.' },
+                { word: 'provided that', sentence: 'He can go to the party, provided that he finishes his homework.' },
+                { word: 'in case', sentence: 'Take an umbrella in case it rains.' }
+            ]},
+            { id: 'inversion', title: 'Formal Inversion (No "If")', use: 'A more formal and elegant way to write conditionals.', examples: [
+                { word: 'Had...', sentence: 'Had I known, I would have helped.' },
+                { word: 'Were...', sentence: 'Were I you, I would apologize.' },
+                { word: 'Should...', sentence: 'Should you need anything, just call.' }
+            ]}
+        ];
+
+        const advancedGrid = document.getElementById('advanced-grid');
+        advancedData.forEach((adv) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            let content = `
+                <h3 class="text-3xl font-bold mb-2 text-lavender-accent">${adv.title}</h3>
+                <p class="text-slate-300 text-sm mb-1"><strong class="font-semibold text-white">Use:</strong> ${adv.use}</p>
+                ${adv.structure ? `<p class="text-slate-300 text-sm mb-4"><strong class="font-semibold text-white">Structure:</strong> <span class="font-mono">${adv.structure}</span></p>` : ''}
+            `;
+
+            if (adv.example) {
+                content += `<div class="mt-auto text-sm bg-black/20 p-4 rounded-lg"><p class="font-mono text-white text-base">${adv.example}</p></div>`;
+            }
+
+            if (adv.examples) {
+                let exampleHtml = '';
+                adv.examples.forEach(ex => {
+                    exampleHtml += `<div class="mb-2"><p class="font-mono text-white text-base"><span class="font-bold text-lavender-accent">${ex.word}:</span> ${ex.sentence}</p></div>`;
+                });
+                content += `<div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">${exampleHtml}</div>`;
+            }
+
+            card.innerHTML = content;
+            advancedGrid.appendChild(card);
+        });
+
+        // --- THE SITUATION ROOM LOGIC ---
+        const situations = [
+            { situation: "You didn't study for the test, so you failed. Express your regret.", answer: "If I had studied for the test, I would have passed.", explanation: "Third conditional is used to express regrets about the past." },
+            { situation: "Your friend wants to buy an expensive phone but can't afford it. Give them advice.", answer: "If I were you, I would save my money.", explanation: "Second conditional is used to give hypothetical advice." },
+            { situation: "You are planning a picnic for tomorrow. The weather forecast is uncertain. Talk about your plan.", answer: "If it is sunny tomorrow, we will have a picnic.", explanation: "First conditional is used for real future possibilities." },
+            { situation: "Explain a basic scientific fact about ice.", answer: "If you heat ice, it melts.", explanation: "Zero conditional is used for general truths and scientific facts." },
+            { situation: "You didn't take that job offer years ago. Now, you are not happy with your career. Connect the past decision to the present reality.", answer: "If I had taken that job, I would be happier now.", explanation: "Mixed conditional (Past -> Present) connects a past hypothetical action to a present result." },
+            { situation: "You are not a fast runner. Because of this, you didn't win the race yesterday. Connect your present ability to a past event.", answer: "If I were a faster runner, I would have won the race yesterday.", explanation: "Mixed conditional (Present -> Past) connects a present hypothetical state to a past result." },
+            { situation: "You will go to the concert, but only if you can get a front-row ticket. State your condition.", answer: "I will go to the concert provided that I get a front-row ticket.", explanation: "'Provided that' is a formal alternative to 'if' for stating a firm condition." },
+            { situation: "You will not help your friend with his project because he never helps you. State the negative condition.", answer: "I won't help you with your project unless you help me with mine.", explanation: "'Unless' is used to mean 'except if'." },
+            { situation: "Your friend is asking for your opinion on a jacket. You think it looks good. Give your opinion.", answer: "If I were you, I would buy it.", explanation: "Second conditional is a common and polite way to give advice or an opinion." },
+            { situation: "You missed the bus this morning because you woke up late. Express this past regret.", answer: "If I hadn't woken up late, I wouldn't have missed the bus.", explanation: "Third conditional is used for hypothetical past situations and their outcomes." },
+            { situation: "You might need help later. Formally ask a colleague to be available.", answer: "Should you have a moment later, I'd appreciate your help.", explanation: "Formal inversion ('Should you...') is an elegant way to state a future possibility without using 'if'." },
+            { situation: "You are not the president, so you cannot change the law. Express this hypothetical reality.", answer: "If I were the president, I would change the law.", explanation: "Second conditional describes an unreal situation in the present." },
+            { situation: "You want to go to the beach this weekend, but it depends on the car being available. Express this future plan.", answer: "If the car is available, we will go to the beach this weekend.", explanation: "First conditional is for real possibilities in the future." },
+            { situation: "You are giving a friend permission to use your laptop, with one condition: they must be careful.", answer: "You can use my laptop as long as you are careful.", explanation: "'As long as' is an alternative to 'if' that sets a continuous condition." },
+            { situation: "You are thinking about a past mistake. You didn't invest in a company, and now it's very successful. Express your regret.", answer: "Had I invested in that company, I would be a millionaire now.", explanation: "Formal inversion ('Had I...') combined with a mixed conditional (Past -> Present) for a sophisticated expression of regret." },
+            { situation: "Explain the rule for a particular game: when a player lands on a certain square, they miss a turn.", answer: "If a player lands on this square, they miss a turn.", explanation: "Zero conditional is used for rules and instructions that are always true." },
+            { situation: "You are not fluent in Spanish. Because of this, you didn't enjoy your trip to Spain last year.", answer: "If I were fluent in Spanish, I would have enjoyed my trip more.", explanation: "Mixed conditional (Present -> Past) connects a present hypothetical state to a past result." },
+            { situation: "You are taking a map with you on a hike. Explain why.", answer: "I'm taking a map in case we get lost.", explanation: "'In case' is used to talk about precautions for a possible future event." },
+            { situation: "Your friend is sick. You are not a doctor, so you can't help much. Express this hypothetical situation.", answer: "If I were a doctor, I would know what to do.", explanation: "Second conditional is used for unreal present situations." },
+            { situation: "You didn't know your friend was in the hospital last week, so you didn't visit. Express this past situation formally.", answer: "Had I known you were in the hospital, I would have visited.", explanation: "Formal inversion ('Had I...') is an elegant way to express a past hypothetical situation (Third Conditional)." }
+        ];
+
+        let currentSituationIndex = 0;
+        const situationTextEl = document.getElementById('situation-text');
+        const situationInputEl = document.getElementById('situation-input');
+        const situationCheckBtn = document.getElementById('situation-check-btn');
+        const situationAnswerDiv = document.getElementById('situation-answer');
+        const situationSolutionEl = document.getElementById('situation-solution');
+        const situationExplanationEl = document.getElementById('situation-explanation');
+        const situationNextBtn = document.getElementById('situation-next-btn');
+
+        function loadSituation(index) {
+            const situation = situations[index];
+            situationTextEl.textContent = situation.situation;
+            situationSolutionEl.textContent = situation.answer;
+            situationExplanationEl.textContent = situation.explanation;
+            situationInputEl.value = '';
+            situationAnswerDiv.classList.add('hidden');
+        }
+
+        situationCheckBtn.addEventListener('click', () => {
+            situationAnswerDiv.classList.remove('hidden');
+        });
+
+        situationNextBtn.addEventListener('click', () => {
+            currentSituationIndex = (currentSituationIndex + 1) % situations.length;
+            loadSituation(currentSituationIndex);
+        });
+
+        loadSituation(0);
+
+        // --- PRACTICE ARENA LOGIC ---
+        const modeButtons = document.querySelectorAll('.mode-button');
+        const practiceModes = document.querySelectorAll('.practice-mode');
+
+        function setPracticeMode(targetId) {
+            modeButtons.forEach(button => {
+                button.classList.toggle('active', button.dataset.target === targetId);
+            });
+            practiceModes.forEach(mode => {
+                mode.classList.toggle('active', mode.id === targetId);
+            });
+        }
+
+        modeButtons.forEach(button => {
+            button.addEventListener('click', (e) => setPracticeMode(e.target.dataset.target));
+        });
+
+        // --- QUIZ MODE LOGIC ---
+        const quizData = [
+            { q: "If you ___ water, it boils.", o: ["heat", "will heat", "heated"], a: "heat" },
+            { q: "If I ___ you, I would apologize.", o: ["am", "was", "were"], a: "were" },
+            { q: "We will miss the train if we ___.", o: ["don't hurry", "won't hurry", "didn't hurry"], a: "don't hurry" },
+            { q: "If I had known you were coming, I ___ a cake.", o: ["would bake", "will bake", "would have baked"], a: "would have baked" },
+            { q: "___ you need any help, just let me know.", o: ["If", "Were", "Should"], a: "Should" },
+            { q: "He wouldn't be so tired now if he ___ so late last night.", o: ["didn't stay up", "hadn't stayed up", "wouldn't have stayed up"], a: "hadn't stayed up" },
+            { q: "You can't enter ___ you have a ticket.", o: ["if", "unless", "as long as"], a: "unless" },
+            { q: "___ I rich, I would still work.", o: ["If", "Were", "Had"], a: "Were" },
+            { q: "I'll lend you the money ___ you pay me back next week.", o: ["unless", "in case", "provided that"], a: "provided that" },
+            { q: "If I ___ so clumsy, I wouldn't have broken the vase.", o: ["weren't", "hadn't been", "am not"], a: "weren't" },
+            { q: "Take your phone with you ___ you need to call me.", o: ["if", "unless", "in case"], a: "in case" },
+            { q: "___ seen the warning, they would have evacuated immediately.", o: ["If they", "They had", "Had they"], a: "Had they" },
+            { q: "If the weather is nice, we ___ for a walk.", o: ["go", "will go", "would go"], a: "will go" },
+            { q: "What would you do if you ___ a ghost?", o: ["see", "saw", "had seen"], a: "saw" },
+            { q: "She would have been on time if she ___ the earlier train.", o: ["had caught", "caught", "would catch"], a: "had caught" }
+        ];
+
+        let currentQuizIndex = 0;
+        const quizQuestionEl = document.getElementById('quiz-question');
+        const quizOptionsEl = document.getElementById('quiz-options');
+        const quizFeedbackEl = document.getElementById('quiz-feedback');
+        const quizNextBtn = document.getElementById('quiz-next-btn');
+
+        function loadQuizQuestion() {
+            quizFeedbackEl.innerHTML = '';
+            quizNextBtn.disabled = true;
+            quizNextBtn.textContent = 'Next Question';
+
+            if (currentQuizIndex >= quizData.length) {
+                quizQuestionEl.textContent = "Quiz Complete! 🏆";
+                quizOptionsEl.innerHTML = `<p>You've finished the quiz. Great job!</p>`;
+                quizNextBtn.textContent = 'Restart Quiz';
+                currentQuizIndex = -1;
+                return;
+            }
+
+            const q = quizData[currentQuizIndex];
+            quizQuestionEl.textContent = q.q.replace('___', '...');
+            quizOptionsEl.innerHTML = '';
+            q.o.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'block w-full text-left p-3 border border-white/30 rounded-lg hover:bg-white/20';
+                button.onclick = () => checkQuizAnswer(option, q.a, button);
+                quizOptionsEl.appendChild(button);
+            });
+        }
+
+        function checkQuizAnswer(selected, correct, button) {
+            const buttons = quizOptionsEl.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+            quizNextBtn.disabled = false;
+
+            if (selected === correct) {
+                button.classList.add('bg-green-500/50', 'border-green-400');
+                quizFeedbackEl.innerHTML = `<p class="text-green-300 font-semibold">Correct!</p>`;
+            } else {
+                button.classList.add('bg-red-500/50', 'border-red-400');
+                quizFeedbackEl.innerHTML = `<p class="text-red-300 font-semibold">Not quite. The answer is "${correct}".</p>`;
+                buttons.forEach(btn => {
+                    if (btn.textContent === correct) {
+                        btn.classList.add('bg-green-500/50', 'border-green-400');
+                    }
+                });
+            }
+        }
+
+        quizNextBtn.addEventListener('click', () => {
+            currentQuizIndex++;
+            loadQuizQuestion();
+        });
+
+        // --- REWRITE CHALLENGE LOGIC ---
+        const rewriteChallenges = [
+            { title: "Third Conditional", instruction: "'if'", standard: "I didn't see you, so I didn't say hello.", solution: "If I had seen you, I would have said hello." },
+            { title: "Second Conditional", instruction: "'if'", standard: "I'm not rich, so I can't buy a yacht.", solution: "If I were rich, I could buy a yacht." },
+            { title: "First Conditional", instruction: "'if'", standard: "Hurry up or we will be late.", solution: "If you don't hurry up, we will be late." },
+            { title: "Mixed Conditional", instruction: "'if'", standard: "He didn't take his medicine. He is sick now.", solution: "If he had taken his medicine, he wouldn't be sick now." },
+            { title: "Formal Inversion", instruction: "'Had...'", standard: "If she had known about the meeting, she would have attended.", solution: "Had she known about the meeting, she would have attended." },
+            { title: "Alternative", instruction: "'unless'", standard: "You can't go out if you don't finish your homework.", solution: "You can't go out unless you finish your homework." },
+            { title: "Formal Inversion", instruction: "'Were...'", standard: "If I were the manager, I would change the policy.", solution: "Were I the manager, I would change the policy." },
+            { title: "Alternative", instruction: "'as long as'", standard: "You can stay here, but you must keep quiet.", solution: "You can stay here as long as you keep quiet." },
+            { title: "Mixed Conditional", instruction: "'if'", standard: "She isn't a good driver. She crashed the car yesterday.", solution: "If she were a good driver, she wouldn't have crashed the car yesterday." },
+            { title: "Formal Inversion", instruction: "'Should...'", standard: "If you see him, please give him this message.", solution: "Should you see him, please give him this message." },
+            { title: "Third Conditional", instruction: "'if'", standard: "We got lost because we didn't have a map.", solution: "If we had had a map, we wouldn't have got lost." },
+            { title: "Second Conditional", instruction: "'if'", standard: "I don't have wings, so I can't fly.", solution: "If I had wings, I could fly." },
+            { title: "First Conditional", instruction: "'if'", standard: "I might see him, so I'll give him the book.", solution: "If I see him, I'll give him the book." },
+            { title: "Alternative", instruction: "'provided that'", standard: "I will help you, but you must listen to my advice.", solution: "I will help you provided that you listen to my advice." },
+            { title: "Mixed Conditional", instruction: "'if'", standard: "You didn't book the tickets. We can't go to the concert now.", solution: "If you had booked the tickets, we could go to the concert now." },
+            { title: "Third Conditional", instruction: "'if'", standard: "The team lost because the star player was injured.", solution: "The team wouldn't have lost if the star player hadn't been injured." },
+            { title: "Second Conditional", instruction: "'if'", standard: "It's cold, so we can't go swimming.", solution: "If it weren't cold, we could go swimming." },
+            { title: "First Conditional", instruction: "'if'", standard: "Save some money and you can buy a new phone.", solution: "If you save some money, you can buy a new phone." },
+            { title: "Alternative", instruction: "'in case'", standard: "I'll write down the address because I might forget it.", solution: "I'll write down the address in case I forget it." },
+            { title: "Formal Inversion", instruction: "'Had...'", standard: "He didn't listen to my warning, so he got into trouble.", solution: "Had he listened to my warning, he wouldn't have got into trouble." },
+            { title: "Mixed Conditional", instruction: "'if'", standard: "I'm not you, so I didn't tell him the truth.", solution: "If I were you, I would have told him the truth." },
+            { title: "Second Conditional", instruction: "'if'", standard: "I live in the city, so I don't see many stars.", solution: "If I lived in the countryside, I would see more stars." },
+            { title: "Third Conditional", instruction: "'if'", standard: "The alarm didn't go off, so I was late for work.", solution: "If the alarm had gone off, I wouldn't have been late for work." },
+            { title: "Alternative", instruction: "'unless'", standard: "I'll go to the party if you go too.", solution: "I won't go to the party unless you go too." },
+            { title: "Formal Inversion", instruction: "'Were...'", standard: "If the government were to invest more in education, the country would prosper.", solution: "Were the government to invest more in education, the country would prosper." },
+            { title: "First Conditional", instruction: "'if'", standard: "Don't touch the wire or you'll get an electric shock.", solution: "If you touch the wire, you'll get an electric shock." },
+            { title: "Mixed Conditional", instruction: "'if'", standard: "He's a very impulsive person. He bought that car without thinking last week.", solution: "If he weren't so impulsive, he wouldn't have bought that car last week." },
+            { title: "Alternative", instruction: "'as long as'", standard: "Children can play in the park, but they must not make a mess.", solution: "Children can play in the park as long as they don't make a mess." },
+            { title: "Third Conditional", instruction: "'if'", standard: "I didn't know the answer, so I couldn't help.", solution: "If I had known the answer, I could have helped." },
+            { title: "Formal Inversion", instruction: "'Should...'", standard: "If there are any problems, contact the support team.", solution: "Should there be any problems, contact the support team." }
+        ];
+
+        let currentChallengeIndex = 0;
+        const challengeTitleEl = document.getElementById('challenge-title');
+        const challengeTextEl = document.getElementById('challenge-text');
+        const challengeInstructionEl = document.getElementById('challenge-instruction');
+        const rewriteInputEl = document.getElementById('rewrite-input');
+        const rewriteCheckBtn = document.getElementById('rewrite-check-btn');
+        const rewriteAnswerDiv = document.getElementById('rewrite-answer');
+        const rewriteSolutionEl = document.getElementById('rewrite-solution');
+        const rewriteNextBtn = document.getElementById('rewrite-next-btn');
+
+        function loadChallenge(index) {
+            const challenge = rewriteChallenges[index];
+            challengeTitleEl.textContent = challenge.title;
+            challengeTextEl.textContent = challenge.standard;
+            challengeInstructionEl.textContent = `"${challenge.instruction}"`;
+            rewriteSolutionEl.textContent = challenge.solution;
+            rewriteInputEl.value = '';
+            rewriteAnswerDiv.classList.add('hidden');
+        }
+        
+        rewriteCheckBtn.addEventListener('click', () => {
+            rewriteAnswerDiv.classList.remove('hidden');
+        });
+
+        rewriteNextBtn.addEventListener('click', () => {
+            currentChallengeIndex = (currentChallengeIndex + 1) % rewriteChallenges.length;
+            loadChallenge(currentChallengeIndex);
+        });
+
+        // Initial setup for Practice Arena
+        setPracticeMode('quiz-mode');
+        loadQuizQuestion();
+        loadChallenge(0);
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'rich-pink': '#FDF2F8',
+                        'light-gray-bg': '#F9FAFB',
+                        'deep-purple': '#3730A3',
+                        'fuchsia': '#D946EF',
+                        'lavender': '#8B5CF6',
+                    },
+                    textShadow: {
+                        'white-glow': '0 0 8px rgba(255, 255, 255, 0.7)',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #FDF2F8; /* rich-pink */
+            color: #3730A3; /* deep-purple */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        h1 {
+             text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+        }
+
+        .nav-link.active {
+            color: #D946EF; /* fuchsia */
+            border-color: #D946EF; /* fuchsia */
+        }
+
+        /* Drag and Drop Styles */
+        .draggable {
+            cursor: grab;
+            user-select: none;
+        }
+        .draggable.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-zone {
+            border: 2px dashed #A78BFA;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .drop-zone.drag-over {
+            background-color: rgba(217, 70, 239, 0.1);
+            border-color: #D946EF;
+        }
+        .correct-drop .draggable, .correct-drop {
+            border: 2px solid #16A34A !important;
+            background-color: #F0FDF4 !important;
+        }
+        .incorrect-drop .draggable, .incorrect-drop {
+            border: 2px solid #DC2626 !important;
+            background-color: #FEF2F2 !important;
+        }
+        
+        /* Practice Exercise Styles */
+        .practice-batch { display: none; }
+        .practice-batch.active { display: block; }
+
+        .feedback-correct { color: #16A34A; }
+        .feedback-incorrect { color: #DC2626; }
+
+        /* Ex 1 */
+        .adverb-drop-zone { display: inline-block; width: 120px; height: 40px; vertical-align: middle; border-radius: 0.5rem; margin: 0 4px; padding: 2px; transition: width 0.3s ease, padding 0.3s ease; }
+        .adverb-drop-zone.expanded { width: auto; border-color: transparent; padding: 0; margin: 0 6px; }
+        .draggable-adverb { padding: 0.5rem 1rem; background-color: #EDE9FE; color: #5B21B6; font-weight: 600; border-radius: 0.5rem; text-align: center; border: 1px solid #C4B5FD; transition: color 0.3s, background-color 0.3s, border-color 0.3s; }
+        .draggable-adverb.correct-answer { color: #047857; background-color: #D1FAE5; border-color: #6EE7B7; }
+        .draggable-adverb.incorrect-answer { color: #B91C1C; background-color: #FEE2E2; border-color: #FCA5A5; }
+
+        /* Ex 4 */
+        .dropdown-select { display: inline-block; margin: 0 0.5rem; padding: 0.25rem 0.5rem; border-radius: 0.375rem; border: 1px solid #A78BFA; background-color: #F5F3FF; color: #4C1D95; font-weight: 500; }
+        .feedback-icon { display: inline-block; width: 1.5rem; margin-left: 0.5rem; font-weight: bold; font-size: 1.25rem; }
+
+        /* Ex 3 & 5 */
+        .rewrite-input { width: 100%; min-height: 60px; margin-top: 0.5rem; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid #DDD6FE; }
+        .rewrite-input:focus { border-color: #8B5CF6; outline: none; box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3); }
+        .rewrite-controls { margin-top: 0.75rem; display: flex; align-items: center; gap: 1rem; }
+        .feedback-text { font-weight: 500; color: #4338CA; }
+        
+        /* Further Practice Input */
+        .identify-input { padding: 0.5rem; margin-left: 0.5rem; border-radius: 0.375rem; border: 1px solid #DDD6FE; width: 120px; }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-fuchsia">AdLab 🎨</h1>
+            <p class="mt-2 text-lg text-purple-800">Your guide to adjectives, adverbs, and comparisons.</p>
+            <p class="mt-4 text-sm text-purple-700"><i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i></p>
+            <nav class="mt-6 border-b border-purple-200">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#comparisons" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-fuchsia hover:border-fuchsia-300">Comparatives & Superlatives</a></li>
+                    <li><a href="#types" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-fuchsia hover:border-fuchsia-300">Types of Comparison</a></li>
+                    <li><a href="#order" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-fuchsia hover:border-fuchsia-300">Order of Adjectives & Adverbs</a></li>
+                    <li><a href="#practice" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-fuchsia hover:border-fuchsia-300">Practice Time</a></li>
+                    <li><a href="#further-practice" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-fuchsia hover:border-fuchsia-300">Further Practice</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <section id="comparisons" class="view"><h2 class="text-4xl font-bold mb-4 text-fuchsia">Comparatives and Superlatives</h2><div class="space-y-4" id="comparisons-accordion"></div></section>
+            <section id="types" class="view"><h2 class="text-4xl font-bold mb-4 text-fuchsia">Types of Comparison</h2><div class="space-y-4" id="types-accordion"></div></section>
+            <section id="order" class="view"><h2 class="text-4xl font-bold mb-4 text-fuchsia">Order of Adjectives & Adverbs</h2><div id="adjective-order-game" class="p-6 bg-white rounded-lg shadow-md border border-slate-200"></div><div id="adverb-order-section" class="mt-6"></div></section>
+            <section id="practice" class="view"><h2 class="text-4xl font-bold mb-4 text-fuchsia">Practice Time</h2><div class="space-y-4" id="practice-accordion"></div></section>
+            <section id="further-practice" class="view"><h2 class="text-4xl font-bold mb-4 text-fuchsia">Further Practice</h2><div class="space-y-4" id="further-practice-accordion"></div></section>
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- DATA ---
+        const comparisonsData = [ { title: "One-syllable adjectives", content: "Add <b class='text-lavender'>-er</b> for the comparative and <b class='text-lavender'>-est</b> for the superlative.", example: "dark &rarr; darker &rarr; darkest" }, { title: "Two-syllable adjectives ending in -er", content: "Add <b class='text-lavender'>-er</b> for the comparative and <b class='text-lavender'>-est</b> for the superlative.", example: "clever &rarr; cleverer &rarr; cleverest" }, { title: "Two-syllable adjectives ending in -y, -ly", content: "Change <b class='text-lavender'>y</b> to <b class='text-lavender'>i</b> and add <b class='text-lavender'>-er</b> for the comparative and <b class='text-lavender'>-est</b> for the superlative.", example: "busy &rarr; busier &rarr; busiest<br>friendly &rarr; friendlier &rarr; friendliest" }, { title: "Other multi-syllable adjectives & participles", content: "Use <b class='text-lavender'>more</b> for the comparative and <b class='text-lavender'>most</b> for the superlative.", example: "careful &rarr; more careful &rarr; most careful<br>interesting &rarr; more interesting &rarr; most interesting<br>bored &rarr; more bored &rarr; most bored" }, { title: "Irregular Adjective Comparisons", content: "These adjectives have unique forms.", example: "good &rarr; better &rarr; the best<br>bad &rarr; worse &rarr; the worst<br>little &rarr; less &rarr; the least<br>far &rarr; further/farther &rarr; the furthest/farthest" }, { title: "Adverbs ending in -ly", content: "Use <b class='text-lavender'>more</b> for the comparative and <b class='text-lavender'>most</b> for the superlative. Exception: early &rarr; earlier &rarr; earliest", example: "quickly &rarr; more quickly &rarr; most quickly" }, { title: "One-syllable adverbs", content: "Add <b class='text-lavender'>-er</b> for the comparative and <b class='text-lavender'>-est</b> for the superlative.", example: "hard &rarr; harder &rarr; hardest<br>fast &rarr; faster &rarr; fastest" }, { title: "Irregular Adverb Comparisons", content: "These adverbs have unique forms.", example: "well &rarr; better &rarr; the best<br>badly &rarr; worse &rarr; the worst<br>little &rarr; less &rarr; the least<br>much &rarr; more &rarr; the most<br>far &rarr; further/farther &rarr; the furthest/farthest" }, ];
+        const typesData = [ { title: "Basic Comparison", content: "She is nicer <b class='text-lavender'>than</b> Mary. He is <b class='text-lavender'>the</b> cleverest boy <b class='text-lavender'>in</b> the class. It is the biggest city <b class='text-lavender'>in</b> the world. The Equator is the hottest place <b class='text-lavender'>on</b> earth. That was the happiest day <b class='text-lavender'>of</b> my life." }, { title: "Equality: as...as", content: "She is <b class='text-lavender'>as</b> intelligent <b class='text-lavender'>as</b> Mary (is)." }, { title: "Inequality: not so/as...as", content: "She is <b class='text-lavender'>not as</b> mature <b class='text-lavender'>as</b> her sister (is)." }, { title: "Inequality with Noun: not such...as", content: "It is <b class='text-lavender'>not such an</b> expensive hotel <b class='text-lavender'>as</b> we thought." }, { title: "Result: such...that", content: "It is <b class='text-lavender'>such</b> bad weather <b class='text-lavender'>that</b> we cannot go out. They were <b class='text-lavender'>such</b> nice dresses <b class='text-lavender'>that</b> she didn’t know which to buy. It was <b class='text-lavender'>such a</b> beautiful day <b class='text-lavender'>that</b> they went out for a walk." }, { title: "Result: so...that", content: "The weather is <b class='text-lavender'>so</b> bad <b class='text-lavender'>that</b> we cannot go out." }, { title: "Multiplied Comparison", content: "She needs <b class='text-lavender'>twice as much</b> time <b class='text-lavender'>as</b> me/I do." }, { title: "Sameness", content: "It costs <b class='text-lavender'>the same as</b> last year." }, { title: "Sensory Comparison", content: "It looks, sounds, smells, tastes <b class='text-lavender'>like</b> a good plan." }, { title: "Less / Least", content: "I’m <b class='text-lavender'>less</b> interested in it <b class='text-lavender'>than</b> Sue. I have <b class='text-lavender'>the least</b> free time <b class='text-lavender'>of</b> all." }, { title: "Parallel Increase/Decrease", content: "<b class='text-lavender'>The more</b> he works, <b class='text-lavender'>the more</b> tired he gets." }, { title: "Gradual Change", content: "The exams are getting <b class='text-lavender'>more and more</b> difficult. He is getting <b class='text-lavender'>thinner and thinner</b>." }, { title: "Superlative + Perfect Tense", content: "Italy is <b class='text-lavender'>the best</b> place I <b class='text-lavender'>have ever visited</b>." }, { title: "Perfect Tense + such", content: "I <b class='text-lavender'>have never visited such a</b> nice place <b class='text-lavender'>as</b> Italy." }, { title: "Too + Adjective", content: "It is <b class='text-lavender'>too</b> cold <b class='text-lavender'>to go out</b>." }, { title: "Much + too", content: "He is <b class='text-lavender'>much too</b> sure of himself." }, ];
+        const adjectiveOrderData = { noun: "table", adjectives: [ { text: "beautiful", category: "Opinion" }, { text: "small", category: "Size" }, { text: "old", category: "Age" }, { text: "round", category: "Shape" }, { text: "black", category: "Colour" }, { text: "African", category: "Origin" }, { text: "mahogany", category: "Material" }, { text: "bedside", category: "Purpose" }, ] };
+        const adverbOrderData = [ { title: "Adverbs of Frequency", content: "(always, never, hardly ever, occasionally, rarely, seldom, ever, generally(=usually), frequently, often, usually, sometimes)", rules: [ "<b>Before the main verb:</b> He <i class='text-lavender'>often</i> comes late.", "<b>After the verb “to be”:</b> He is <i class='text-lavender'>often</i> late.", "<b>After auxiliary and modal verbs:</b> He has <i class='text-lavender'>often</i> been late / You should <i class='text-lavender'>never</i> be late." ] }, { title: "Flexible Adverbs of Frequency", content: "The adverbs: usually, normally, generally, frequently, sometimes, often and occasionally can go either at the beginning or end of a sentence." }, { title: "General Order of Adverbs", content: "The typical order is MANNER - PLACE - TIME.", example: "He works <b class='text-lavender'>hard</b> <i class='text-fuchsia'>at school</i> <span class='text-gray-500'>every day</span>." }, { title: "Position of Time Adverbs", content: "Time adverbs can go either at the beginning (usually for long phrases) or the end of the sentence.", example: "<span class='text-gray-500'>On Monday mornings</span> he visits his aunt." }, { title: "Adverbs with Verbs of Movement", content: "With verbs of movement, the place adverb can go immediately after the verb.", example: "He drives <i class='text-fuchsia'>to work</i> <b class='text-lavender'>alone</b>." } ];
+        const practiceData = [
+            { title: "Exercise 1: Adverb Placement", instructions: "Drag the adverb into the correct empty slot in the sentence. Correct answers expand to fit and turn green; incorrect answers will turn red and return to the start.", type: 'adverb_drag_drop', batchSize: 10, questions: [ { before: "They ", after: " go to the local disco on Saturdays.", adverb: "SOMETIMES" }, { before: "They ", after: " spoke to each other.", adverb: "SELDOM" }, { before: "He ", after: " wrote to us about his studies.", adverb: "OCCASIONALLY" }, { before: "Do they ", after: " discuss such things with her?", adverb: "GENERALLY" }, { before: "Have you ", after: " read through the report?", adverb: "ALREADY" }, { before: "He has ", after: " been seen with Mary.", adverb: "SOMETIMES" }, { before: "Do you ", after: " stay at home in the evenings?", adverb: "FREQUENTLY" }, { before: "He ", after: " got on the bus.", adverb: "QUICKLY" }, { before: "We don't like the place ", after: ".", adverb: "MUCH" }, { before: "She ", after: " walks to work.", adverb: "OCCASIONALLY" }, { before: "They spoke English ", after: ".", adverb: "PERFECTLY" }, { before: "They ", after: " invite us to dinner.", adverb: "OFTEN" }, { before: "He ", after: " comes home late at night.", adverb: "USUALLY" }, { before: "She ", after: " gets up early in the morning.", adverb: "HARDLY EVER" }, { before: "He's ", after: " pleased with my work.", adverb: "RARELY" }, { before: "He ", after: " forgot what he had to do.", adverb: "COMPLETELY" }, { before: "They are ", after: " displayed in the shop window.", adverb: "BEAUTIFULLY" }, { before: "I ", after: " regret the mistake.", adverb: "DEEPLY" }, { before: "They will ", after: " start work tomorrow.", adverb: "DEFINITELY" }, { before: "She ", after: " missed the train.", adverb: "NEARLY" }, { before: "The boys are ", after: " swimming.", adverb: "STILL" }, { before: "They would rather leave ", after: ".", adverb: "IMMEDIATELY" }, { before: "I am not ", after: " pleased.", adverb: "EASILY" }, { before: "We ", after: " spend our holidays on the island of Corfu.", adverb: "ALWAYS" }, { before: "They ", after: " have trouble with the police.", adverb: "FREQUENTLY" }, { before: "It ", after: " rains hard in these parts of the country.", adverb: "NEVER" }, { before: "They ", after: " leave him alone at home.", adverb: "RARELY" }, { before: "We ", after: " believe that she is not guilty.", adverb: "FIRMLY" }, { before: "She tried ", after: " to succeed.", adverb: "VERY HARD" }, { before: "Tom likes cherries ", after: ".", adverb: "VERY MUCH" }, { before: "He has ", after: " put on a lot of weight.", adverb: "RECENTLY" }, ] },
+            { title: "Exercise 2: Adjective Order", instructions: "Put the adjectives in the correct order to complete the sentence. The correct order is OPINION, SIZE, AGE, SHAPE, COLOUR, ORIGIN, MATERIAL, then PURPOSE.", type: 'adjective_sentence_builder', questions: [ { frame: { before: "She kept her money in a", after: "box." }, adjectives: [ { text: "small", category: "Size" }, { text: "black", category: "Colour" }, { text: "metal", category: "Material" } ] }, { frame: { before: "They stayed at a(n)", after: "village." }, adjectives: [ { text: "lovely", category: "Opinion" }, { text: "little", category: "Size" }, { text: "old", category: "Age" }, { text: "German", category: "Origin" } ] }, { frame: { before: "Helen had to sell her", after: "ring to pay her debts." }, adjectives: [ { text: "precious", category: "Opinion" }, { text: "antique", category: "Age" }, { text: "diamond", category: "Material" } ] }, { frame: { before: "We met a man with a", after: "face." }, adjectives: [ { text: "long", category: "Size" }, { text: "wrinkled", category: "Age" }, { text: "thin", category: "Shape" } ] }, { frame: { before: "The thieves stole a(n)", after: "painting." }, adjectives: [ { text: "valuable", category: "Opinion" }, { text: "Dutch", category: "Origin" }, { text: "oil", category: "Purpose" } ] }, { frame: { before: "Kate has left her", after: "gloves here." }, adjectives: [ { text: "lovely", category: "Opinion" }, { text: "black", category: "Colour" }, { text: "leather", category: "Material" } ] }, { frame: { before: "She was wearing a", after: "dress." }, adjectives: [ { text: "beautiful", category: "Opinion" }, { text: "yellow", category: "Colour" }, { text: "silk", category: "Material" } ] }, { frame: { before: "They live in a", after: "street." }, adjectives: [ { text: "dirty", category: "Opinion" }, { text: "long", category: "Size" }, { text: "narrow", category: "Shape" } ] }, { frame: { before: "We spent our holidays on a(n)", after: "island." }, adjectives: [ { text: "exotic", category: "Opinion" }, { text: "small", category: "Size" }, { text: "Caribbean", category: "Origin" } ] }, { frame: { before: "Among the guests was a(n)", after: "lady." }, adjectives: [ { text: "elegant", category: "Opinion" }, { text: "tall", category: "Size" }, { text: "young", category: "Age" } ] }, { frame: { before: "We'll need some", after: "chairs." }, adjectives: [ { text: "light", category: "Size" }, { text: "plastic", category: "Material" }, { text: "garden", category: "Purpose" } ] }, { frame: { before: "How much were these", after: "boots?" }, adjectives: [ { text: "black", category: "Colour" }, { text: "Spanish", category: "Origin" }, { text: "leather", category: "Material" } ] }, ] },
+            { title: "Exercise 3: too / enough with opposites", instructions: "Rewrite the following sentences using the opposite adjective/adverb and 'enough'. Then, click 'Show Answer' to see the correct version.", type: 'free_text_rewrite', batchSize: 5, questions: [ { original: "This envelope is too big to put into the letter box.", answers: ["This envelope is not small enough to put into the letter box."] }, { original: "Jack is too young to retire.", answers: ["Jack is not old enough to retire."] }, { original: "That jacket was too expensive for me to buy.", answers: ["That jacket was not cheap enough for me to buy."] }, { original: "It's too cold to go swimming today.", answers: ["It's not warm enough to go swimming today."] }, { original: "The tube station is too far away to walk to.", answers: ["The tube station is not near enough to walk to.", "The tube station is not close enough to walk to."] }, { original: "He's too poor to live in this neighbourhood.", answers: ["He's not rich enough to live in this neighbourhood."] }, { original: "Bob is too slow to understand that.", answers: ["Bob is not quick enough to understand that.", "Bob is not fast enough to understand that."] }, { original: "She's too fat to get through the door.", answers: ["She's not thin enough to get through the door.", "She's not slim enough to get through the door."] }, { original: "These reports are too boring to read.", answers: ["These reports are not interesting enough to read."] }, { original: "Janet is too young to go to the cinema alone.", answers: ["Janet is not old enough to go to the cinema alone."] }, { original: "He is running too slowly to win the race.", answers: ["He is not running quickly enough to win the race.", "He is not running fast enough to win the race."] }, { original: "The river is too deep to cross.", answers: ["The river is not shallow enough to cross."] }, { original: "Ray is too short to reach the lamp.", answers: ["Ray is not tall enough to reach the lamp."] }, { original: "It was too cold to continue the game.", answers: ["It was not warm enough to continue the game."] }, { original: "The patient was too weak to walk.", answers: ["The patient was not strong enough to walk."] } ] },
+            { title: "Exercise 4: so / such", instructions: "Choose the correct word from the dropdown menu to complete each sentence. A green tick (✔) will appear for correct answers and a red cross (✘) for incorrect ones.", type: 'dropdown_select', questions: [ { before: "We didn't swim because it was", after: "cold.", answer: "so" }, { before: "It was", after: "fine weather. We all went out to play in the garden.", answer: "such" }, { before: "Don't drive", after: "fast!", answer: "so" }, { before: "I didn't know he was", after: "an old man!", answer: "such" }, { before: "The book was", after: "boring! I didn't like it at all.", answer: "so" }, { before: "Few people knew that the house was", after: "old.", answer: "so" }, { before: "During the strike there was", after: "much garbage left at the entrance! We could hardly get through.", answer: "so" }, { before: "The oranges were", after: "cheap! We bought five kilos of them.", answer: "so" }, { before: "She's got", after: "a lot of money! She can buy the whole company.", answer: "such" }, { before: "I've never heard", after: "nonsense before.", answer: "such" }, { before: "There was", after: "old furniture in the house! It looked like an antique shop.", answer: "such" }, { before: "He was", after: "a cruel man that he used to beat his children.", answer: "such" }, { before: "Elizabeth works", after: "hard!", answer: "so" }, { before: "The film was", after: "good! Everybody kept talking about it.", answer: "so" } ] },
+            { title: "Exercise 5: Comparatives & Superlatives", instructions: "Rewrite the sentence using the correct comparative or superlative form based on the word in brackets. Then, click 'Show Answer' to see the correct version.", type: 'free_text_rewrite', questions: [ { original: "This restaurant is very expensive. (TOWN)", answers: ["This restaurant is the most expensive in town."] }, { original: "Paula is very hard-working. (SHEILA)", answers: ["Paula is more hard-working than Sheila."] }, { original: "Cats are very fast. (DOGS)", answers: ["Cats are faster than dogs."] }, { original: "Mr Hogs is very rich. (COUNTRY)", answers: ["Mr Hogs is the richest in the country."] }, { original: "A Mercedes Benz is very comfortable. (BMW)", answers: ["A Mercedes Benz is more comfortable than a BMW."] }, { original: "His office is very big. (MINE)", answers: ["His office is bigger than mine."] }, { original: "Carry is a very intelligent child. (FAMILY)", answers: ["Carry is the most intelligent child in the family."] }, { original: "Harold is very poor. (JONATHAN)", answers: ["Harold is poorer than Jonathan."] } ] },
+        ];
+        const furtherPracticeData = {
+            dragItems: [ ['beautiful', 'small', 'old', 'round', 'red', 'French', 'wooden', 'writing', 'desk'], ['lovely', 'little', 'old', 'German', 'village'], ['precious', 'antique', 'diamond', 'ring'], ['long', 'thin', 'wrinkled', 'face'], ['valuable', 'Dutch', 'oil', 'painting'], ['lovely', 'black', 'leather', 'gloves'], ['beautiful', 'yellow', 'silk', 'dress'], ['dirty', 'long', 'narrow', 'street'], ['small', 'exotic', 'Caribbean', 'island'], ['elegant', 'tall', 'young', 'lady'], ['light', 'plastic', 'garden', 'chairs'], ['black', 'Spanish', 'leather', 'boots'], ['comfortable', 'small', 'old', 'French', 'cottage'], ['cheap', 'green', 'plastic', 'garden', 'chair'], ['expensive', 'little', 'French', 'handbag'] ],
+            identifySentences: [ { sentence: "He found an unusual small metal coin.", answers: { Opinion: "unusual", Size: "small", Material: "metal" } }, { sentence: "They watched an exciting old French film.", answers: { Opinion: "exciting", Age: "old", Origin: "French" } }, { sentence: "She wore a pretty green cotton dress.", answers: { Opinion: "pretty", Colour: "green", Material: "cotton" } }, { sentence: "We sat on a hard wooden garden bench.", answers: { Opinion: "hard", Material: "wooden", Purpose: "garden" } }, { sentence: "They drove a sleek black German car.", answers: { Opinion: "sleek", Colour: "black", Origin: "German" } }, { sentence: "He bought an elegant little antique mirror.", answers: { Opinion: "elegant", Size: "little", Age: "antique" } }, { sentence: "We stayed in a lovely large old house.", answers: { Opinion: "lovely", Size: "large", Age: "old" } }, { sentence: "She opened a heavy black iron door.", answers: { Size: "heavy", Colour: "black", Material: "iron" } }, { sentence: "He gave me a strange long wooden stick.", answers: { Opinion: "strange", Size: "long", Material: "wooden" } }, { sentence: "I wore my favourite soft blue wool sweater.", answers: { Opinion: "favourite", Material: "wool", Colour: "blue" } } ]
+        };
+
+
+        // --- CORE APP LOGIC ---
+        function initApp() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('main > .view');
+            function updateView(hash) {
+                hash = hash || '#comparisons';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+            
+            buildAccordion('comparisons-accordion', comparisonsData);
+            buildAccordion('types-accordion', typesData);
+            buildAdjectiveOrderGame('adjective-order-game', adjectiveOrderData);
+            buildAccordion('adverb-order-section', adverbOrderData);
+            buildPracticeAccordion('practice-accordion', practiceData);
+            buildFurtherPracticeAccordion('further-practice-accordion', furtherPracticeData);
+            updateView(window.location.hash || '#comparisons');
+        }
+
+        // --- BUILDER & LOGIC FUNCTIONS ---
+        function buildAccordion(containerId, data) {
+            const container = document.getElementById(containerId); if (!container) return; container.innerHTML = '';
+            data.forEach((item) => {
+                const div = document.createElement('div'); div.className = 'bg-light-gray-bg rounded-lg shadow-sm border border-slate-200';
+                let contentHtml = `<p class="text-violet-800">${item.content}</p>`;
+                if (item.example) contentHtml += `<div class="mt-2 p-3 bg-slate-50 rounded-md font-mono text-sm text-deep-purple">${item.example}</div>`;
+                if (item.rules) contentHtml += `<ul class="mt-2 space-y-1 list-disc list-inside text-violet-800">${item.rules.map(rule => `<li>${rule}</li>`).join('')}</ul>`;
+                div.innerHTML = `<button class="w-full flex justify-between items-center p-4 text-left accordion-toggle"><h4 class="text-2xl font-bold text-fuchsia/90">${item.title}</h4><svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="accordion-content hidden p-4 border-t border-slate-200">${contentHtml}</div>`;
+                container.appendChild(div);
+            });
+            container.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => { button.nextElementSibling.classList.toggle('hidden'); button.querySelector('svg').classList.toggle('rotate-180'); });
+            });
+        }
+        
+        function buildPracticeAccordion(containerId, data) {
+            const container = document.getElementById(containerId); if (!container) return; container.innerHTML = '';
+            data.forEach((item) => {
+                const div = document.createElement('div'); div.className = 'bg-light-gray-bg rounded-lg shadow-sm border border-slate-200';
+                let contentHtml = '';
+                if (item.type === 'adverb_drag_drop') contentHtml = buildAdverbDragDrop(item);
+                else if (item.type === 'adjective_sentence_builder') contentHtml = buildAdjectiveSentenceBuilder(item);
+                else if (item.type === 'dropdown_select') contentHtml = buildDropdownExercise(item);
+                else if (item.type === 'free_text_rewrite') contentHtml = buildRewriteExercise(item);
+                else contentHtml = `<p class="text-violet-800">${item.content}</p>`;
+                div.innerHTML = `<button class="w-full flex justify-between items-center p-4 text-left accordion-toggle"><h4 class="text-2xl font-bold text-fuchsia/90">${item.title}</h4><svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="accordion-content hidden p-4 border-t border-slate-200">${contentHtml}</div>`;
+                container.appendChild(div);
+            });
+            container.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => { button.nextElementSibling.classList.toggle('hidden'); button.querySelector('svg').classList.toggle('rotate-180'); });
+            });
+            addAdverbPracticeLogic(container); addAdjectiveBuilderLogic(container); addDropdownLogic(container); addRewriteLogic(container);
+        }
+
+        function buildAdverbDragDrop(item) {
+            const batchSize = item.batchSize || 10;
+            const numBatches = Math.ceil(item.questions.length / batchSize);
+            let batchesHtml = ''; let sentenceStartIndex = 0;
+            for (let i = 0; i < numBatches; i++) {
+                const batchQuestions = item.questions.slice(sentenceStartIndex, sentenceStartIndex + batchSize);
+                const isHidden = i > 0 ? '' : 'active';
+                batchesHtml += `<div class="practice-batch ${isHidden} space-y-6" data-type="adverb" data-batch="${i + 1}">`;
+                batchesHtml += batchQuestions.map((sentence, j) => {
+                    const questionIndex = sentenceStartIndex + j;
+                    return `<div class="flex flex-wrap items-center gap-4 p-3 bg-white rounded-lg border border-slate-200" id="adverb-q-${questionIndex}"><div class="flex-grow text-lg text-purple-900 leading-loose"><span class="font-serif pr-2">${questionIndex + 1}.</span><div class="adverb-drop-zone drop-zone"></div><span>${sentence.before}</span><div class="adverb-drop-zone drop-zone correct-spot"></div><span>${sentence.after}</span><div class="adverb-drop-zone drop-zone"></div></div><div class="adverb-home-container"><div class="draggable draggable-adverb" draggable="true" data-question-id="adverb-q-${questionIndex}">${sentence.adverb}</div></div></div>`;
+                }).join('');
+                batchesHtml += `</div>`; sentenceStartIndex += batchSize;
+            }
+            return `<p class="mb-4 text-violet-700">${item.instructions}</p><div class="adverb-practice-container">${batchesHtml}</div><div class="mt-6 flex justify-between items-center"><button class="prev-batch-btn px-4 py-2 bg-slate-400 text-white font-semibold rounded-lg hover:bg-slate-500 disabled:opacity-50" data-type="adverb" disabled>Previous</button><span class="batch-indicator font-semibold text-slate-600" data-type="adverb">Page 1 of ${numBatches}</span><button class="next-batch-btn px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80" data-type="adverb">Next</button></div>`;
+        }
+
+        function buildAdjectiveSentenceBuilder(item) {
+             const categoryOrder = ["Opinion", "Size", "Age", "Shape", "Colour", "Origin", "Material", "Purpose"];
+             let questionsHtml = item.questions.map((q, index) => {
+                const sortedAdjectives = [...q.adjectives].sort((a, b) => categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category));
+                const shuffledAdjectives = [...q.adjectives].sort(() => Math.random() - 0.5);
+                let dropZonesHtml = sortedAdjectives.map(adj => `<div class="drop-zone flex-1 p-2 h-12 rounded-lg flex items-center justify-center" data-category="${adj.category}"><span class="text-xs text-slate-400">${adj.category}</span></div>`).join('');
+                let draggablesHtml = shuffledAdjectives.map(adj => `<div class="draggable p-2 bg-lavender/20 text-lavender-800 font-semibold rounded-lg text-center" draggable="true" data-category="${adj.category}">${adj.text}</div>`).join('');
+                return `<div class="adjective-builder-instance mt-8 p-4 border-t" data-question-instance="${index}"><p class="text-lg text-purple-900 mb-4"><span class="font-serif pr-2">${index+1}.</span>${q.frame.before} ... ${q.frame.after}</p><div class="p-4 bg-light-gray-bg rounded-lg"><div class="flex flex-wrap items-center gap-2">${dropZonesHtml}</div></div><div class="mt-4 p-4 border-t border-slate-200"><h5 class="text-xl font-bold text-center text-fuchsia/90 mb-3">Adjective Bank</h5><div class="adjective-bank flex flex-wrap gap-2 justify-center">${draggablesHtml}</div></div><div class="game-controls mt-4 text-center"><button class="check-answer-btn px-6 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Check Answer</button><button class="reset-game-btn px-6 py-2 bg-slate-400 text-white font-semibold rounded-lg hover:bg-slate-500 ml-4">Reset</button></div></div>`;
+             }).join('');
+             return `<p class="mb-4 text-violet-700">${item.instructions}</p>${questionsHtml}`;
+        }
+
+        function buildDropdownExercise(item) {
+            let questionsHtml = item.questions.map((q, index) => `<div class="dropdown-question py-2 border-b border-slate-200" data-answer="${q.answer}"><p class="text-lg text-purple-900"><span class="font-serif pr-2">${index + 1}.</span><span>${q.before}</span><select class="dropdown-select"><option value="">-- select --</option><option value="so">so</option><option value="such">such</option></select><span>${q.after}</span><span class="feedback-icon"></span></p></div>`).join('');
+            return `<p class="mb-4 text-violet-700">${item.instructions}</p><div class="space-y-2">${questionsHtml}</div>`;
+        }
+
+        function buildRewriteExercise(item) {
+            const batchSize = item.batchSize;
+            let questionsHtml; let paginationHtml = '';
+            if (batchSize) {
+                const numBatches = Math.ceil(item.questions.length / batchSize);
+                let batchesHtml = ''; let sentenceStartIndex = 0;
+                for (let i = 0; i < numBatches; i++) {
+                    const batchQuestions = item.questions.slice(sentenceStartIndex, sentenceStartIndex + batchSize);
+                    const isHidden = i > 0 ? '' : 'active';
+                    batchesHtml += `<div class="practice-batch ${isHidden} space-y-8" data-type="rewrite" data-batch="${i + 1}">`;
+                    batchesHtml += batchQuestions.map((q, j) => {
+                        const questionIndex = sentenceStartIndex + j;
+                        return `<div class="rewrite-question" data-question-index="${questionIndex}"><p class="original-sentence text-lg text-purple-900"><span class="font-serif pr-2">${questionIndex+1}.</span>${q.original}</p><textarea class="rewrite-input" rows="2" placeholder="You can try rewriting the sentence here..."></textarea><div class="rewrite-controls"><button class="show-answer-btn px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Show Answer</button><span class="feedback-text"></span></div></div>`;
+                    }).join('');
+                    batchesHtml += `</div>`; sentenceStartIndex += batchSize;
+                }
+                questionsHtml = `<div class="rewrite-practice-container">${batchesHtml}</div>`;
+                paginationHtml = `<div class="mt-6 flex justify-between items-center"><button class="prev-batch-btn px-4 py-2 bg-slate-400 text-white font-semibold rounded-lg hover:bg-slate-500 disabled:opacity-50" data-type="rewrite" disabled>Previous</button><span class="batch-indicator font-semibold text-slate-600" data-type="rewrite">Page 1 of ${numBatches}</span><button class="next-batch-btn px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80" data-type="rewrite">Next</button></div>`;
+            } else {
+                questionsHtml = `<div class="space-y-8">` + item.questions.map((q, index) => {
+                    return `<div class="rewrite-question" data-question-index="${index}"><p class="original-sentence text-lg text-purple-900"><span class="font-serif pr-2">${index+1}.</span>${q.original}</p><textarea class="rewrite-input" rows="2" placeholder="You can try rewriting the sentence here..."></textarea><div class="rewrite-controls"><button class="show-answer-btn px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Show Answer</button><span class="feedback-text"></span></div></div>`;
+                }).join('') + `</div>`;
+            }
+            return `<p class="mb-4 text-violet-700">${item.instructions}</p>${questionsHtml}${paginationHtml}`;
+        }
+        
+        function addPaginationLogic(container, type) {
+            const practiceContainer = container.querySelector(`div[data-batch="1"][data-type="${type}"]`)?.closest(`div`);
+            if(!practiceContainer?.parentElement) return;
+            const paginationControls = practiceContainer.parentElement.nextElementSibling;
+            if(!paginationControls || !paginationControls.matches('div')) return;
+
+            let currentBatch = 1;
+            const batches = practiceContainer.parentElement.querySelectorAll(`.practice-batch[data-type="${type}"]`);
+            const totalBatches = batches.length;
+            const prevBtn = paginationControls.querySelector(`.prev-batch-btn[data-type="${type}"]`); 
+            const nextBtn = paginationControls.querySelector(`.next-batch-btn[data-type="${type}"]`); 
+            const indicator = paginationControls.querySelector(`.batch-indicator[data-type="${type}"]`);
+            
+            if(!prevBtn) return;
+            
+            function updateBatches() {
+                batches.forEach(batch => batch.classList.toggle('active', parseInt(batch.dataset.batch) !== currentBatch));
+                indicator.textContent = `Page ${currentBatch} of ${totalBatches}`; 
+                prevBtn.disabled = currentBatch === 1; 
+                nextBtn.disabled = currentBatch === totalBatches;
+            }
+            prevBtn.addEventListener('click', () => { if (currentBatch > 1) { currentBatch--; updateBatches(); } });
+            nextBtn.addEventListener('click', () => { if (currentBatch < totalBatches) { currentBatch++; updateBatches(); } });
+            updateBatches();
+        }
+
+        function addAdverbPracticeLogic(container) {
+            addPaginationLogic(container, 'adverb');
+            const draggables = container.querySelectorAll('.draggable-adverb'); const dropZones = container.querySelectorAll('.adverb-drop-zone');
+            draggables.forEach(draggable => { draggable.addEventListener('dragstart', (e) => e.target.classList.add('dragging')); draggable.addEventListener('dragend', (e) => e.target.classList.remove('dragging')); });
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => { e.preventDefault(); if(zone.children.length === 0) zone.classList.add('drag-over'); });
+                zone.addEventListener('dragleave', (e) => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault(); zone.classList.remove('drag-over'); const dragging = document.querySelector('.dragging');
+                    if (dragging && zone.closest('.flex-wrap').id === dragging.dataset.questionId && zone.children.length === 0) {
+                        const originalParent = dragging.parentNode; zone.appendChild(dragging);
+                        if (zone.classList.contains('correct-spot')) { zone.classList.add('expanded'); dragging.classList.add('correct-answer'); dragging.setAttribute('draggable', 'false'); dragging.style.cursor = 'default'; } 
+                        else { dragging.classList.add('incorrect-answer'); setTimeout(() => { dragging.classList.remove('incorrect-answer'); originalParent.appendChild(dragging); }, 1000); }
+                    }
+                });
+            });
+        }
+
+        function addAdjectiveBuilderLogic(container) {
+            const instances = container.querySelectorAll('.adjective-builder-instance'); if(!instances.length) return;
+            instances.forEach(instance => {
+                const draggables = instance.querySelectorAll('.draggable'); const dropZones = instance.querySelectorAll('.drop-zone');
+                const checkBtn = instance.querySelector('.check-answer-btn'); const resetBtn = instance.querySelector('.reset-game-btn');
+                const adjectiveBank = instance.querySelector('.adjective-bank');
+                draggables.forEach(draggable => { draggable.addEventListener('dragstart', e => e.target.classList.add('dragging')); draggable.addEventListener('dragend', e => e.target.classList.remove('dragging')); });
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+                    zone.addEventListener('dragleave', e => zone.classList.remove('drag-over'));
+                    zone.addEventListener('drop', e => {
+                        e.preventDefault(); zone.classList.remove('drag-over'); const dragging = document.querySelector('.dragging');
+                        if (dragging && dragging.closest('.adjective-builder-instance') === instance) {
+                            if (zone.children.length > 1) adjectiveBank.appendChild(zone.querySelector('.draggable'));
+                            zone.appendChild(dragging); zone.querySelector('span').classList.add('hidden');
+                        }
+                    });
+                });
+                checkBtn.addEventListener('click', () => {
+                    dropZones.forEach(zone => {
+                        const dropped = zone.querySelector('.draggable'); zone.classList.remove('correct-drop', 'incorrect-drop');
+                        if (dropped) { if (dropped.dataset.category === zone.dataset.category) zone.classList.add('correct-drop'); else zone.classList.add('incorrect-drop'); }
+                    });
+                });
+                resetBtn.addEventListener('click', () => {
+                    dropZones.forEach(zone => {
+                        zone.classList.remove('correct-drop', 'incorrect-drop'); zone.querySelector('span').classList.remove('hidden');
+                        const dropped = zone.querySelector('.draggable'); if(dropped) adjectiveBank.appendChild(dropped);
+                    });
+                });
+            });
+        }
+
+        function addDropdownLogic(container) {
+            const selects = container.querySelectorAll('.dropdown-select'); if(!selects.length) return;
+            selects.forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const selectedValue = e.target.value; const questionDiv = e.target.closest('.dropdown-question');
+                    const correctAnswer = questionDiv.dataset.answer; const icon = questionDiv.querySelector('.feedback-icon');
+                    icon.classList.remove('feedback-correct', 'feedback-incorrect');
+                    if (selectedValue === "") { icon.innerHTML = ''; } 
+                    else if (selectedValue === correctAnswer) { icon.innerHTML = '✔'; icon.classList.add('feedback-correct'); } 
+                    else { icon.innerHTML = '✘'; icon.classList.add('feedback-incorrect'); }
+                });
+            });
+        }
+
+        function addRewriteLogic(container) {
+            addPaginationLogic(container, 'rewrite');
+            const showAnswerBtns = container.querySelectorAll('.show-answer-btn'); if(!showAnswerBtns.length) return;
+            showAnswerBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const questionDiv = e.target.closest('.rewrite-question');
+                    const questionIndex = parseInt(questionDiv.dataset.questionIndex);
+                    const feedback = questionDiv.querySelector('.feedback-text');
+                    const exerciseDiv = e.target.closest('.accordion-content').previousElementSibling;
+                    const exerciseTitle = exerciseDiv.querySelector('h4').textContent;
+                    const exerciseData = practiceData.find(ex => ex.title === exerciseTitle);
+                    if(exerciseData && exerciseData.questions[questionIndex]) {
+                        const correctAnswer = exerciseData.questions[questionIndex].answers[0];
+                        feedback.innerHTML = `<strong>Answer:</strong> ${correctAnswer}`;
+                    }
+                });
+            });
+        }
+
+        function buildAdjectiveOrderGame(containerId, data) {
+            const container = document.getElementById(containerId); if (!container) return;
+            const shuffledAdjectives = [...data.adjectives].sort(() => Math.random() - 0.5);
+            let dropZonesHtml = data.adjectives.map(adj => `<div class="drop-zone flex-1 p-2 h-12 rounded-lg flex items-center justify-center" data-category="${adj.category}"><span class="text-xs text-slate-400">${adj.category}</span></div>`).join('');
+            let draggablesHtml = shuffledAdjectives.map(adj => `<div class="draggable p-2 bg-lavender/20 text-lavender-800 font-semibold rounded-lg text-center" draggable="true" data-category="${adj.category}">${adj.text}</div>`).join('');
+            container.innerHTML = `<h3 class="text-3xl font-bold text-fuchsia/90 mb-2">Sentence Builder</h3><p class="mb-4 text-violet-700">Drag the adjectives into the correct order to describe the noun.</p><div class="p-4 bg-light-gray-bg rounded-lg"><div class="flex flex-wrap items-center gap-2"><span>It is a</span>${dropZonesHtml}<span class="font-bold text-xl">${data.noun}</span></div></div><div class="mt-4 p-4 border-t border-slate-200"><h4 class="text-2xl font-bold text-center text-fuchsia/90 mb-3">Adjective Bank</h4><div id="adjective-bank" class="flex flex-wrap gap-2 justify-center">${draggablesHtml}</div></div><div id="game-controls" class="mt-4 text-center"><button id="check-answer-btn" class="px-6 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Check Answer</button><button id="reset-game-btn" class="px-6 py-2 bg-slate-400 text-white font-semibold rounded-lg hover:bg-slate-500 ml-4 hidden">Reset Game</button></div>`;
+            addAdjectiveBuilderLogic(document);
+        }
+
+        // --- FURTHER PRACTICE ---
+        function buildFurtherPracticeAccordion(containerId, data) {
+            const container = document.getElementById(containerId); if(!container) return;
+            const accordionData = [
+                { title: "🧩 Drag & Drop Adjective Order", content: buildFurtherPracticeDragDrop(data) },
+                { title: "🔍 Identify Adjective Categories", content: buildFurtherPracticeIdentify(data) }
+            ];
+            buildAccordion(containerId, accordionData);
+            addFurtherPracticeLogic(container, data);
+        }
+
+        function buildFurtherPracticeDragDrop(data) {
+            const rule = `<div class="p-3 bg-indigo-100 text-indigo-800 rounded-lg text-center font-semibold border-l-4 border-indigo-400 my-4">Rule: Opinion → Size → Age → Shape → Colour → Origin → Material → Purpose → Noun</div>`;
+            const quizContainer = `<div id="fp-drag-drop-quiz"></div>`;
+            const controls = `
+                <div class="mt-6 flex flex-wrap justify-center items-center gap-4">
+                    <button id="fp-check-btn" class="px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Check Answers</button>
+                    <button id="fp-next-btn" class="px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Next Group</button>
+                    <button id="fp-reset-btn" class="px-4 py-2 bg-slate-400 text-white font-semibold rounded-lg hover:bg-slate-500">Start Over</button>
+                    <div id="fp-score" class="font-bold text-lg text-deep-purple p-2 bg-slate-200 rounded-lg">Score: 0</div>
+                </div>`;
+            return `<div>${rule}${quizContainer}${controls}</div>`;
+        }
+
+        function buildFurtherPracticeIdentify(data) {
+            const example = `<p class="p-3 bg-indigo-100 text-indigo-800 rounded-lg"><strong>Example:</strong> She wore a gorgeous long silk scarf.<br><span class="font-mono text-sm">Opinion: gorgeous | Size: long | Material: silk</span></p>`;
+            let exercisesHtml = data.identifySentences.map((entry, i) => {
+                let inputsHtml = Object.keys(entry.answers).map(type => `
+                    <div class="flex items-center">
+                        <label class="w-24 font-medium text-purple-800">${type}:</label>
+                        <input type="text" id="fp-q${i}-${type}" class="identify-input">
+                    </div>
+                `).join('');
+                return `
+                    <div class="p-4 bg-white rounded-lg border border-slate-200 mt-4">
+                        <p class="font-sans text-xl text-purple-900 mb-3 font-medium"><span class="font-serif pr-2">${i + 1}.</span>${entry.sentence}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">${inputsHtml}</div>
+                        <div id="fp-feedback-${i}" class="mt-2 text-sm"></div>
+                    </div>`;
+            }).join('');
+            const controls = `<div class="mt-6 text-center"><button id="fp-check-identify-btn" class="px-4 py-2 bg-lavender text-white font-semibold rounded-lg hover:bg-lavender/80">Check Answers</button></div>`;
+            return `<div>${example}<div id="fp-identify-exercises">${exercisesHtml}</div>${controls}</div>`;
+        }
+
+        function addFurtherPracticeLogic(container, data) {
+            const state = { currentBatch: 0, totalScore: 0 };
+            
+            const renderDragBatch = () => {
+                const quizContainer = container.querySelector('#fp-drag-drop-quiz'); if(!quizContainer) return;
+                quizContainer.innerHTML = '';
+                const batch = data.dragItems.slice(state.currentBatch * 5, (state.currentBatch + 1) * 5);
+                batch.forEach((sentence, index) => {
+                    const sentenceNumber = state.currentBatch * 5 + index + 1;
+                    const pairDiv = document.createElement('div');
+                    pairDiv.className = 'p-4 bg-white rounded-lg border border-slate-200 mb-4';
+                    pairDiv.innerHTML = `<div class="font-bold text-purple-800 mb-2">${sentenceNumber}.</div>`;
+                    
+                    const dropContainer = document.createElement('div');
+                    dropContainer.className = 'flex flex-wrap gap-2 justify-center mb-4';
+                    sentence.forEach((_, i) => {
+                        dropContainer.innerHTML += `<div class="drop-zone p-2 h-12 min-w-[90px] rounded-lg flex items-center justify-center" data-index="${i}"></div>`;
+                    });
+
+                    const dragContainer = document.createElement('div');
+                    dragContainer.className = 'flex flex-wrap gap-2 justify-center';
+                    [...sentence].sort(() => Math.random() - 0.5).forEach(word => {
+                        dragContainer.innerHTML += `<div class="draggable p-2 bg-lavender/20 text-lavender-800 font-semibold rounded-lg text-center" draggable="true" data-word="${word}">${word}</div>`;
+                    });
+
+                    pairDiv.appendChild(dropContainer); pairDiv.appendChild(dragContainer);
+                    quizContainer.appendChild(pairDiv);
+                });
+
+                quizContainer.querySelectorAll('.draggable').forEach(drag => {
+                    drag.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', e.target.dataset.word));
+                });
+                quizContainer.querySelectorAll('.drop-zone').forEach(drop => {
+                    drop.addEventListener('dragover', e => e.preventDefault());
+                    drop.addEventListener('drop', e => {
+                        e.preventDefault();
+                        const word = e.dataTransfer.getData('text/plain');
+                        drop.textContent = word;
+                        drop.dataset.word = word;
+                    });
+                });
+            };
+
+            const checkDragAnswers = () => {
+                const quizContainer = container.querySelector('#fp-drag-drop-quiz'); if(!quizContainer) return;
+                const pairs = quizContainer.children;
+                let batchScore = 0;
+                Array.from(pairs).forEach((pairDiv, i) => {
+                    const expected = data.dragItems[state.currentBatch * 5 + i];
+                    const drops = pairDiv.querySelectorAll('.drop-zone');
+                    drops.forEach((drop, j) => {
+                        if (drop.dataset.word === expected[j]) {
+                            drop.classList.add('correct-drop'); drop.classList.remove('incorrect-drop');
+                            batchScore++;
+                        } else {
+                            drop.classList.add('incorrect-drop'); drop.classList.remove('correct-drop');
+                        }
+                    });
+                });
+                state.totalScore += batchScore;
+                container.querySelector('#fp-score').textContent = `Score: ${state.totalScore}`;
+            };
+
+            const nextBatch = () => {
+                if ((state.currentBatch + 1) * 5 < data.dragItems.length) {
+                    state.currentBatch++; renderDragBatch();
+                }
+            };
+            
+            const startOver = () => {
+                state.currentBatch = 0; state.totalScore = 0;
+                container.querySelector('#fp-score').textContent = `Score: 0`;
+                renderDragBatch();
+            };
+            
+            const checkIdentifyAnswers = () => {
+                data.identifySentences.forEach((entry, i) => {
+                    const feedbackDiv = container.querySelector(`#fp-feedback-${i}`); if(!feedbackDiv) return;
+                    feedbackDiv.innerHTML = '';
+                    Object.keys(entry.answers).forEach(type => {
+                        const input = container.querySelector(`#fp-q${i}-${type}`);
+                        const p = document.createElement('p');
+                        if (input.value.trim().toLowerCase() === entry.answers[type].toLowerCase()) {
+                            p.textContent = `${type}: ✔ Correct!`; p.className = 'feedback-correct';
+                        } else {
+                            p.textContent = `${type}: ✘ Incorrect (Answer: ${entry.answers[type]})`; p.className = 'feedback-incorrect';
+                        }
+                        feedbackDiv.appendChild(p);
+                    });
+                });
+            };
+
+            container.querySelector('#fp-check-btn')?.addEventListener('click', checkDragAnswers);
+            container.querySelector('#fp-next-btn')?.addEventListener('click', nextBatch);
+            container.querySelector('#fp-reset-btn')?.addEventListener('click', startOver);
+            container.querySelector('#fp-check-identify-btn')?.addEventListener('click', checkIdentifyAnswers);
+            
+            renderDragBatch();
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

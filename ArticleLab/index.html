@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArticleLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'ivory': '#F8F5F1',
+                        'slate-gray': '#2D3748',
+                        'navy-blue': '#2A4365',
+                        'olive-green': '#5A6742',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #F8F5F1; /* ivory */
+            color: #2D3748; /* slate-gray */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #2A4365; /* navy-blue */
+            border-color: #2A4365; /* navy-blue */
+        }
+        
+        .pronoun-table th, .pronoun-table td {
+            transition: background-color 0.2s;
+        }
+
+        .pronoun-table th:hover {
+            background-color: rgba(42, 67, 101, 0.1);
+        }
+
+        .pronoun-table tr:hover td {
+             background-color: rgba(42, 67, 101, 0.05);
+        }
+
+        .feedback-correct {
+            border-color: #16A34A; /* green-600 */
+            background-color: #F0FDF4; /* green-50 */
+        }
+        .feedback-incorrect {
+            border-color: #DC2626; /* red-600 */
+            background-color: #FEF2F2; /* red-50 */
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-navy-blue">ArticleLab 📖</h1>
+            <p class="mt-2 text-lg text-slate-600">
+                Your guide to articles, pronouns, and possessives.
+            </p>
+            <p class="mt-4 text-sm text-slate-500">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-slate-300">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#definite-article" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-600 hover:border-slate-400">The Definite Article</a></li>
+                    <li><a href="#indefinite-article" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-600 hover:border-slate-400">The Indefinite Article</a></li>
+                    <li><a href="#pronouns" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-600 hover:border-slate-400">Pronouns</a></li>
+                    <li><a href="#possessive" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-600 hover:border-slate-400">The Possessive</a></li>
+                    <li><a href="#practice-time" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-slate-600 hover:border-slate-400">Practice Time</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: The Definite Article -->
+            <section id="definite-article" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-navy-blue">The Definite Article: "The"</h2>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Rule Card: People -->
+                        <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                            <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">People</h3>
+                            <div class="space-y-4">
+                                <div><h4 class="font-bold text-lg text-red-700">Don't Use "The"</h4><p class="mt-1">For individual people or titles: <i class="text-olive-green">Sir</i> Alex Ferguson, <i class="text-olive-green">Doctor</i> Who.</p></div>
+                                <div><h4 class="font-bold text-lg text-green-700">Use "The"</h4><p class="mt-1">For family names referring to the whole family: <i class="text-olive-green">The Smiths</i> have bought a new house.</p></div>
+                            </div>
+                        </div>
+                        <!-- Rule Card: Geographical -->
+                        <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                            <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">Geographical Names</h3>
+                            <div class="space-y-4">
+                                <div><h4 class="font-bold text-lg text-red-700">Don't Use "The"</h4><p class="mt-1">For most cities, countries, continents, single mountains, single islands, and lakes: <i class="text-olive-green">London, France, Asia, Mount Everest, Crete, Lake Victoria</i>.</p><p class="text-sm mt-1 text-slate-500">Exceptions: <i class="text-olive-green">the Hague, the Vatican</i>.</p></div>
+                                <div><h4 class="font-bold text-lg text-green-700">Use "The"</h4><p class="mt-1">For countries with plural names or that show a form of government: <i class="text-olive-green">The Netherlands, The United Kingdom</i>.</p><p class="mt-1">For groups of islands, mountain ranges, rivers, seas, oceans, deserts, canals, gulfs, waterfalls: <i class="text-olive-green">The Canaries, The Alps, The Amazon, The Sahara</i>.</p></div>
+                            </div>
+                        </div>
+                        <!-- Rule Card: Places & Buildings -->
+                        <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                            <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">Places & Buildings</h3>
+                            <div class="space-y-4">
+                                <div><h4 class="font-bold text-lg text-red-700">Don't Use "The"</h4><p class="mt-1">For streets, parks, most bridges, and many famous buildings like stations, universities, cathedrals, castles, airports: <i class="text-olive-green">Oxford Street, Hyde Park, Waterloo Station, Cambridge University</i>.</p></div>
+                                <div><h4 class="font-bold text-lg text-green-700">Use "The"</h4><p class="mt-1">For hotels, cinemas, theatres, galleries, museums, pubs, ships, and unique buildings: <i class="text-olive-green">The Hilton, The Globe Theatre, The Titanic, The White House</i>.</p><p class="mt-1">For names formed by "noun + of + noun": <i class="text-olive-green">The Houses of Parliament</i>.</p></div>
+                            </div>
+                        </div>
+                        <!-- Rule Card: Abstract & General -->
+                        <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                            <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">Abstract & General Nouns</h3>
+                            <div class="space-y-4">
+                                <div><h4 class="font-bold text-lg text-red-700">Don't Use "The"</h4><p class="mt-1">For uncountable, abstract, or plural nouns in general statements: <i class="text-olive-green">Life</i> is beautiful. <i class="text-olive-green">Honesty</i> is a virtue. <i class="text-olive-green">Oranges</i> are sweet.</p></div>
+                                <div><h4 class="font-bold text-lg text-green-700">Use "The"</h4><p class="mt-1">When referring to a specific instance of these nouns: <i class="text-olive-green">The life</i> of Winston Churchill. <i class="text-olive-green">The honesty</i> of this man. <i class="text-olive-green">The oranges</i> I bought yesterday.</p></div>
+                            </div>
+                        </div>
+                         <!-- Rule Card: Other Categories -->
+                        <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 md:col-span-2">
+                            <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">Other Categories</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div><h4 class="font-bold text-lg text-red-700">Don't Use "The"</h4><ul class="list-disc list-inside space-y-2 mt-1"><li>Games, meals, colours: <i class="text-olive-green">chess, breakfast, blue</i>.</li><li>Languages, magazines, companies, planets, most illnesses: <i class="text-olive-green">English, Vogue, Microsoft, Mars, cancer</i>.</li><li>Words like <i class="text-olive-green">mum, dad, work, Heaven, nature</i>.</li></ul></div>
+                                <div><h4 class="font-bold text-lg text-green-700">Use "The"</h4><ul class="list-disc list-inside space-y-2 mt-1"><li>For specific meals/games: <i class="text-olive-green">The breakfast</i> they serve is awful.</li><li>For nationalities: <i class="text-olive-green">The English</i> are reserved.</li><li>For English newspapers: <i class="text-olive-green">The Times</i>.</li><li>For musical instruments and inventions: play <i class="text-olive-green">the piano</i>.</li><li>For unique objects: <i class="text-olive-green">the Sun, the Moon</i>.</li><li>Before adjectives for a plural meaning: <i class="text-olive-green">the poor, the rich</i>.</li><li>Optional for: <i class="text-olive-green">(the) flu, (the) mumps, (the) measles</i>.</li></ul></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Watch Out -->
+                    <div class="p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
+                        <h4 class="text-2xl font-bold text-yellow-900">Watch Out!</h4>
+                        <p class="mt-1">"The" is not used before words like <i class="font-semibold">hospital, prison, church, school</i> when talking about their intended purpose.</p>
+                        <ul class="list-disc list-inside mt-2 text-sm">
+                            <li>She goes to <i class="font-semibold">school</i>. (She is a student)</li>
+                            <li>I went to <i class="font-semibold">the school</i> to see my son’s teacher. (A specific visit, not for the main purpose of being a student)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: The Indefinite Article -->
+            <section id="indefinite-article" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-navy-blue">The Indefinite Article: "A / An"</h2>
+                <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                    <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">When to Use "A / An"</h3>
+                    <ul class="list-disc list-inside space-y-3">
+                        <li>Before a profession: She is <i class="text-olive-green">a teacher</i>.</li>
+                        <li>Meaning "per": It costs 80p <i class="text-olive-green">a pound</i>.</li>
+                        <li>Before Mr/Mrs/Miss/Ms + surname when the person is unknown: <i class="text-olive-green">A Ms Lovelace</i> wants to see you.</li>
+                        <li>With a singular noun to represent a whole group: <i class="text-olive-green">A dog</i> can be a valuable friend.</li>
+                        <li>Before drinks in spoken English when ordering: I’d like <i class="text-olive-green">a black coffee</i>, please.</li>
+                    </ul>
+                    <p class="mt-4 text-red-700 font-semibold">The indefinite article is not used before uncountable or plural nouns.</p>
+                </div>
+                <!-- Watch Out -->
+                <div class="mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
+                    <h4 class="text-2xl font-bold text-yellow-900">Watch Out! Common Expressions</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm">
+                        <li>have <i class="font-semibold">a fever/temperature/cold/headache/toothache</i></li>
+                        <li>catch <i class="font-semibold">a cold</i></li>
+                        <li>make <i class="font-semibold">a recovery</i></li>
+                        <li>What <i class="font-semibold">a pity / shame / a nuisance</i>!</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- View: Pronouns -->
+            <section id="pronouns" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-navy-blue">Pronouns</h2>
+                <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200 overflow-x-auto">
+                    <table class="w-full text-left text-sm pronoun-table">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="p-3">Type</th><th class="p-3">Subject</th><th class="p-3">Object</th><th class="p-3">Possessive Adjectives</th><th class="p-3">Possessive Pronouns</th><th class="p-3">Reflexive Pronouns</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr><td class="p-3 font-bold">Singular</td><td class="p-3">I, you, he, she, it</td><td class="p-3">me, you, him, her, it</td><td class="p-3">my, your, his, her, its</td><td class="p-3">mine, yours, his, hers, -</td><td class="p-3">myself, yourself, himself, herself, itself</td></tr>
+                            <tr><td class="p-3 font-bold">Plural</td><td class="p-3">we, you, they</td><td class="p-3">us, you, them</td><td class="p-3">our, your, their</td><td class="p-3">ours, yours, theirs</td><td class="p-3">ourselves, yourselves, themselves</td></tr>
+                            <tr><td class="p-3 font-bold">Impersonal (Informal)</td><td class="p-3">you</td><td class="p-3">you</td><td class="p-3">your</td><td class="p-3">yours</td><td class="p-3">yourself</td></tr>
+                            <tr><td class="p-3 font-bold">Impersonal (Formal)</td><td class="p-3">one</td><td class="p-3">one</td><td class="p-3">one’s</td><td class="p-3">-</td><td class="p-3">oneself</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <!-- Watch Out -->
+                <div class="mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
+                    <h4 class="text-2xl font-bold text-yellow-900">Watch Out! Reflexive vs. Reciprocal</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm space-y-2">
+                        <li>Sue and Mary bought <i class="font-semibold">themselves</i> new dresses. (Each bought a dress for herself).</li>
+                        <li>Sue and Mary bought <i class="font-semibold">each other / one another</i> new dresses. (Sue bought a dress for Mary, and Mary bought one for Sue).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- View: The Possessive -->
+            <section id="possessive" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-navy-blue">The Possessive</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">Using Apostrophe ('s) or (')</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Singular nouns (people/animals): the <i class="text-olive-green">boy’s</i> hair, the <i class="text-olive-green">lion’s</i> body.</li>
+                            <li>Irregular plurals not ending in "s": the <i class="text-olive-green">men’s</i> room.</li>
+                            <li>Compound nouns: his <i class="text-olive-green">father-in-law’s</i> car.</li>
+                            <li>After two or more names (shared possession): <i class="text-olive-green">John and Mary’s</i> car.</li>
+                            <li>Places: at the <i class="text-olive-green">greengrocer’s</i>.</li>
+                            <li>Time expressions: last <i class="text-olive-green">month’s</i> programme.</li>
+                            <li>Regular plurals ending in "s" (apostrophe only): the <i class="text-olive-green">boys’</i> ball.</li>
+                        </ul>
+                    </div>
+                     <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-navy-blue/90">Using "of"</h3>
+                         <ul class="list-disc list-inside space-y-2">
+                            <li>For objects and ideas: the leg <i class="text-olive-green">of the chair</i>, the suspense <i class="text-olive-green">of the film</i>.</li>
+                            <li>To show one of many: A book <i class="text-olive-green">of mine</i>, One <i class="text-olive-green">of John’s books</i>.</li>
+                            <li>For people in longer phrases: The mother <i class="text-olive-green">of one of my closest friends</i>.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <!-- Watch Out -->
+                <div class="mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
+                    <h4 class="text-2xl font-bold text-yellow-900">Watch Out! Compound Adjectives</h4>
+                    <p class="mt-1">When a "number + noun" phrase acts as an adjective, it is singular and hyphenated.</p>
+                     <ul class="list-disc list-inside mt-2 text-sm">
+                        <li>A walk of three minutes &rarr; a <i class="font-semibold">three-minute</i> walk.</li>
+                        <li>A lesson of two hours &rarr; a <i class="font-semibold">two-hour</i> lesson.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- View: Practice Time -->
+            <section id="practice-time" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-navy-blue">Practice Time</h2>
+                <div id="articles-exercise-container"></div>
+            </section>
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const articlesPracticeData = [
+
+            { q: "Will you have - cup of tea?", a: ["a"] },
+            { q: "We never go to - school on - Sundays.", a: ["-", "-"] },
+            { q: "Do you want - coffee or - tea?", a: ["-", "-"] },
+            { q: "He goes to - bed late at - night.", a: ["-", "-"] },
+            { q: "He is not at - home now.", a: ["-"] },
+            { q: "The teacher said that - English language is difficult.", a: ["the"] },
+            { q: "He is going to have - lunch now.", a: ["-"] },
+            { q: "He was taken to - hospital in - ambulance.", a: ["-", "an"] },
+            { q: "He lives in - big house.", a: ["a"] },
+            { q: "I went to - hospital to see how he was.", a: ["the"] },
+            { q: "John is - student.", a: ["a"] },
+            { q: "Do you have - dinner early?", a: ["-"] },
+            { q: "A house has - garden.", a: ["a"] },
+            { q: "He smokes - cigarette only after - dinner.", a: ["a", "-"] },
+            { q: "In - event of my hearing from him I'll let you know.", a: ["the"] },
+            { q: "He broke - vase again. He's so careless!", a: ["the"] },
+            { q: "Do you drink - beer or - wine?", a: ["-", "-"] },
+            { q: "John is eating - cake.", a: ["some"] },
+            { q: "What have you got in - mind?", a: ["-"] },
+            { q: "There are - books on - desk.", a: ["some", "the"] },
+            { q: "He has - knowledge to do it.", a: ["the"] },
+            { q: "A room has - door and - window.", a: ["a", "a"] },
+            { q: "There is - garden with - trees around - house.", a: ["a", "some", "the"] },
+            { q: "John is having - breakfast.", a: ["-"] },
+            { q: "He has - milk and - cake for - breakfast.", a: ["some", "some", "-"] },
+            { q: "Peter's gone to - Scotland on - business.", a: ["-", "-"] },
+            { q: "Just take - note of his phone number.", a: ["a"] },
+            { q: "Mary would like to be on - holiday.", a: ["-"] },
+            { q: "I was in - garden when I heard - phone ringing.", a: ["the", "the"] },
+            { q: "You'll get - home at 6.35 at - latest.", a: ["-", "the"] },
+            { q: "In - clothes shops, customers want to try on - clothes before they decide to buy them.", a: ["-", "-"] },
+            { q: "Could you tell me - time, please?", a: ["the"] },
+            { q: "She is in - hospital now with - broken arm.", a: ["-", "a"] },
+            { q: "Please try to be - little more polite.", a: ["a"] },
+            { q: "She can't make - dress you want, unless she knows your measurements.", a: ["the"] },
+            { q: "Many students don't find - mathematics interesting.", a: ["-"] },
+            { q: "I'm going to study - history of England next year.", a: ["the"] },
+            { q: "A classroom must have - good light, but - light in this room is very poor.", a: ["-", "the"] },
+            { q: "I always drink - cold water.", a: ["-"] },
+            { q: "We obtain - coal from - mines and - oil from - oil-fields.", a: ["-", "-", "-", "-"] },
+            { q: "We generally spend - summer holiday in - Europe.", a: ["the", "-"] },
+            { q: "Both my friends live on - River street.", a: ["-"] },
+            { q: "Many ships cross - Atlantic Ocean.", a: ["the"] },
+            { q: "They go from - France to - United States.", a: ["-", "the"] },
+            { q: "For many people - breakfast is - most interesting meal of - day.", a: ["-", "the", "the"] },
+            { q: "I always have - eggs for - breakfast.", a: ["some", "-"] },
+            { q: "We drink - coffee out of - cups.", a: ["-", "-"] },
+
+        ];
+
+        function initApp() {
+            // Setup navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+
+            function updateView(hash) {
+                hash = hash || '#definite-article';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+            
+            // Setup practice exercise
+            const exerciseContainer = document.getElementById('articles-exercise-container');
+            if(exerciseContainer) {
+                createDropdownExercise(exerciseContainer, articlesPracticeData);
+            }
+
+            // Initial view setup on page load
+            updateView(window.location.hash);
+        }
+
+        function createDropdownExercise(container, data) {
+            let currentPage = 0;
+            const itemsPerPage = 11;
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            const options = ["a", "an", "the", "some", "-"];
+
+            container.innerHTML = `
+                <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                    <h3 class="text-3xl font-bold text-navy-blue/90 mb-2">Fill in the Blanks</h3>
+                    <p class="mb-4 text-slate-600">Select the correct article from the dropdown for each blank.</p>
+                    <div id="questions-container" class="space-y-4"></div>
+                    <div class="flex items-center justify-between mt-6">
+                        <button id="prev-btn" class="px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-50" disabled>&larr; Previous</button>
+                        <span id="page-indicator" class="text-sm font-semibold text-slate-600">Page 1 of ${totalPages}</span>
+                        <button id="next-btn" class="px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300">Next &rarr;</button>
+                    </div>
+                    <div class="mt-6 border-t border-slate-200 pt-4 text-center">
+                         <button id="check-btn" class="w-full sm:w-auto px-6 py-2 bg-yellow-400 text-yellow-900 font-semibold rounded-lg hover:bg-yellow-500">Check Answers</button>
+                         <button id="reset-btn" class="w-full sm:w-auto px-6 py-2 bg-slate-500 text-white font-semibold rounded-lg hover:bg-slate-600 ml-4 hidden">Try This Page Again</button>
+                    </div>
+                </div>
+            `;
+
+            const questionsContainer = container.querySelector('#questions-container');
+            const checkBtn = container.querySelector('#check-btn');
+            const resetBtn = container.querySelector('#reset-btn');
+            const nextBtn = container.querySelector('#next-btn');
+            const prevBtn = container.querySelector('#prev-btn');
+            const pageIndicator = container.querySelector('#page-indicator');
+
+            function loadPage(page) {
+                questionsContainer.innerHTML = '';
+                const start = page * itemsPerPage;
+                const end = start + itemsPerPage;
+                const pageData = data.slice(start, end);
+
+                pageData.forEach((questionData, index) => {
+                    const questionRow = document.createElement('div');
+                    questionRow.className = 'p-3 bg-slate-50 rounded-lg';
+                    questionRow.dataset.originalIndex = start + index;
+
+                    const flexContainer = document.createElement('div');
+                    flexContainer.className = 'flex items-start';
+
+                    const numberSpan = document.createElement('span');
+                    numberSpan.className = 'font-bold text-slate-500 mr-2 pt-1';
+                    numberSpan.textContent = `${start + index + 1}.`;
+                    flexContainer.appendChild(numberSpan);
+
+                    const contentWrapper = document.createElement('div');
+                    contentWrapper.className = 'flex-grow flex flex-wrap items-center gap-x-2 gap-y-1';
+                    
+                    const parts = questionData.q.split(' - ');
+                    parts.forEach((part, i) => {
+                        const textSpan = document.createElement('span');
+                        textSpan.textContent = part;
+                        contentWrapper.appendChild(textSpan);
+                        if (i < parts.length - 1) {
+                            const select = document.createElement('select');
+                            select.className = 'p-1 bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-navy-blue';
+                            let optionsHtml = '<option value="">Select</option>';
+                            options.forEach(opt => {
+                                optionsHtml += `<option value="${opt}">${opt}</option>`;
+                            });
+                            select.innerHTML = optionsHtml;
+                            contentWrapper.appendChild(select);
+                        }
+                    });
+                    
+                    flexContainer.appendChild(contentWrapper);
+                    questionRow.appendChild(flexContainer);
+                    questionsContainer.appendChild(questionRow);
+                });
+
+                pageIndicator.textContent = `Page ${page + 1} of ${totalPages}`;
+                prevBtn.disabled = page === 0;
+                nextBtn.disabled = page === totalPages - 1;
+                checkBtn.classList.remove('hidden');
+                resetBtn.classList.add('hidden');
+            }
+
+            function checkAnswers() {
+                const questionRows = questionsContainer.querySelectorAll('div[data-original-index]');
+                questionRows.forEach(row => {
+                    const originalIndex = parseInt(row.dataset.originalIndex);
+                    const correctAnswers = data[originalIndex].a;
+                    const selects = row.querySelectorAll('select');
+                    let allCorrectInRow = true;
+
+                    const existingCheckmark = row.querySelector('.ml-auto');
+                    if(existingCheckmark) existingCheckmark.remove();
+
+                    selects.forEach((select, i) => {
+                        const userAnswer = select.value;
+                        const correctAnswer = correctAnswers[i];
+                        
+                        const existingFeedback = row.querySelector(`.feedback-text-${i}`);
+                        if (existingFeedback) existingFeedback.remove();
+                        select.classList.remove('feedback-incorrect', 'feedback-correct');
+
+                        if (userAnswer.toLowerCase() !== correctAnswer.toLowerCase()) {
+                            allCorrectInRow = false;
+                            select.classList.add('feedback-incorrect');
+                            const feedback = document.createElement('span');
+                            feedback.className = `feedback-text-${i} text-green-700 font-bold ml-1`;
+                            feedback.textContent = `(${correctAnswer})`;
+                            select.insertAdjacentElement('afterend', feedback);
+                        } else {
+                             select.classList.add('feedback-correct');
+                        }
+                    });
+                    
+                    const checkmark = document.createElement('span');
+                    checkmark.className = 'ml-auto text-xl pl-2';
+                    checkmark.textContent = allCorrectInRow ? '✅' : '❌';
+                    row.querySelector('.flex').appendChild(checkmark);
+                });
+                checkBtn.classList.add('hidden');
+                resetBtn.classList.remove('hidden');
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    loadPage(currentPage);
+                }
+            });
+            
+            checkBtn.addEventListener('click', checkAnswers);
+            resetBtn.addEventListener('click', () => loadPage(currentPage));
+
+            loadPage(currentPage);
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

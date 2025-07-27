@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'charcoal': '#1A202C',
+                        'vivid-purple': '#A78BFA',
+                        'bright-teal': '#81E6D9',
+                        'soft-slate': '#E2E8F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #1A202C; /* charcoal */
+            color: #E2E8F0; /* soft-slate */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #A78BFA; /* vivid-purple */
+            border-color: #A78BFA; /* vivid-purple */
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-vivid-purple">FormLab ⚙️</h1>
+            <p class="mt-2 text-lg text-slate-300">
+                A laboratory for English gerunds and infinitives.
+            </p>
+             <p class="mt-4 text-sm text-slate-400">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#gerunds" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Gerund</a></li>
+                    <li><a href="#infinitives" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Infinitive</a></li>
+                    <li><a href="#passive-forms" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Passive Forms</a></li>
+                    <li><a href="#gerund-or-infinitive" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Gerund or Infinitive?</a></li>
+                    <li><a href="#practice-arena" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Practice Arena</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            
+            <section id="gerunds" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vivid-purple">The Gerund</h2>
+                <p class="mb-6 text-slate-300">The gerund is a verb form which is used in a sentence as a noun. This means it can be used in several ways.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-vivid-purple/80">As a Subject</h4><p class="mt-1 font-mono"><i class="text-bright-teal">Sailing</i> is fun.</p></div>
+                    <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-vivid-purple/80">As an Object</h4><p class="mt-1 font-mono">I love <i class="text-bright-teal">sailing</i>.</p></div>
+                    <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-vivid-purple/80">After a Preposition</h4><p class="mt-1 font-mono">He is keen on <i class="text-bright-teal">sailing</i>.</p></div>
+                </div>
+
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg mb-8">
+                    <h3 class="text-3xl font-bold mb-2 text-vivid-purple">Subject of the Gerund</h3>
+                    <p class="mb-4 text-slate-300">A subject for the gerund is needed when it's different from the subject of the main verb. When a subject is required, we use a possessive form, though an object form is common in informal speech.</p>
+                    <div class="space-y-3">
+                        <div class="bg-black/30 p-4 rounded-lg"><p class="font-mono text-soft-slate">He insisted on <i class="text-bright-teal">helping</i>. <span class="text-xs text-slate-400 block mt-1">(No subject needed, as "He" is the subject for both the verb and gerund)</span></p></div>
+                        <div class="bg-black/30 p-4 rounded-lg"><p class="font-mono text-soft-slate">He insisted on <i class="text-bright-teal">my helping</i>. <span class="text-xs text-slate-400 block mt-1">(Subject needed, because "I" will help, not "He")</span></p></div>
+                        <div class="bg-black/30 p-4 rounded-lg"><p class="font-mono text-soft-slate">Will you excuse <i class="text-bright-teal">my leaving</i> early? <span class="text-xs text-slate-400 block mt-1">(Formal)</span></p></div>
+                        <div class="bg-black/30 p-4 rounded-lg"><p class="font-mono text-soft-slate">Will you excuse <i class="text-bright-teal">me leaving</i> early? <span class="text-xs text-slate-400 block mt-1">(Informal, spoken English)</span></p></div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 class="text-3xl font-bold mb-2 text-vivid-purple">Tense Forms of the Gerund</h3>
+                    <p class="mb-4 text-slate-300">The gerund has a present form and a perfect form (`having` + past participle). The perfect gerund shows the action happened in the past, but the present gerund is often also correct.</p>
+                     <div class="space-y-3">
+                        <div class="bg-green-500/20 border-l-4 border-green-400 p-4 rounded-r-lg"><p class="font-mono text-soft-slate">I regret <i class="text-bright-teal">having failed</i> my test. (Correct)</p></div>
+                        <div class="bg-green-500/20 border-l-4 border-green-400 p-4 rounded-r-lg"><p class="font-mono text-soft-slate">I regret <i class="text-bright-teal">failing</i> my test. (Correct)</p></div>
+                        <div class="bg-red-500/20 border-l-4 border-red-400 p-4 rounded-r-lg"><p class="font-mono text-soft-slate"><i class="text-bright-teal">Having lived</i> in the city <span class="text-white">is</span> expensive. (Wrong)</p></div>
+                        <div class="bg-green-500/20 border-l-4 border-green-400 p-4 rounded-r-lg"><p class="font-mono text-soft-slate"><i class="text-bright-teal">Having lived</i> in the city <span class="text-white">made</span> me happy. (Correct)</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="infinitives" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vivid-purple">The Infinitive</h2>
+                <p class="mb-6 text-slate-300">The infinitive is a verb form that can follow verbs or adjectives.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-vivid-purple/80">Following a Verb</h4><p class="mt-1 font-mono">I want <i class="text-bright-teal">to stay</i> a little longer.</p></div>
+                    <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-vivid-purple/80">Following an Adjective</h4><p class="mt-1 font-mono">I'm happy <i class="text-bright-teal">to see</i> you here.</p></div>
+                </div>
+                
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg mb-8">
+                    <h3 class="text-3xl font-bold mb-2 text-vivid-purple">Types of Infinitive</h3>
+                    <p class="mb-4 text-slate-300">A key distinction is between the infinitive with "to" and the infinitive without "to" (bare infinitive). Verbs like modals, `let`, `make` (in active voice), and `help` take the bare infinitive.</p>
+                    <ul class="list-disc list-inside space-y-2 font-mono">
+                        <li>He <i class="text-bright-teal">let</i> me <i class="text-bright-teal">go</i>.</li>
+                        <li>They <i class="text-bright-teal">made</i> me <i class="text-bright-teal">do</i> it. (But in passive: I was <i class="text-bright-teal">made to do</i> it)</li>
+                        <li>Can you <i class="text-bright-teal">help</i> me <i class="text-bright-teal">do</i> it? (Also correct: Can you help me <i class="text-bright-teal">to do</i> it?)</li>
+                    </ul>
+                </div>
+
+                 <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg mb-8">
+                    <h3 class="text-3xl font-bold mb-2 text-vivid-purple">Infinitive Forms</h3>
+                    <div class="space-y-4 mt-4">
+                        <div><h4 class="text-2xl font-bold text-vivid-purple/80">Negative Infinitive</h4><p class="mt-1 text-slate-300">Form: `not` + `(to)` infinitive.</p><p class="mt-1 font-mono">He told me <i class="text-bright-teal">not to go</i> out.</p></div>
+                        <div><h4 class="text-2xl font-bold text-vivid-purple/80">Progressive Infinitive</h4><p class="mt-1 text-slate-300">Form: `to` + `be` + `-ing`, used to emphasize an action in progress.</p><p class="mt-1 font-mono">You seem <i class="text-bright-teal">to be doing</i> well lately.</p></div>
+                        <div><h4 class="text-2xl font-bold text-vivid-purple/80">Perfect Infinitive</h4><p class="mt-1 text-slate-300">Form: `to` + `have` + `past participle`, used when the action has already happened.</p><p class="mt-1 font-mono">He is said <i class="text-bright-teal">to have been</i> a millionaire.</p></div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-yellow-500/10 border-l-4 border-yellow-400 rounded-r-lg">
+                    <h3 class="text-3xl font-bold mb-2 text-yellow-300">Watch Out! Perfect Infinitive with Modals</h3>
+                    <p class="mb-4 text-slate-300">The perfect infinitive is the only way to show that the action of some modal verbs happened in the past.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono">
+                        <div class="bg-black/20 p-3 rounded"><p>He <i class="text-bright-teal">must be</i> in. <span class="text-xs text-slate-400 block"> (Present)</span></p></div>
+                        <div class="bg-black/20 p-3 rounded"><p>He <i class="text-bright-teal">can't have been</i> in. <span class="text-xs text-slate-400 block"> (Past)</span></p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="passive-forms" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vivid-purple">Passive Forms</h2>
+                <p class="mb-6 text-slate-300">A look at how active forms change into the passive voice.</p>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+                        <div class="bg-black/20 p-4 rounded-lg flex flex-col"><h4 class="text-2xl font-bold text-vivid-purple/80 mb-2">Active</h4><p class="font-mono mt-auto">I enjoy <i class="text-bright-teal">looking after</i> my younger sister.</p></div>
+                        <div class="bg-black/40 p-4 rounded-lg flex flex-col"><h4 class="text-2xl font-bold text-vivid-purple/80 mb-2">Passive</h4><p class="font-mono mt-auto">My younger sister enjoys <i class="text-bright-teal">being looked after</i> by me.</p></div>
+                    </div>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+                        <div class="bg-black/20 p-4 rounded-lg flex flex-col"><h4 class="text-2xl font-bold text-vivid-purple/80 mb-2">Active</h4><p class="font-mono mt-auto">I need <i class="text-bright-teal">to clean</i> this suit.</p></div>
+                        <div class="bg-black/40 p-4 rounded-lg flex flex-col"><h4 class="text-2xl font-bold text-vivid-purple/80 mb-2">Passive</h4><p class="font-mono mt-auto">This suit needs <i class="text-bright-teal">to be cleaned</i>.</p></div>
+                    </div>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+                        <div class="bg-black/20 p-4 rounded-lg flex flex-col"><h4 class="text-2xl font-bold text-vivid-purple/80 mb-2">Active (Perfect Infinitive)</h4><p class="font-mono mt-auto">Galileo is supposed <i class="text-bright-teal">to have invented</i> the telescope.</p></div>
+                        <div class="bg-black/40 p-4 rounded-lg flex flex-col"><h4 class="text-2xl font-bold text-vivid-purple/80 mb-2">Passive (Perfect Infinitive)</h4><p class="font-mono mt-auto">The telescope is supposed <i class="text-bright-teal">to have been invented</i> by Galileo.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="gerund-or-infinitive" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vivid-purple">Gerund or Infinitive?</h2>
+                <p class="mb-6 text-slate-300">A guide to which verbs and expressions are followed by a gerund or an infinitive.</p>
+                <div class="space-y-4">
+                    <div class="bg-black/20 rounded-lg">
+                        <button class="collapsible-toggle w-full flex justify-between items-center p-4 text-left">
+                            <h3 class="text-3xl font-bold text-vivid-purple/90">Verbs Followed by an Infinitive</h3>
+                            <svg class="w-6 h-6 transform transition-transform text-vivid-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="collapsible-content hidden p-4 border-t border-white/10 space-y-4">
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE A: Verb + infinitive</h4>
+                                <p class="italic mt-1">He attempted to break the world record.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">afford, agree, arrange, attempt, decide, fail, happen, hesitate, hope, learn, manage, neglect, offer, plan, prepare, pretend, promise, refuse, seem, swear, undertake, used to.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE B: Verb + noun/pronoun + infinitive</h4>
+                                <p class="italic mt-1">She encouraged me to take the exam.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">advise, allow, compel, encourage, forbid, force, instruct, oblige, order, permit, persuade, remind, request, teach, tell, warn, urge.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE A or B</h4>
+                                <p class="italic mt-1">We expected to be there by midnight.</p>
+                                <p class="italic mt-1">They expected us to be there by midnight.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">ask, dare, expect, help, intend, like, love, want, wish,</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE C: Verb + question word + infinitive</h4>
+                                <p class="italic mt-1">I don’t know how to do it.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">ask, decide, discover, explain, find out, forget, know, learn, remember, understand, wonder.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE D: Verb + bare infinitive (without “to”)</h4>
+                                <p class="italic mt-1">You had better leave.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">had better, let, make (active voice), would rather</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-lg">
+                        <button class="collapsible-toggle w-full flex justify-between items-center p-4 text-left">
+                            <h3 class="text-3xl font-bold text-vivid-purple/90">Verbs Followed by a Gerund</h3>
+                             <svg class="w-6 h-6 transform transition-transform text-vivid-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="collapsible-content hidden p-4 border-t border-white/10 space-y-4">
+                             <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE A: Verb + gerund</h4>
+                                <p class="italic mt-1">He admitted stealing the money.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">admit, avoid, can’t help, deny, enjoy, fancy, give up, go on, involve, keep (on), postpone, put off, spend (time), there’s no point (in), waste (time).</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE B: Verb + noun/pronoun + gerund</h4>
+                                <p class="italic mt-1">She likes people giving her presents. / She likes receiving presents.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">adore, appreciate, can’t bear, detest, dislike, hate, imagine, it’s no good, it’s no use, it’s not worth, loathe (=hate very much), love, (don’t) mind, miss, prevent, risk, stop, suggest.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE C: Verb + gerund or “that…..”</h4>
+                                <p class="italic mt-1">I regret telling/having told him the truth. / I regret (that) I told him the truth.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">admit, deny, propose, recommend, regret, suggest,</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl text-bright-teal">TYPE D: Verb + to + gerund</h4>
+                                <p class="italic mt-1">I’m used to getting up early.</p>
+                                <p class="font-mono text-sm mt-2 p-2 bg-black/30 rounded">be/get used to, be/get accustomed to, look forward to, object to, take to (begin as a habit)</p>
+                            </div>
+                             <div>
+                                <h4 class="text-2xl text-bright-teal">Expressions followed by the gerund</h4>
+                                <ul class="font-mono text-sm mt-2 p-3 bg-black/30 rounded list-disc list-inside">
+                                    <li>What about…?</li>
+                                    <li>How about …….?</li>
+                                    <li>I feel like …………</li>
+                                    <li>There’s no chance of……….</li>
+                                    <li>There’s no hope of ………….</li>
+                                    <li>What’s the point of………</li>
+                                    <li>There’s no point (in) ………</li>
+                                    <li>It’s no good……….</li>
+                                    <li>It’s no use…………</li>
+                                    <li>It’s not worth…………</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-lg">
+                        <button class="collapsible-toggle w-full flex justify-between items-center p-4 text-left">
+                            <h3 class="text-3xl font-bold text-vivid-purple/90">Verbs Followed by Both (with change of meaning)</h3>
+                             <svg class="w-6 h-6 transform transition-transform text-vivid-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="collapsible-content hidden p-4 border-t border-white/10 space-y-4">
+                            <div class="p-3 bg-black/30 rounded-lg">
+                                <h5 class="text-2xl text-bright-teal">begin, can’t bear, continue, hate, prefer, like, love, start</h5>
+                                <p class="mt-1">These have no significant change of meaning.</p>
+                                <p class="italic mt-2">I love swimming/to swim in the swimming pool.</p>
+                                <p class="mt-2"><strong class="text-yellow-300">BUT:</strong> When these verbs follow "would", the infinitive is used. <br><i class="italic">I would love to swim in your swimming pool.</i></p>
+                                <p class="mt-2"><strong class="text-yellow-300">AVOID:</strong> We avoid following an -ing form one after the other. <br><s class="italic">I’m beginning realising that he’s lying.</s> &rarr; <i class="italic">I’m beginning to realise that he’s lying.</i></p>
+                            </div>
+                             <div class="p-3 bg-black/30 rounded-lg">
+                                <h5 class="text-2xl text-bright-teal">forget / remember / regret</h5>
+                                <ul class="list-disc list-inside mt-2 space-y-2">
+                                    <li><strong class="text-white">+ gerund</strong> = they refer to past events <br><i class="italic">I remember seeing this film. (some time in the past)</i></li>
+                                    <li><strong class="text-white">+ infinitive</strong> = they refer to events which take place after the action described by the verb. <br><i class="italic">I remembered to post the letter. (first I remembered then I posted)</i></li>
+                                </ul>
+                            </div>
+                            <div class="p-3 bg-black/30 rounded-lg">
+                                <h5 class="text-2xl text-bright-teal">stop / go on</h5>
+                                <ul class="list-disc list-inside mt-2 space-y-2">
+                                    <li><strong class="text-white">+ gerund</strong> = doing sth <br><i class="italic">He stopped trying. (He didn’t try any more)</i> <br><i class="italic">He went on speaking. (He continued his speech)</i></li>
+                                    <li><strong class="text-white">+ infinitive</strong> = to do sth else <br><i class="italic">He stopped to check the tyres. (He stopped driving to see if the tyre were OK)</i> <br><i class="italic">He went on to explain how it should be done. (He changed the subject)</i></li>
+                                </ul>
+                            </div>
+                             <div class="p-3 bg-black/30 rounded-lg">
+                                <h5 class="text-2xl text-bright-teal">try</h5>
+                                <ul class="list-disc list-inside mt-2 space-y-2">
+                                    <li><strong class="text-white">+ gerund</strong> = an experiment or a new experience <br><i class="italic">I can’t sleep. Try taking a sleeping pill.</i></li>
+                                    <li><strong class="text-white">+ infinitive</strong> = an attempt which might succeed or fail <br><i class="italic">He tried to open the door but couldn’t.</i></li>
+                                </ul>
+                            </div>
+                            <div class="p-3 bg-black/30 rounded-lg">
+                                <h5 class="text-2xl text-bright-teal">mean</h5>
+                                <ul class="list-disc list-inside mt-2 space-y-2">
+                                    <li><strong class="text-white">+ gerund</strong> = what is involved <br><i class="italic">Getting to work on time means getting up at 6:30am.</i></li>
+                                    <li><strong class="text-white">+ infinitive</strong> = intend <br><i class="italic">I didn’t mean to upset you.</i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-black/20 rounded-lg">
+                        <button class="collapsible-toggle w-full flex justify-between items-center p-4 text-left">
+                            <h3 class="text-3xl font-bold text-yellow-300">Watch Out!!!</h3>
+                             <svg class="w-6 h-6 transform transition-transform text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="collapsible-content hidden p-4 border-t border-white/10 space-y-3">
+                            <div class="p-3 bg-black/30 rounded">
+                                <p><i class="italic">She is considered <strong class="text-bright-teal">to be</strong> very clever.</i> (have an opinion)</p>
+                                <p><i class="italic">I am considering <strong class="text-bright-teal">moving</strong> in England.</i> (think about)</p>
+                            </div>
+                             <div class="p-3 bg-black/30 rounded">
+                                <p><i class="italic">I need <strong class="text-bright-teal">to do</strong> it.</i></p>
+                                <p><i class="italic">It needs <strong class="text-bright-teal">to be done</strong>.</i></p>
+                                <p><i class="italic">It needs <strong class="text-bright-teal">doing</strong>.</i></p>
+                            </div>
+                            <div class="p-3 bg-black/30 rounded">
+                                <p><i class="italic">They required him <strong class="text-bright-teal">to get</strong> a driving licence.</i> (asked from him)</p>
+                                <p><i class="italic">These files require <strong class="text-bright-teal">sorting out</strong>.</i> (need)</p>
+                            </div>
+                            <div class="p-3 bg-black/30 rounded">
+                                <p>hear, see, watch</p>
+                                <ul class="list-disc list-inside mt-1">
+                                    <li><strong class="text-white">+ infinitive without to</strong> = action complete <br><i class="italic">I saw John <strong class="text-bright-teal">lift</strong> the weight. (I observed the whole action)</i></li>
+                                    <li><strong class="text-white">+ gerund</strong> = action in progress <br><i class="italic">I saw Mary <strong class="text-bright-teal">typing</strong> the letters. (I don’t know if or when she finished the action)</i></li>
+                                </ul>
+                            </div>
+                            <div class="p-3 bg-black/30 rounded">
+                                <p>prefer doing sth to doing sth else</p>
+                                <p><i class="italic">I prefer <strong class="text-bright-teal">skiing</strong> to <strong class="text-bright-teal">climbing</strong>.</i></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="practice-arena" class="view">
+                 <h2 class="text-4xl font-bold mb-4 text-vivid-purple">Practice Arena</h2>
+                 <p class="mb-6 text-slate-300">Complete the sentences with the correct form of the verb in brackets.</p>
+                 <div id="exercise-container"></div>
+            </section>
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-400 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- DATA ---
+        const practiceData = [
+            { q: "She made me ____ the poem by heart. (learn)", a: "learn" },
+            { q: "This machinery is used for ____ water. (drill)", a: "drilling" },
+            { q: "Susan will never get used to ____ on the right here. (drive)", a: "driving" },
+            { q: "Did you remember ____ (invite) John to the party tomorrow?", a: "to invite" },
+            { q: "They'd rather ____ on an excursion than a two-day trip. (go)", a: "go" },
+            { q: "He wasn't allowed ____ the competition because of his criminal record. (enter)", a: "to enter" },
+            { q: "We regret ____ (inform) you that your application has been rejected.", a: "to inform" },
+            { q: "She never expected ____ that from you. (hear)", a: "to hear" },
+            { q: "He has avoided ____ to the club because he dislikes ____ golf. (go / play)", a: ["going", "playing"] },
+            { q: "Surely you haven't forgotten ____ (meet) Ann in Bristol four years ago?", a: "meeting" },
+            { q: "She doesn't enjoy ____ by plane. (travel)", a: "travelling" },
+            { q: "They ordered everyone in the plane ____ down on the floor. (lie)", a: "to lie" },
+            { q: "Why is the TV on? I don't remember ____ (switch) it on.", a: "switching" },
+            { q: "The guards wouldn't let us ____ near the military site. (camp)", a: "camp" },
+            { q: "My dress is a little tight. It needs ____ out. (let)", a: ["letting", "to be let"] },
+            { q: "To get rid of the pain he tried ____ (take) several pills.", a: "taking" },
+            { q: "Wouldn't you rather ____ the Modern Art Museum? (visit)", a: "visit" },
+            { q: "She doesn't mind ____ to work every day. (travel)", a: "travelling" },
+            { q: "I regret ____ (say) that he was an idiot. I shouldn't have said it.", a: "saying" },
+            { q: "He is very unlucky. He keeps ____ accidents. (have)", a: "having" },
+            { q: "I'd like ____ to fly a plane. (learn)", a: "to learn" },
+            { q: "He'll never forget ____ (visit) London Zoo when he was a child.", a: "visiting" },
+            { q: "I don't remember ____ that. (say)", a: "saying" },
+            { q: "You've forgotten ____ out the lights again. (put)", a: "to put" },
+            { q: "If this line is engaged try ____ (call) him at this number; 5423221.", a: "calling" },
+            { q: "They tried ____ several times, but the line was engaged. (ring)", a: "ringing" },
+            { q: "The doctor advised him ____ (stop) smoking.", a: "to stop" },
+            { q: "I can't stand people ____ me when I'm busy. (interrupt)", a: "interrupting" },
+            { q: "Don't forget ____ (ring) up as soon as you get there.", a: "to ring" },
+            { q: "Would you prefer ____ dinner now or later? (have)", a: "to have" },
+            { q: "She was made ____ the report again. (type)", a: "to type" },
+            { q: "I've been trying ____ (find) you for a week.", a: "to find" },
+            { q: "I don't think it's a very useful method but it's worth ____ it. (try)", a: "trying" },
+            { q: "John couldn't help ____ in love with Judy. (fall)", a: "falling" },
+            { q: "Judy looked forward to ____ George. (see)", a: "seeing" },
+            { q: "They can go on ____. (write)", a: "writing" },
+            { q: "Would you mind ____ in the lounge? (wait)", a: "waiting" },
+            { q: "He's trying ____ his exercises. (finish)", a: "to finish" },
+            { q: "They hate ____ to do the washing up. (have)", a: "having" },
+            { q: "Do stop ____. I want ____ some sleep. (shout / get)", a: ["shouting", "to get"] },
+            { q: "She intends ____ to Spain to see her father. (travel)", a: "to travel" },
+            { q: "He couldn't avoid ____ recognised. (be)", a: "being" },
+            { q: "Don't forget ____ the heater off. (turn)", a: "to turn" },
+            { q: "I'm not prepared ____ here all day. (wait)", a: "to wait" },
+            { q: "Try ____ another key; this one is too small. (use)", a: "using" },
+            { q: "They regret ____ us that the electricity will be cut off. (inform)", a: "to inform" },
+            { q: "I couldn't help ____ when I heard that joke. (laugh)", a: "laughing" },
+            { q: "You keep ____ your umbrella in the office. (forget)", a: "forgetting" },
+            { q: "He advised me ____ ____. (give up / drink)", a: ["to give up", "drinking"] },
+            { q: "She prefers ____ to ____. (drive / walk)", a: ["driving", "walking"] }
+        ];
+
+        // --- CORE APP LOGIC ---
+        function initApp() {
+            // Setup navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+
+            function updateView(hash) {
+                hash = hash || '#gerunds';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+
+            // Setup collapsibles
+            const collapsibleToggles = document.querySelectorAll('.collapsible-toggle');
+            collapsibleToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('svg');
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // Setup Practice Arena
+            createPracticeExercise(document.getElementById('exercise-container'), practiceData);
+            
+            // Initial view setup on page load
+            updateView(window.location.hash);
+        }
+
+        // --- PRACTICE ARENA EXERCISE LOGIC ---
+        function createPracticeExercise(container, data) {
+            let currentIndex = 0;
+            container.innerHTML = `
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <p class="mb-4 text-slate-300">Question <span class="counter">1</span> of ${data.length}</p>
+                    <div class="p-4 bg-black/30 rounded-md mb-4 border border-white/20">
+                        <p class="question-text italic text-soft-slate text-lg"></p>
+                    </div>
+                    <div class="input-container space-y-2"></div>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 mt-4">
+                        <button class="check-btn w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                        <button class="next-btn w-full sm:w-auto px-6 py-2 bg-vivid-purple/80 text-white font-semibold rounded-lg hover:bg-vivid-purple">Next Question &rarr;</button>
+                    </div>
+                    <div class="answer-div mt-6 p-4 rounded-lg hidden"></div>
+                </div>
+            `;
+
+            const counter = container.querySelector('.counter');
+            const questionText = container.querySelector('.question-text');
+            const inputContainer = container.querySelector('.input-container');
+            const checkBtn = container.querySelector('.check-btn');
+            const answerDiv = container.querySelector('.answer-div');
+            const nextBtn = container.querySelector('.next-btn');
+
+            function loadQuestion(index) {
+                counter.textContent = index + 1;
+                const questionData = data[index];
+                const parts = questionData.q.split('____');
+                questionText.textContent = questionData.q;
+                
+                inputContainer.innerHTML = '';
+                const answerCount = (questionData.q.match(/____/g) || []).length;
+
+                for (let i = 0; i < answerCount; i++) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'input w-full p-3 bg-charcoal text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-bright-teal';
+                    input.placeholder = `Answer ${i + 1}...`;
+                    inputContainer.appendChild(input);
+                }
+                
+                answerDiv.classList.add('hidden');
+                // Ensure inputs are cleared and focus on the first one
+                const firstInput = inputContainer.querySelector('.input');
+                if(firstInput) {
+                    firstInput.value = '';
+                    firstInput.focus();
+                }
+            }
+
+            checkBtn.addEventListener('click', () => {
+                const userInputs = Array.from(container.querySelectorAll('.input')).map(input => input.value.trim().toLowerCase());
+                const correctAnswers = Array.isArray(data[currentIndex].a) ? data[currentIndex].a.map(a => a.toLowerCase()) : [data[currentIndex].a.toLowerCase()];
+                
+                let allCorrect = true;
+                
+                // Handle cases with multiple possible correct answers for a single blank
+                if (userInputs.length === 1 && correctAnswers.length > 1 && !Array.isArray(data[currentIndex].a[0])) {
+                     if (!correctAnswers.includes(userInputs[0])) {
+                        allCorrect = false;
+                     }
+                } else { // Handle single answers or multiple blanks
+                    for(let i = 0; i < correctAnswers.length; i++) {
+                        const correctAns = Array.isArray(correctAnswers[i]) ? correctAnswers[i] : [correctAnswers[i]];
+                        const userInput = userInputs[i] || "";
+                        if (!correctAns.includes(userInput)) {
+                            allCorrect = false;
+                            break;
+                        }
+                    }
+                }
+                
+                answerDiv.classList.remove('hidden');
+                if (allCorrect) {
+                    answerDiv.className = 'answer-div mt-6 p-4 rounded-lg bg-green-500/20 border border-green-400';
+                    answerDiv.innerHTML = `<h4 class="font-bold text-lg text-green-300">Correct!</h4>`;
+                } else {
+                    answerDiv.className = 'answer-div mt-6 p-4 rounded-lg bg-red-500/20 border border-red-400';
+                    const solution = (Array.isArray(data[currentIndex].a) ? data[currentIndex].a : [data[currentIndex].a])
+                                     .map(ans => Array.isArray(ans) ? ans.join(' / ') : ans).join(', ');
+                    answerDiv.innerHTML = `<h4 class="font-bold text-lg text-red-300">Not quite.</h4><p class="solution-text italic mt-2 text-slate-200">Suggested Answer(s): ${solution}</p>`;
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % data.length;
+                loadQuestion(currentIndex);
+            });
+            
+            // Add keypress listener for 'Enter'
+            container.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    if (!answerDiv.classList.contains('hidden')) {
+                         // If feedback is visible, 'Enter' means 'Next'
+                        nextBtn.click();
+                    } else {
+                        // If feedback is not visible, 'Enter' means 'Check'
+                        checkBtn.click();
+                    }
+                }
+            });
+
+            loadQuestion(currentIndex);
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

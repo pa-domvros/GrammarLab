@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClauseLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'clay': '#6D4C41',
+                        'sky-blue': '#81D4FA',
+                        'off-white-cream': '#FFF8E1',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #6D4C41; /* clay */
+            color: #FFF8E1; /* off-white-cream */
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #81D4FA; /* sky-blue */
+            border-color: #81D4FA; /* sky-blue */
+        }
+        
+        .practice-mode { display: none; }
+        .practice-mode.active { display: block; }
+
+        .mode-button.active {
+            background-color: #81D4FA;
+            color: #6D4C41;
+        }
+
+        /* Drag and Drop Styles */
+        .draggable {
+            cursor: grab;
+            user-select: none;
+        }
+        .draggable.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .drop-zone.drag-over {
+            background-color: rgba(129, 212, 250, 0.2);
+            border-color: #81D4FA;
+        }
+        .drop-zone .draggable {
+            cursor: default;
+        }
+        .feedback-correct {
+            background-color: rgba(74, 222, 128, 0.1);
+            border-left: 4px solid #4ade80;
+        }
+        .feedback-incorrect {
+            background-color: rgba(248, 113, 113, 0.1);
+            border-left: 4px solid #f87171;
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-sky-blue">ClauseLab 🔗</h1>
+            <p class="mt-2 text-lg text-slate-200">
+                Your guide to understanding and using English clauses.
+            </p>
+             <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#relative-clauses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Relative Clauses</a></li>
+                    <li><a href="#time-clauses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Time Clauses</a></li>
+                    <li><a href="#other-clauses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Other Clauses</a></li>
+                    <li><a href="#participle-clauses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Participles as Clauses</a></li>
+                    <li><a href="#practice-arena" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Practice Arena</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <section id="relative-clauses" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-sky-blue">Relative Clauses</h2>
+                <p class="mb-6 text-slate-200">Relative clauses are introduced by relative pronouns to give more information about a noun.</p>
+                <div class="p-6 bg-black/10 backdrop-blur-sm rounded-lg shadow-lg mb-6">
+                    <h3 class="text-3xl font-bold mb-2 text-sky-blue">Defining vs. Non-Defining</h3>
+                    <p class="mb-4">The most important distinction is whether the clause is essential (defining) or just extra information (non-defining).</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-sky-blue/80">Defining</h4><p class="mt-1 font-mono">A painter is a person <i class="text-amber-300">who paints pictures</i>.</p><p class="text-xs mt-2 text-slate-300">This clause is necessary. Without it, the sentence "A painter is a person" is meaningless.</p></div>
+                        <div class="bg-black/20 p-4 rounded-lg"><h4 class="text-2xl font-bold text-sky-blue/80">Non-Defining</h4><p class="mt-1 font-mono">Mr. Chain, <i class="text-amber-300">who paints pictures in his spare time</i>, is a nice man.</p><p class="text-xs mt-2 text-slate-300">This clause is extra information. The main sentence "Mr. Chain is a nice man" is complete without it.</p></div>
+                    </div>
+                </div>
+                <h3 class="text-3xl font-bold mt-8 mb-4 text-sky-blue">Pronoun Deep Dive</h3>
+                <div id="pronoun-deep-dive-grid" class="space-y-6"></div>
+                <div class="mt-8 p-6 bg-black/10 backdrop-blur-sm rounded-lg shadow-lg">
+                    <button id="watchout-toggle-relative" class="w-full text-left"><h3 class="text-3xl font-bold text-sky-blue flex justify-between items-center"><span>Watch Out!</span><svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></h3></button>
+                    <div id="watchout-content-relative" class="hidden mt-4 prose prose-invert max-w-none text-soft-cream"><ul><li><strong>No commas</strong> before and after defining relative clauses.</li><li>There are <strong>commas</strong> before and after non-defining relative clauses.</li><li>Relative pronouns <strong>cannot be left out</strong> of non-defining relative clauses.</li><li><strong>"that" cannot be used</strong> in non-defining relative clauses.</li></ul></div>
+                </div>
+            </section>
+
+            <section id="time-clauses" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-sky-blue">Time Clauses</h2>
+                <p class="mb-6 text-slate-200">Time clauses are introduced by conjunctions to show the relationship between events in time.</p>
+                <div class="mb-6"><button id="conjunction-library-toggle" class="w-full sm:w-auto px-6 py-2 bg-sky-blue/20 text-sky-blue font-semibold rounded-lg hover:bg-sky-blue/30">Show Conjunction Library</button></div>
+                <div id="conjunction-library" class="hidden mb-8"><h3 class="text-3xl font-bold mb-4 text-sky-blue">Conjunction Library</h3><div id="time-conjunction-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div>
+                <h3 class="text-3xl font-bold mt-8 mb-4 text-sky-blue">The Sequencer</h3><div id="sequencer-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <div class="mt-8 p-6 bg-black/10 backdrop-blur-sm rounded-lg shadow-lg">
+                    <button id="watchout-toggle-time" class="w-full text-left"><h3 class="text-3xl font-bold text-sky-blue flex justify-between items-center"><span>Watch Out!</span><svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></h3></button>
+                    <div id="watchout-content-time" class="hidden mt-4 prose prose-invert max-w-none text-soft-cream"><p>Different verb forms can be used with <strong>when</strong> in time clauses:</p><ul><li>I <strong>spoke</strong> to him when he <strong>arrived</strong>.</li><li>I <strong>started</strong> my dinner when he <strong>left/had left</strong>. (He left, then I started)</li><li>I <strong>had started</strong> dinner when he <strong>left</strong>. (I started, then he left)</li></ul></div>
+                </div>
+            </section>
+
+            <section id="other-clauses" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-sky-blue">Other Clauses</h2>
+                <p class="mb-6 text-slate-200">Explore clauses that express Concession, Purpose, Reason, Result, and Manner.</p>
+                <div id="logic-grid" class="space-y-4"></div>
+            </section>
+            
+            <section id="participle-clauses" class="view">
+                 <h2 class="text-4xl font-bold mb-4 text-sky-blue">Participles as Clauses</h2>
+                <p class="mb-6 text-slate-200">Participles can be used to replace full clauses, making sentences more brief and precise. The subject of the participle clause is usually the same as the main clause.</p>
+                <div id="participle-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                 <div class="mt-8 p-6 bg-black/10 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 class="text-3xl font-bold mb-2 text-sky-blue">Clauses with Different Subjects</h3>
+                    <p class="mb-4">If the subjects of the two clauses are different, we can include a subject for the participle clause to avoid misunderstanding.</p>
+                    <div class="space-y-2 bg-black/20 p-4 rounded-lg">
+                        <p class="font-mono text-soft-cream">With <i class="text-amber-300">the tree</i> growing taller, we have more shade.</p>
+                        <p class="font-mono text-soft-cream"><i class="text-amber-300">The job</i> finished, we went home.</p>
+                        <p class="font-mono text-soft-cream"><i class="text-amber-300">Her mother</i> having left the room, I told her how much I loved her.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Practice Arena -->
+            <section id="practice-arena" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-sky-blue">Practice Arena</h2>
+                <div class="mb-6 flex flex-wrap gap-2 border-b border-white/20 pb-4">
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-sky-blue hover:text-clay active" data-target="relative-practice">Relative Clauses</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-sky-blue hover:text-clay" data-target="time-practice">Time Clauses</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-sky-blue hover:text-clay" data-target="other-practice">Other Clauses</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-sky-blue hover:text-clay" data-target="participle-practice">Participle Clauses</button>
+                </div>
+                <div id="relative-practice" class="practice-mode active">
+                    <div id="relative-join-exercise"></div>
+                    <div id="relative-fill-exercise" class="mt-8"></div>
+                </div>
+                <div id="time-practice" class="practice-mode">
+                    <div id="time-drag-drop-exercise"></div>
+                    <div id="time-story-exercise" class="mt-8"></div>
+                </div>
+                <div id="other-practice" class="practice-mode">
+                     <div id="other-clauses-exercise"></div>
+                </div>
+                <div id="participle-practice" class="practice-mode">
+                     <div id="participle-clauses-exercise"></div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DATA ---
+        const pronounDeepDiveData = [
+            { title: 'Omitting the Relative Pronoun', explanation: 'In DEFINING relative clauses, the pronoun can be omitted when it is the OBJECT of the clause.', examples: [ { type: 'Subject (Necessary)', sentence: 'The woman <i>who is wearing the red dress</i> is my wife.' }, { type: 'Object (Can be omitted)', sentence: 'The man <i>(that/who/whom) you met yesterday</i> was my father.' } ] },
+            { title: 'WHOM', explanation: 'Whom is the formal object form of who. It is required after a preposition.', examples: [ { type: 'Formal (with preposition)', sentence: 'The man <i>to whom I lent my car</i> had an accident.', toggles: { informal: 'The man <i>I lent my car to</i> had an accident.' } }, { type: 'Formal (without preposition)', sentence: 'I met a friend <i>whom I had not seen for ages</i>.', toggles: { informal: 'I met a friend <i>who I had not seen for ages</i>.' } } ] },
+            { title: 'WHERE', explanation: 'Where is used for places. It can be replaced with "which...at/in/on" and the pronoun can sometimes be omitted.', examples: [ { type: 'Standard', sentence: 'Do you know the hotel <i>where we are staying?</i>', toggles: { alternative: 'Do you know the hotel <i>(which) we are staying at?</i>', formal: 'Do you know the hotel <i>at which we are staying?</i>' } } ] },
+            { title: 'Special Cases: WHICH and WHAT', explanation: '<i>Which</i> can refer to a whole clause. <i>What</i> is used to mean "the thing that" for emphasis.', examples: [ { type: 'WHICH for whole clause', sentence: 'He arrived on time, <i>which surprised everybody</i>.' }, { type: 'WHAT for emphasis (emphatic)', sentence: '<i>What made me furious</i> was his arrogance.', toggles: { neutral: 'His arrogance made me furious.' } }, { type: 'WHAT as object (emphatic)', sentence: 'He made me do <i>what I hate most</i>.', toggles: { neutral: 'He made me do the thing that I hate most.' } } ] }
+        ];
+        const timeConjunctions = [
+            { word: 'after', example: 'After I had finished work, I went out.' }, { word: 'as', example: 'As he was walking along the street he met an old friend.' }, { word: 'as soon as', example: 'Send the money as soon as you get the order.' }, { word: 'before', example: 'She had finished her work before they came home.' }, { word: 'by the time', example: 'By the time you come I will have finished all the reports.' }, { word: 'hardly...when', example: 'We had hardly left when Paul arrived.' }, { word: 'no sooner...than', example: 'I had no sooner finished my work than the phone rang.' }, { word: 'once', example: 'Once I had got home I knew everything was going to be all right.' }, { word: 'since', example: 'I have been working very hard since I changed job.' }, { word: 'till / until', example: 'I’ll wait here till / until you finish.' }, { word: 'the moment/minute', example: 'The moment he came in, everyone got up and left.' }, { word: 'when', example: 'When you finish your homework, I’ll take you out.' }, { word: 'whenever', example: 'Whenever he came, he would bring us presents.' }, { word: 'while', example: 'While we were listening to the news there was a power cut.' }
+        ];
+        const sequencerData = [
+            { title: 'One event after another', explanation: 'Emphasising that two actions were completely separate.', examples: [ 'He looked up and down the street. Then he went into the bank.', 'After looking up and down the street, he went into the bank.' ] },
+            { title: 'One event following another very quickly', explanation: 'Use adverbs like "at once" or conjunctions like "as soon as".', examples: [ 'I came into the room and noticed at once that something was wrong.', 'As soon as I came into the room, I noticed something was wrong.' ] },
+            { title: 'For sudden, unexpected events', explanation: 'Use adverbs like "suddenly".', examples: [ 'I walked from the car. Suddenly I heard a cry.' ] },
+            { title: 'An event some time after another', explanation: 'Use time markers like "later".', examples: [ 'The men drove off in a black car. The police arrived ten minutes later.' ] },
+            { title: 'One event before another', explanation: 'Use "Before".', examples: [ 'Before turning / he turned right, he slowed down.' ] },
+            { title: 'Two "short" events happening simultaneously', explanation: 'Use "As" or "Just as".', examples: [ 'As / Just as the men left the bank the police arrived.' ] },
+            { title: 'Two "long" events happening simultaneously', explanation: 'Use "While", "As", or "Meanwhile".', examples: [ 'While / As one man was keeping watch, the other was searching.', 'One man kept watch. Meanwhile, the other searched.' ] },
+            { title: 'Short events during a long one', explanation: 'Use "As", "While", or "When".', examples: [ 'As / While / When we were watching T.V. the burglars broke in.' ] },
+            { title: 'Habitual Events', explanation: 'Use "Whenever".', examples: [ 'Whenever he tried to call Susan, he couldn’t find her at home.' ] },
+            { title: 'Immediate Completion', explanation: 'Use "No sooner...than" or "Hardly...when" with the Past Perfect for formal emphasis.', examples: [ 'No sooner had I finished my work than the phone rang.', 'We had hardly left when Paul arrived.' ] },
+            { title: 'Events in separate sentences', explanation: 'Use "Beforehand" and "Afterwards" to link ideas across sentences.', examples: [ 'He is going to leave the house. Beforehand, he must make sure that he has locked all doors.', 'He must make sure that he has locked all doors. Afterwards, he can leave the house.' ] }
+        ];
+        const logicData = [
+            { category: 'Concession', items: [ { word: 'although/though/even though', example: 'Although he had promised, he never came.' }, { word: 'in spite of / despite + gerund/noun or the fact that...', example: 'In spite of trying hard he didn’t make it in the exams.' }, { word: 'nevertheless / nonetheless', example: 'It was a horrible day. Nevertheless they went out.' }, { word: 'however / no matter how', example: 'However hard I try, I never manage to get it right.' }, { word: 'whatever / no matter what', example: 'Whatever I do he is never satisfied.' }, { word: 'while / whereas', example: 'I paid a lot for that car, whereas Joanna got it as a bargain.' } ] },
+            { category: 'Purpose', items: [ { word: 'to / in order to / so as to', example: 'I’ve come early to get a good seat.' }, { word: 'so that', example: 'She studied for the Proficiency so that she could have better chances of getting a good job.' }, { word: 'in case', example: 'Leave a note for John in case he forgets to bring the books.' }, { word: 'for', example: 'This computer is for professional use only.' }, { word: 'for fear of / for fear that', example: 'He did what they told him for fear of losing his job.' } ] },
+            { category: 'Reason', items: [ { word: 'as', example: 'As she was doing very well, they promoted her.' }, { word: 'since', example: 'Since you have no money left, I think you’ll have to start thinking of getting a job.' }, { word: 'for', example: 'I knew he was hiding something, for he was acting strange.' }, { word: 'because', example: 'They got there on time because they had travelled by plane.' }, { word: 'because of / due to', example: 'Because of his poor results, the student failed.' } ] },
+            { category: 'Result', items: [ { word: 'such + [adj, noun] + that', example: 'It was such cold weather that we stayed in.' }, { word: 'so + adjective + that', example: 'So cold was the weather that we stayed in.' } ] },
+            { category: 'Manner / Comparison', items: [ { word: 'as (in the way that)', example: 'Do as I tell you.' }, { word: '(just) as ... so', example: '(Just) as he is interested in Chemistry, so I am in theatre.' }, { word: 'as if / as though, like', example: 'You look as if you have seen a ghost.' }, { word: 'unlike (negative comparison)', example: 'Unlike me she never studies before the final exams.' } ] },
+            { category: 'Watch Out! (like vs. as)', items: [ { word: 'as (for a job/role)', example: 'She works as a typist.' }, { word: 'like (for a non-real comparison)', example: 'He runs like a deer.' }, { word: 'like/as + clause (for real comparisons)', example: 'She lives in the centre like/as I do.' }, { word: '(Un)like + noun/pronoun', example: 'Unlike me she lives in the centre.' } ] }
+        ];
+        const participleData = [
+            { title: 'Present Participle (-ing)', full: 'The students <i>who are taking the exam</i> should come at 8:00.', participle: 'The students <i>taking the exam</i> should come at 8:00.' },
+            { title: 'Past Participle (-ed)', full: '<i>Because I was disappointed</i>, I left the room.', participle: '<i>Disappointed</i>, I left the room.' },
+            { title: 'Perfect Participle Active', full: '<i>After we had finished the job</i>, we went home.', participle: '<i>Having finished the job</i>, we went home.' },
+            { title: 'Perfect Participle Passive', full: '<i>Because they had not been well informed</i>, they did it the wrong way.', participle: '<i>Not having been well informed</i>, they did it the wrong way.' }
+        ];
+        const relativeJoinData = [
+            { q: "They bought a car. I didn't really like it.", a: "They bought a car which I didn't really like." },
+            { q: "My sister helped me with the story. She is a writer.", a: "My sister, who is a writer, helped me with the story." },
+            { q: "Mr Jones gave a description of the robbers to the police. His shop was broken into last night.", a: "Mr Jones, whose shop was broken into last night, gave a description of the robbers to the police." },
+            { q: "We asked a conductor. He was very helpful.", a: "We asked a conductor who was very helpful." },
+            { q: "That's the civil engineer. His plans were stolen.", a: "That's the civil engineer whose plans were stolen." },
+            { q: "The man is always causing us trouble. He's complaining now.", a: "The man who is always causing us trouble is complaining now." },
+            { q: "We decided to stay at the Hilton. It was nearby.", a: "We decided to stay at the Hilton, which was nearby." },
+            { q: "The computer doesn't work properly. I bought it three days ago.", a: "The computer which I bought three days ago doesn't work properly." },
+            { q: "They have designed a new car. It is going to be very expensive.", a: "They have designed a new car which is going to be very expensive." },
+            { q: "The old man found my wallet. He took it to the police station.", a: "The old man who found my wallet took it to the police station." },
+        ];
+        const relativeFillData = [
+            { q: "Mr Cawley was the best teacher .......... had ever taught a Proficiency class.", a: "that" },
+            { q: "This is the biggest house .......... has ever been built.", a: "that" },
+            { q: "All .......... is needed is a little more effort.", a: "that" },
+            { q: "The only thing .......... matters is that he loves you.", a: "that" },
+            { q: "It's the lack of respect towards women .......... causes all this trouble in the company.", a: "that" },
+            { q: "Do you know anyone .......... can lend me a camera?", a: "who" },
+            { q: "Do you have a camera .......... you can lend me?", a: ["which", "that", ""] },
+            { q: "Do you remember the puppy .......... we found?", a: ["which", "that", ""] },
+            { q: "The report .......... you gave me proved totally incorrect.", a: ["which", "that", ""] },
+            { q: "It's his absolute indifference towards housework .......... gets on my nerves.", a: "that" },
+        ];
+        const timeDragDropData = [
+            { partA: "I bought a car", correctLink: "once", partC: "I had saved up enough money." },
+            { partA: "I continued reading my book", correctLink: "while", partC: "my sister was doing her homework." },
+            { partA: "I didn’t dare to make a sound", correctLink: "as", partC: "my mother came back." },
+            { partA: "I didn’t leave the house", correctLink: "till", partC: "I had finished all I had to do." },
+            { partA: "I forgot to wash my hands", correctLink: "before", partC: "I had lunch." },
+            { partA: "I had eaten all the cakes", correctLink: "by the time", partC: "they arrived." },
+            { partA: "I haven’t seen my aunt", correctLink: "since", partC: "she left for New York." },
+            { partA: "I send the letter", correctLink: "as soon as", partC: "I found their address." },
+            { partA: "I used to get into trouble", correctLink: "whenever", partC: "I didn’t do my homework." },
+            { partA: "I waited patiently in the rain", correctLink: "until", partC: "the door slowly opened." },
+            { partA: "I was able to do the exercise", correctLink: "soon after", partC: "I had found the key at the back." },
+            { partA: "I was listening to the news", correctLink: "when", partC: "the power-cut because I had a candle." },
+            { partA: "I went to holiday to France", correctLink: "during/in", partC: "the exam results." }
+        ];
+        const timeStoryData = [
+            "I couldn’t leave my apartment until…",
+            "I fed the puppy before…",
+            "I walked to the car-park after…",
+            "I had to wait till…",
+            "I was listening to my favourite radio programme while…",
+            "The traffic was heavy and I had been driving for more than forty five minutes by the time…",
+            "I had still two miles two go when…",
+            "The traffic stopped and everybody was waiting for the group of old ladies to cross the road. Meanwhile,…",
+            "Hoping that nothing else would go wrong, I started the car as soon as…",
+            "Ten minutes later I was at the office. No sooner…",
+            "Thank God he didn’t see me coming late because he had probably arrived only a couple of minutes after…"
+        ];
+        const otherClausesData = [
+            { q: "Join with 'although': He had promised. He never came.", a: "Although he had promised, he never came." },
+            { q: "Join with 'in spite of': He tried hard. He didn’t make it in the exams.", a: "In spite of trying hard, he didn’t make it in the exams." },
+            { q: "Rewrite with 'However': I try hard. I never manage to get it right.", a: "However hard I try, I never manage to get it right." },
+            { q: "Join with 'so that': She studied for the Proficiency. She wanted to have better chances of getting a good job.", a: "She studied for the Proficiency so that she could have better chances of getting a good job." },
+            { q: "Join with 'in case': Leave a note for John. He might forget to bring the books.", a: "Leave a note for John in case he forgets to bring the books." },
+            { q: "Join with 'to': I've come early. I want to get a good seat.", a: "I've come early to get a good seat." },
+            { q: "Join with 'because of': The student failed. His results were poor.", a: "The student failed because of his poor results." },
+            { q: "Join with 'as': She was doing very well. They promoted her.", a: "As she was doing very well, they promoted her." },
+            { q: "Join with 'since': You have no money left. I think you’ll have to start thinking of getting a job.", a: "Since you have no money left, I think you’ll have to start thinking of getting a job." },
+            { q: "Join with 'such...that': The weather was very cold. We stayed in.", a: "It was such cold weather that we stayed in." },
+            { q: "Rewrite with 'So...that': The weather was very cold. We stayed in.", a: "So cold was the weather that we stayed in." },
+            { q: "Join with 'as if': You look pale. Have you seen a ghost?", a: "You look as if you have seen a ghost." },
+            { q: "Join with 'as': I am telling you something. Do it that way.", a: "Do as I tell you." },
+            { q: "Rewrite with 'as': She has a job. Her job is a typist.", a: "She works as a typist." },
+            { q: "Rewrite with 'like': He runs very fast. He is like a deer.", a: "He runs like a deer." }
+        ];
+        const participleClausesData = [
+            { q: "They entered the room and sat down before I had a chance to speak to them.", a: "Entering the room, they sat down before I had a chance to speak to them." },
+            { q: "Because they haven’t done well in the test, the students will take it again.", a: "Not having done well in the test, the students will take it again." },
+            { q: "As I had finished my work, I went for a drink.", a: "Having finished my work, I went for a drink." },
+            { q: "She packed her suitcases and left.", a: "Packing her suitcases, she left." },
+            { q: "Because he was shocked with the news he called his friend.", a: "Shocked with the news, he called his friend." },
+            { q: "The man who is living next door is an artist.", a: "The man living next door is an artist." },
+            { q: "He had previous experience so he did very well.", a: "Having had previous experience, he did very well." },
+            { q: "He was filled with emotion as he opened the letter.", a: "Filled with emotion, he opened the letter." }
+        ];
+        
+        // --- ALL INITIALIZATION ---
+        function initApp() {
+            // Setup navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+            function updateView(hash) {
+                hash = hash || '#relative-clauses';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+            
+            // --- THEORY SECTIONS LOGIC ---
+            setupTheorySections();
+            
+            // --- PRACTICE ARENA LOGIC ---
+            setupPracticeArena();
+
+            // Initial view setup
+            updateView(window.location.hash);
+        }
+
+        function setupTheorySections() {
+            // Code for theory sections (deep dive, toggles, etc.)
+            const deepDiveGrid = document.getElementById('pronoun-deep-dive-grid');
+            if(deepDiveGrid) {
+                pronounDeepDiveData.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg';
+                    let examplesHtml = item.examples.map((ex, exIndex) => {
+                        let toggleButton = '';
+                        if (ex.toggles) {
+                            toggleButton = `<button class="toggle-btn text-xs font-semibold text-sky-blue hover:underline" data-item-index="${index}" data-ex-index="${exIndex}">Toggle Form</button>`;
+                        }
+                        return `<div class="bg-black/20 p-4 rounded-lg mb-2"><div class="flex justify-between items-center mb-2"><h4 class="text-xl font-semibold text-sky-blue/80">${ex.type}</h4>${toggleButton}</div><p class="font-mono text-soft-cream" id="example-${index}-${exIndex}">${ex.sentence}</p></div>`;
+                    }).join('');
+                    card.innerHTML = `<h3 class="text-3xl font-bold mb-2 text-sky-blue">${item.title}</h3><p class="text-slate-200 mb-4">${item.explanation}</p>${examplesHtml}`;
+                    deepDiveGrid.appendChild(card);
+                });
+            }
+
+            document.querySelectorAll('.toggle-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const itemIndex = e.target.dataset.itemIndex;
+                    const exIndex = e.target.dataset.exIndex;
+                    const exampleData = pronounDeepDiveData[itemIndex].examples[exIndex];
+                    const displayEl = document.getElementById(`example-${itemIndex}-${exIndex}`);
+                    
+                    const isToggled = displayEl.innerHTML.includes('<br>');
+
+                    if (isToggled) {
+                        displayEl.innerHTML = exampleData.sentence;
+                        e.target.textContent = 'Toggle Form';
+                    } else {
+                        const alternative = exampleData.toggles.informal || exampleData.toggles.neutral || exampleData.toggles.formal;
+                        displayEl.innerHTML = `<strong>Original:</strong> ${exampleData.sentence}<br><br><strong class="text-sky-blue">Alternative:</strong> ${alternative}`;
+                        e.target.textContent = 'Hide Form';
+                    }
+                });
+            });
+
+            const watchoutToggleRelative = document.getElementById('watchout-toggle-relative');
+            if(watchoutToggleRelative) {
+                watchoutToggleRelative.addEventListener('click', (e) => {
+                    const content = document.getElementById('watchout-content-relative');
+                    content.classList.toggle('hidden');
+                    e.currentTarget.querySelector('svg').classList.toggle('rotate-180');
+                });
+            }
+
+            const conjunctionLibraryToggle = document.getElementById('conjunction-library-toggle');
+            if (conjunctionLibraryToggle) {
+                const conjunctionLibrary = document.getElementById('conjunction-library');
+                conjunctionLibraryToggle.addEventListener('click', () => {
+                    const isHidden = conjunctionLibrary.classList.contains('hidden');
+                    conjunctionLibrary.classList.toggle('hidden');
+                    conjunctionLibraryToggle.textContent = isHidden ? 'Hide Conjunction Library' : 'Show Conjunction Library';
+                });
+            }
+
+            const timeConjunctionGrid = document.getElementById('time-conjunction-grid');
+            if (timeConjunctionGrid) {
+                timeConjunctions.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'p-4 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg';
+                    card.innerHTML = `<h4 class="text-2xl font-bold text-sky-blue">${item.word}</h4><p class="font-mono text-sm mt-2">"${item.example}"</p>`;
+                    timeConjunctionGrid.appendChild(card);
+                });
+            }
+
+            const sequencerGrid = document.getElementById('sequencer-grid');
+            if(sequencerGrid) {
+                sequencerData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg';
+                    let examplesHtml = item.examples.map(ex => `<li class="font-mono text-soft-cream">"${ex}"</li>`).join('');
+                    card.innerHTML = `<h3 class="text-3xl font-bold mb-2 text-sky-blue">${item.title}</h3><p class="text-slate-200 mb-4 text-sm">${item.explanation}</p><ul class="list-disc list-inside space-y-2">${examplesHtml}</ul>`;
+                    sequencerGrid.appendChild(card);
+                });
+            }
+
+            const watchoutToggleTime = document.getElementById('watchout-toggle-time');
+            if (watchoutToggleTime) {
+                watchoutToggleTime.addEventListener('click', (e) => {
+                    const content = document.getElementById('watchout-content-time');
+                    content.classList.toggle('hidden');
+                    e.currentTarget.querySelector('svg').classList.toggle('rotate-180');
+                });
+            }
+
+            const logicGrid = document.getElementById('logic-grid');
+            if (logicGrid) {
+                logicData.forEach(category => {
+                    const accordion = document.createElement('div');
+                    accordion.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg';
+                    let itemsHtml = category.items.map(item => `
+                        <div class="py-2">
+                            <p class="font-bold text-sky-blue/80">${item.word}</p>
+                            <p class="font-mono text-sm mt-1">"${item.example}"</p>
+                        </div>
+                    `).join('');
+                    accordion.innerHTML = `
+                        <button class="w-full text-left logic-toggle">
+                            <h3 class="text-3xl font-bold text-sky-blue flex justify-between items-center">
+                                <span>${category.category}</span>
+                                <svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </h3>
+                        </button>
+                        <div class="logic-content hidden mt-4 divide-y divide-white/10">
+                            ${itemsHtml}
+                        </div>
+                    `;
+                    logicGrid.appendChild(accordion);
+                });
+            }
+
+            document.querySelectorAll('.logic-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            const participleGrid = document.getElementById('participle-grid');
+            if (participleGrid) {
+                participleData.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+                    card.innerHTML = `
+                        <h3 class="text-3xl font-bold mb-2 text-sky-blue">${item.title}</h3>
+                        <div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="font-semibold text-slate-300">Example</p>
+                                <button class="toggle-participle-btn text-xs font-semibold text-sky-blue hover:underline" data-index="${index}">Toggle Form</button>
+                            </div>
+                            <p class="font-mono text-white text-base" id="participle-display-${index}">${item.full}</p>
+                        </div>
+                    `;
+                    participleGrid.appendChild(card);
+                });
+            }
+
+            document.querySelectorAll('.toggle-participle-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.index;
+                    const item = participleData[index];
+                    const display = document.getElementById(`participle-display-${index}`);
+                    
+                    const isToggled = display.innerHTML.includes('<br>');
+
+                    if (isToggled) {
+                        display.innerHTML = item.full;
+                        e.target.textContent = 'Toggle Form';
+                    } else {
+                        display.innerHTML = `<strong>Full Clause:</strong> ${item.full}<br><br><strong class="text-sky-blue">Participle Clause:</strong> ${item.participle}`;
+                        e.target.textContent = 'Hide Form';
+                    }
+                });
+            });
+        }
+
+        function setupPracticeArena() {
+            const modeButtons = document.querySelectorAll('.mode-button');
+            const practiceModes = document.querySelectorAll('.practice-mode');
+
+            function setPracticeMode(targetId) {
+                modeButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.target === targetId);
+                });
+                practiceModes.forEach(mode => {
+                    mode.classList.toggle('active', mode.id === targetId);
+                });
+            }
+
+            modeButtons.forEach(button => {
+                button.addEventListener('click', (e) => setPracticeMode(e.target.dataset.target));
+            });
+
+            function createGenericExercise(container, data, title, questionFormatter) {
+                let currentIndex = 0;
+                container.innerHTML = `
+                    <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-sky-blue mb-2">${title}</h3>
+                        <p class="mb-4 text-slate-200">Question <span class="counter">1</span> of ${data.length}</p>
+                        <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                            <p class="question-text italic text-slate-200 text-lg"></p>
+                        </div>
+                        <div class="input-container"></div>
+                        <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button class="check-btn w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                            <button class="next-btn w-full sm:w-auto px-6 py-2 bg-clay-400 text-white font-semibold rounded-lg hover:bg-clay-500 hidden">Next Question &rarr;</button>
+                        </div>
+                        <div class="answer-div mt-6 p-4 rounded-lg hidden"></div>
+                    </div>
+                `;
+
+                const counter = container.querySelector('.counter');
+                const questionText = container.querySelector('.question-text');
+                const inputContainer = container.querySelector('.input-container');
+                const checkBtn = container.querySelector('.check-btn');
+                const answerDiv = container.querySelector('.answer-div');
+                const nextBtn = container.querySelector('.next-btn');
+
+                function loadQuestion(index) {
+                    counter.textContent = index + 1;
+                    questionText.innerHTML = questionFormatter(data[index].q);
+                    
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'input w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-sky-blue';
+                    input.placeholder = 'Type your answer here...';
+                    inputContainer.innerHTML = '';
+                    inputContainer.appendChild(input);
+
+                    answerDiv.classList.add('hidden');
+                    checkBtn.classList.remove('hidden');
+                    nextBtn.classList.add('hidden');
+                }
+
+                checkBtn.addEventListener('click', () => {
+                    const userInput = container.querySelector('.input').value.trim();
+                    const correctAnswers = Array.isArray(data[currentIndex].a) ? data[currentIndex].a : [data[currentIndex].a];
+                    
+                    let isCorrect = correctAnswers.some(ans => userInput.toLowerCase() === ans.toLowerCase() || (ans === "" && userInput === ""));
+
+                    answerDiv.classList.remove('hidden');
+                    if (isCorrect) {
+                        answerDiv.className = 'answer-div mt-6 p-4 rounded-lg bg-green-500/20 border border-green-400';
+                        answerDiv.innerHTML = `<h4 class="font-bold text-lg text-green-300">Correct!</h4>`;
+                    } else {
+                        answerDiv.className = 'answer-div mt-6 p-4 rounded-lg bg-red-500/20 border border-red-400';
+                        answerDiv.innerHTML = `<h4 class="font-bold text-lg text-red-300">Not quite.</h4><p class="solution-text italic mt-2">Correct Answer: ${correctAnswers.join(' / ')}</p>`;
+                    }
+                    checkBtn.classList.add('hidden');
+                    nextBtn.classList.remove('hidden');
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % data.length;
+                    loadQuestion(currentIndex);
+                });
+
+                loadQuestion(currentIndex);
+            }
+
+            function createDragDropExercise(container, data, title) {
+                const shuffledLinks = [...data].map(item => item.correctLink).sort(() => Math.random() - 0.5);
+
+                let sentenceRowsHtml = data.map((item, index) => `
+                    <div class="sentence-row grid grid-cols-1 md:grid-cols-3 gap-2 items-center p-2 rounded-lg" data-correct="${item.correctLink}">
+                        <div class="p-3 bg-black/20 rounded-lg text-right">${item.partA}</div>
+                        <div class="drop-zone h-12 flex items-center justify-center rounded-lg" data-index="${index}"></div>
+                        <div class="p-3 bg-black/20 rounded-lg">${item.partC}</div>
+                    </div>
+                `).join('');
+
+                let draggableLinksHtml = shuffledLinks.map((link, index) => `
+                    <div class="draggable p-2 text-center bg-sky-blue/20 text-sky-blue font-semibold rounded-lg" draggable="true" id="drag-${index}">${link}</div>
+                `).join('');
+
+                container.innerHTML = `
+                    <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-sky-blue mb-2">${title}</h3>
+                        <p class="mb-4 text-slate-200">Drag the time links into the correct sentences.</p>
+                        
+                        <div class="lg:flex lg:gap-8">
+                            <div class="flex-grow space-y-2 mb-6 lg:mb-0">
+                                ${sentenceRowsHtml}
+                            </div>
+                            <div class="w-full lg:w-48 flex-shrink-0">
+                                <h4 class="text-2xl font-bold text-sky-blue/80 mb-3 text-center">Time Links</h4>
+                                <div id="draggable-container" class="space-y-2">
+                                    ${draggableLinksHtml}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <button id="check-dnd-btn" class="px-8 py-3 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answers</button>
+                            <button id="reset-dnd-btn" class="px-8 py-3 bg-clay-400 text-white font-semibold rounded-lg hover:bg-clay-500 ml-4 hidden">Try Again</button>
+                        </div>
+                    </div>
+                `;
+
+                const draggables = container.querySelectorAll('.draggable');
+                const dropZones = container.querySelectorAll('.drop-zone');
+                const checkBtn = container.querySelector('#check-dnd-btn');
+                const resetBtn = container.querySelector('#reset-dnd-btn');
+
+                draggables.forEach(draggable => {
+                    draggable.addEventListener('dragstart', () => {
+                        draggable.classList.add('dragging');
+                    });
+                    draggable.addEventListener('dragend', () => {
+                        draggable.classList.remove('dragging');
+                    });
+                });
+
+                dropZones.forEach(zone => {
+                    zone.addEventListener('dragover', e => {
+                        e.preventDefault();
+                        zone.classList.add('drag-over');
+                    });
+                    zone.addEventListener('dragleave', () => {
+                        zone.classList.remove('drag-over');
+                    });
+                    zone.addEventListener('drop', e => {
+                        e.preventDefault();
+                        zone.classList.remove('drag-over');
+                        const dragging = document.querySelector('.dragging');
+                        if (dragging) {
+                            if (zone.children.length > 0) {
+                                container.querySelector('#draggable-container').appendChild(zone.firstElementChild);
+                            }
+                            zone.appendChild(dragging);
+                        }
+                    });
+                });
+
+                checkBtn.addEventListener('click', () => {
+                    container.querySelectorAll('.sentence-row').forEach(row => {
+                        const dropZone = row.querySelector('.drop-zone');
+                        const droppedItem = dropZone.querySelector('.draggable');
+                        const correct = row.dataset.correct;
+                        
+                        row.classList.remove('feedback-correct', 'feedback-incorrect');
+
+                        if (droppedItem && droppedItem.textContent === correct) {
+                            row.classList.add('feedback-correct');
+                        } else {
+                            row.classList.add('feedback-incorrect');
+                            const correctAnswerSpan = document.createElement('span');
+                            correctAnswerSpan.className = 'text-xs text-green-400 ml-2';
+                            correctAnswerSpan.textContent = `(Correct: ${correct})`;
+                            row.querySelector('.drop-zone').insertAdjacentElement('afterend', correctAnswerSpan)
+                        }
+                    });
+                    checkBtn.classList.add('hidden');
+                    resetBtn.classList.remove('hidden');
+                });
+
+                resetBtn.addEventListener('click', () => {
+                    createDragDropExercise(container, data, title);
+                });
+            }
+
+            function createStoryCompletionExercise(container, data, title) {
+                let storyHtml = data.map((sentence, index) => `
+                    <div class="mb-4">
+                        <label for="story-part-${index}" class="block text-slate-200 italic mb-2">${index + 1}. ${sentence}</label>
+                        <textarea id="story-part-${index}" rows="2" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-sky-blue" placeholder="Complete the sentence..."></textarea>
+                    </div>
+                `).join('');
+
+                container.innerHTML = `
+                    <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-sky-blue mb-2">${title}</h3>
+                        <p class="mb-6 text-slate-300">This is a creative writing exercise. There are no right or wrong answers!</p>
+                        ${storyHtml}
+                    </div>
+                `;
+            }
+            
+            createGenericExercise(document.getElementById('relative-join-exercise'), relativeJoinData, "Join the Sentences", q => q);
+            createGenericExercise(document.getElementById('relative-fill-exercise'), relativeFillData, "Fill in the Gaps", q => q.replace('..........', '<span class="font-bold text-amber-300">__________</span>'));
+            createDragDropExercise(document.getElementById('time-drag-drop-exercise'), timeDragDropData, "Match the Clauses");
+            createStoryCompletionExercise(document.getElementById('time-story-exercise'), timeStoryData, "Complete the Story");
+            createGenericExercise(document.getElementById('other-clauses-exercise'), otherClausesData, "Rewrite the Sentences", q => q);
+            createGenericExercise(document.getElementById('participle-clauses-exercise'), participleClausesData, "Rewrite with a Participle", q => q);
+
+            // Initial view setup
+            setPracticeMode('relative-practice');
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

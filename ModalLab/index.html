@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModalLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'midnight-blue': '#03045E',
+                        'amber-accent': '#FFBF00',
+                        'soft-cream': '#CAF0F8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #03045E; /* midnight-blue */
+            color: #CAF0F8; /* soft-cream */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #FFBF00; /* amber-accent */
+            border-color: #FFBF00; /* amber-accent */
+        }
+        
+        .function-select, .mode-button.active {
+            background-color: #FFBF00;
+            color: #03045E;
+            font-weight: bold;
+        }
+        
+        .function-select {
+             padding: 0.5rem 1rem;
+             border-radius: 0.375rem;
+        }
+
+        .practice-mode { display: none; }
+        .practice-mode.active { display: block; }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <!-- Header and Navigation -->
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-amber-accent">ModalLab 🧪</h1>
+            <p class="mt-2 text-lg text-slate-200">
+                Your guide to the nuances of English modal verbs.
+            </p>
+             <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#modal-explorer" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Modal Explorer</a></li>
+                    <li><a href="#function-finder" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Function Finder</a></li>
+                    <li><a href="#watch-out" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Watch Out!</a></li>
+                    <li><a href="#practice-arena" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Practice Arena</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Modal Explorer -->
+            <section id="modal-explorer" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-amber-accent">Modal Explorer</h2>
+                <p class="mb-6 text-slate-200">Select a modal verb to see its different functions and examples.</p>
+                <div id="modals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Modal cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- View: Function Finder -->
+            <section id="function-finder" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-amber-accent">Function Finder</h2>
+                <p class="mb-6 text-slate-200">What do you want to express? Select a function to see all the ways you can say it.</p>
+                <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <label for="function-select" class="block mb-2 font-semibold text-amber-accent">Select a Function:</label>
+                    <select id="function-select" class="function-select w-full md:w-1/2 lg:w-1/3">
+                        <!-- Options will be injected here -->
+                    </select>
+                    <div id="function-results" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Results will be injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Watch Out! -->
+            <section id="watch-out" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-amber-accent">Watch Out!</h2>
+                <p class="mb-6 text-slate-200">Pay close attention to the subtle differences between these tricky modal pairs.</p>
+                <div id="watch-out-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Nuance cards will be injected here -->
+                </div>
+            </section>
+            
+            <!-- View: Practice Arena -->
+            <section id="practice-arena" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-amber-accent">Practice Arena</h2>
+                 <div class="mb-6 flex flex-wrap gap-2 border-b border-white/20 pb-4">
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-amber-accent hover:text-midnight-blue" data-target="rephrase-sentence-mode">Rephrase the Sentence</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-amber-accent hover:text-midnight-blue" data-target="rephrase-phrase-mode">Replace</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-amber-accent hover:text-midnight-blue" data-target="in-other-words-mode">In Other Words</button>
+                </div>
+
+                <!-- Practice Mode 1: Rephrase Sentence -->
+                <div id="rephrase-sentence-mode" class="practice-mode"></div>
+
+                <!-- Practice Mode 2: Rephrase Phrase -->
+                <div id="rephrase-phrase-mode" class="practice-mode"></div>
+
+                <!-- Practice Mode 3: In Other Words -->
+                <div id="in-other-words-mode" class="practice-mode"></div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DATA from notes ---
+        const modalData = [
+            { modal: 'CAN', functions: [ { name: 'Ability', equivalent: 'be able to, be capable of, know how to', example: 'He can speak German very well but he can\'t write it very well.' }, { name: 'Permission', equivalent: 'be allowed to, be permitted to', example: 'Can I smoke in here?' }, { name: 'Possibility', equivalent: '', example: 'Anybody can make mistakes.' }, { name: 'Request', equivalent: '', example: 'Can you do me a favour?' } ] },
+            { modal: 'COULD', functions: [ { name: 'Past Ability', equivalent: '', example: 'I could never play basketball very well.' }, { name: 'Present/Future Permission', equivalent: '', example: 'Could I smoke?' }, { name: 'Present/Future Possibility', equivalent: '', example: 'We could go to the cinema.' }, { name: 'Polite Request', equivalent: '', example: 'Could you open the window, please?' } ] },
+            { modal: 'CAN’T', functions: [ { name: 'Impossibility / Deduction', equivalent: '', example: 'It can\'t be a mistake. / He can’t have left yet.' } ] },
+            { modal: 'MAY / MIGHT', functions: [ { name: 'Permission (formal)', equivalent: '', example: 'You may borrow my book if you need it.' }, { name: 'Request', equivalent: '', example: 'May I have a glass of water, please?' }, { name: 'Possibility', equivalent: '', example: 'He may come. / He might join us later.' }, { name: 'Speculating (Present)', equivalent: 'may/might be ...ing', example: 'They may be listening right now.' }, { name: 'Speculating (Past)', equivalent: 'may/might have + pp', example: 'She may have forgotten all about it.' } ] },
+            { modal: 'SHOULD', functions: [ { name: 'Obligation', equivalent: 'ought to', example: 'You should do as I tell you.' }, { name: 'Advice', equivalent: '', example: 'You should see a doctor.' }, { name: 'Probability', equivalent: '', example: 'They should be at school by now.' }, { name: 'Criticism (Past)', equivalent: 'should have + pp', example: 'You shouldn\'t have drunk so much.' } ] },
+            { modal: 'SHALL', functions: [ { name: 'Suggestion', equivalent: '', example: 'Shall we go to the cinema?' }, { name: 'Offer', equivalent: '', example: 'Shall I clean the table?' } ] },
+            { modal: 'MUST', functions: [ { name: 'General Necessity / Strong Advice', equivalent: '', example: 'You must study harder.' }, { name: 'Obligation', equivalent: '', example: 'You must lock the door when you leave.' }, { name: 'Prohibition', equivalent: '', example: 'You mustn\'t do that thing again.' }, { name: 'Deduction (Present)', equivalent: 'negative: can\'t', example: 'She must be our new teacher.' }, { name: 'Deduction (Past)', equivalent: 'must have + pp', example: 'He must have come while I was out.' } ] },
+            { modal: 'WILL / WOULD', functions: [ { name: 'Request', equivalent: '', example: 'Will you give me a hand with this?' }, { name: 'Polite Request', equivalent: '', example: 'Would you help me finish this exercise?' }, { name: 'Offer', equivalent: '', example: 'Would you like another cup of tea?' }, { name: 'Promise / Threat', equivalent: '', example: 'I\'ll phone you as soon as I can.' } ] },
+            { modal: 'NEED', functions: [ { name: 'Necessity', equivalent: '', example: 'I need to clean the windows.' }, { name: 'Lack of Necessity (Present/Future)', equivalent: 'don\'t need to', example: 'You needn\'t take your umbrella.' }, { name: 'Lack of Necessity (Past - but you did it)', equivalent: 'needn\'t have + pp', example: 'You needn\'t have taken your umbrella.' }, { name: 'Lack of Necessity (Past - so you didn\'t)', equivalent: 'didn\'t need to', example: 'I didn\'t need to take my umbrella, so I didn\'t.' } ] },
+            { modal: 'OUGHT TO', functions: [ { name: 'Obligation', equivalent: '', example: 'You ought to do as I tell you.' }, { name: 'Advice', equivalent: '', example: 'You ought to see a doctor about it.' }, { name: 'Probability / Expectation', equivalent: '', example: 'They ought to be home by now.' }, { name: 'Criticism (Past)', equivalent: 'ought to have + pp', example: 'He ought to have listened to my advice.' } ] }
+        ];
+
+        const functionData = {
+            'Ability': { present: [{v: 'can', ex: 'He can run very fast.'}], past: [{v: 'could', ex: 'She could swim when she was five.'}], related: [{v: 'be able to', ex: 'I am able to help you now.'}, {v: 'be capable of', ex: 'Our team is capable of winning.'}] },
+            'Advice': { present: [{v: 'should', ex: 'You should get more sleep.'}, {v: 'ought to', ex: 'You ought to apologize.'}], past: [], related: [{v: 'had better', ex: 'You had better leave now before the traffic gets bad.'}] },
+            'Conclusions (Deductions)': { present: [{v: 'must', ex: 'The lights are on, so they must be home.'}, {v: 'can’t', ex: 'That can’t be true!'}, {v: 'couldn’t', ex: 'He couldn’t be the thief.'}], past: [{v: 'must have', ex: 'The ground is wet; it must have rained.'}, {v: 'can’t have', ex: 'She can’t have finished already!'}, {v: 'couldn’t have', ex: 'He couldn’t have known about the surprise.'}], related: [] },
+            'Criticism': { present: [], past: [{v: 'should have', ex: 'You should have told me sooner.'}, {v: 'could have', ex: 'You could have been more careful.'}, {v: 'ought to have', ex: 'They ought to have invited him.'}], related: [] },
+            'Duty': { present: [{v: 'must', ex: 'Soldiers must obey orders.'}, {v: 'ought to', ex: 'We ought to respect our elders.'}], past: [{v: 'had to', ex: 'I had to report for duty at 6 AM.'}, {v: 'ought to have', ex: 'He ought to have completed his duties.'}], related: [] },
+            'Necessity': { present: [{v: 'must', ex: 'Plants must have light to grow.'}, {v: 'need + to be -ed', ex: 'The car needs to be washed.'}, {v: 'ought to', ex: 'You ought to wear a helmet.'}], past: [{v: 'needed + to be -ed', ex: 'The report needed to be finished by Friday.'}], related: [{v: 'have to', ex: 'I have to work tomorrow.'}, {v: 'have got to', ex: 'We have got to hurry.'}] },
+            'Lack of Necessity': { present: [{v: 'don’t need to', ex: 'You don’t need to pay now.'}, {v: 'needn’t', ex: 'You needn’t worry.'}, {v: 'don’t have to', ex: 'We don’t have to wear a uniform.'}], past: [{v: 'needn’t have (but you did it)', ex: 'You needn’t have bought milk; we have plenty.'}, {v: 'didn’t need to (and you didn’t do it)', ex: 'I didn’t need to go, so I stayed home.'}], related: [] },
+            'Obligation': { present: [{v: 'must', ex: 'You must submit the report by 5 PM.'}, {v: 'ought to', ex: 'You ought to inform them of the changes.'}], past: [{v: 'ought to have', ex: 'She ought to have finished it yesterday.'}], related: [{v: 'have to', ex: 'I have to be at the meeting.'}, {v: 'had to', ex: 'She had to leave early.'}] },
+            'Offers': { present: [{v: 'can', ex: 'Can I help you with that?'}, {v: 'shall', ex: 'Shall I carry your bag?'}, {v: 'would you like', ex: 'Would you like some tea?'}], past: [], related: [{v: 'would you like me to', ex: 'Would you like me to open the window?'}] },
+            'Permission (Asking)': { present: [{v: 'can', ex: 'Can I use your phone?'}, {v: 'could', ex: 'Could I ask a question?'}, {v: 'may', ex: 'May I be excused?'}, {v: 'might (formal)', ex: 'Might I make a suggestion?'}], past: [{v: 'couldn’t', ex: 'We couldn’t enter the restricted area.'}], related: [{v: 'be allowed to', ex: 'Are we allowed to take photos?'}] },
+            'Permission (Refusing)': { present: [{v: 'can’t', ex: 'No, you can’t go out tonight.'}, {v: 'mustn’t', ex: 'You mustn’t touch that.'}, {v: 'may not', ex: 'You may not enter without a pass.'}], past: [], related: [] },
+            'Possibility (Speculation)': { present: [{v: 'can', ex: 'Driving in the fog can be dangerous.'}, {v: 'could', ex: 'This could be our only chance.'}, {v: 'may', ex: 'He may arrive late.'}, {v: 'might', ex: 'It might rain later.'}], past: [{v: 'could have', ex: 'He could have been delayed in traffic.'}, {v: 'may have', ex: 'She may have missed her flight.'}, {v: 'might have', ex: 'They might have forgotten.'}], related: [{v: 'be likely to', ex: 'The team is likely to win.'}] },
+            'Probability / Certainty': { present: [{v: 'will (certain)', ex: 'That will be the postman at the door.'}, {v: 'should (almost certain)', ex: 'She should be home by now.'}, {v: 'ought to (almost certain)', ex: 'The package ought to arrive tomorrow.'}], past: [{v: 'should have', ex: 'He should have received the letter by now.'}, {v: 'ought to have', ex: 'They ought to have finished the project.'}], related: [{v: 'be bound to', ex: 'It’s bound to be a great success.'}] },
+            'Prohibition': { present: [{v: 'can’t', ex: 'You can’t park here.'}, {v: 'mustn’t', ex: 'You mustn’t cheat on the exam.'}, {v: 'may not', ex: 'Visitors may not feed the animals.'}], past: [{v: 'couldn’t', ex: 'In those days, you couldn’t vote under 21.'}], related: [] },
+            'Requests': { present: [{v: 'Will you (very friendly)', ex: 'Will you pass the salt?'}, {v: 'can (informal)', ex: 'Can you help me?'}, {v: 'would you mind (polite)', ex: 'Would you mind closing the door?'}, {v: 'could', ex: 'Could you repeat that?'}, {v: 'may', ex: 'May I have your attention?'}, {v: 'might (very formal)', ex: 'Might I trouble you for a moment?'}], past: [], related: [] },
+            'Suggestions': { present: [{v: 'Shall', ex: 'Shall we begin?'}, {v: 'can', ex: 'We can try a different approach.'}, {v: 'could', ex: 'We could watch a movie tonight.'}], past: [], related: [{v: 'Let’s', ex: 'Let’s go to the beach.'}, {v: 'How about', ex: 'How about getting a pizza?'}, {v: 'Why don’t we', ex: 'Why don’t we ask for directions?'}, {v: 'What about', ex: 'What about visiting the museum?'}] }
+        };
+
+        // --- NAVIGATION / VIEW MANAGEMENT ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const views = document.querySelectorAll('.view');
+
+        function updateView(hash) {
+            hash = hash || '#modal-explorer';
+            navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+            views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = e.target.getAttribute('href');
+            });
+        });
+        
+        window.addEventListener('hashchange', () => updateView(window.location.hash));
+        
+        // --- MODAL EXPLORER LOGIC ---
+        const modalsGrid = document.getElementById('modals-grid');
+        modalData.forEach(modal => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            let functionsHtml = modal.functions.map(func => `<div class="mb-4"><p class="font-semibold text-amber-accent/80">${func.name}</p>${func.equivalent ? `<p class="text-xs text-slate-400 italic">(${func.equivalent})</p>` : ''}<p class="font-mono text-soft-cream mt-1">"${func.example}"</p></div>`).join('');
+            card.innerHTML = `<h3 class="text-4xl font-bold mb-4 text-amber-accent">${modal.modal}</h3><div class="mt-auto bg-black/20 p-4 rounded-lg">${functionsHtml}</div>`;
+            modalsGrid.appendChild(card);
+        });
+
+        // --- FUNCTION FINDER LOGIC ---
+        const functionSelect = document.getElementById('function-select');
+        const functionResults = document.getElementById('function-results');
+        
+        Object.keys(functionData).forEach(funcName => {
+            const option = document.createElement('option');
+            option.value = funcName;
+            option.textContent = funcName;
+            functionSelect.appendChild(option);
+        });
+
+        function displayFunctionResults(funcName) {
+            const data = functionData[funcName];
+            functionResults.innerHTML = '';
+
+            const createList = (items) => items.map(item => `<li class="font-mono text-soft-cream mb-2"><strong class="text-amber-accent">${item.v}:</strong> "${item.ex}"</li>`).join('');
+
+            let presentHtml = (data.present && data.present.length > 0) ? createList(data.present) : '';
+            let pastHtml = (data.past && data.past.length > 0) ? createList(data.past) : '';
+            let relatedHtml = (data.related && data.related.length > 0) ? createList(data.related) : '';
+            
+            functionResults.innerHTML = `
+                <div class="bg-black/20 p-4 rounded-lg">
+                    <h3 class="text-2xl font-bold text-amber-accent mb-2">Present / Future</h3>
+                    ${presentHtml ? `<ul class="space-y-2">${presentHtml}</ul>` : '<p class="text-slate-400">N/A</p>'}
+                </div>
+                <div class="bg-black/20 p-4 rounded-lg">
+                    <h3 class="text-2xl font-bold text-amber-accent mb-2">Past</h3>
+                    ${pastHtml ? `<ul class="space-y-2">${pastHtml}</ul>` : '<p class="text-slate-400">N/A</p>'}
+                </div>
+                ${relatedHtml ? `<div class="bg-black/20 p-4 rounded-lg md:col-span-2"><h3 class="text-2xl font-bold text-amber-accent mb-2">Related Expressions</h3><ul class="space-y-2">${relatedHtml}</ul></div>` : ''}
+            `;
+        }
+
+        functionSelect.addEventListener('change', (e) => {
+            displayFunctionResults(e.target.value);
+        });
+        
+        // --- WATCH OUT! (NUANCE NOOK) LOGIC ---
+        const watchOutGrid = document.getElementById('watch-out-grid');
+        const nuanceData = [
+            {
+                title: 'must vs. have to',
+                explanation: '“must” shows obligation that the speaker imposes on themselves. “have to” shows obligation imposed by external factors (rules, other people).',
+                card1_title: 'must (Internal Obligation)',
+                card1_example: 'I must get home before dark. (I’m afraid to walk alone in the dark.)',
+                card2_title: 'have to (External Obligation)',
+                card2_example: 'I have to get home before dark. (Otherwise my father will get mad at me.)'
+            },
+            {
+                title: 'needn\'t have vs. didn\'t need to',
+                explanation: 'Both refer to a lack of necessity in the past, but with a crucial difference in outcome.',
+                card1_title: 'needn\'t have + past participle',
+                card1_example: 'You needn\'t have taken your umbrella. (You took it, but it was not necessary.)',
+                card2_title: 'didn\'t need to + base verb',
+                card2_example: 'I didn\'t need to take my umbrella. (I didn\'t take it, because it was not necessary.)'
+            }
+        ];
+
+        nuanceData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg md:col-span-2';
+            card.innerHTML = `
+                <h3 class="text-3xl font-bold mb-2 text-amber-accent">${item.title}</h3>
+                <p class="text-slate-200 mb-4">${item.explanation}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-black/20 p-4 rounded-lg">
+                        <h4 class="font-semibold text-amber-accent/80">${item.card1_title}</h4>
+                        <p class="font-mono text-soft-cream mt-1">"${item.card1_example}"</p>
+                    </div>
+                    <div class="bg-black/20 p-4 rounded-lg">
+                        <h4 class="font-semibold text-amber-accent/80">${item.card2_title}</h4>
+                        <p class="font-mono text-soft-cream mt-1">"${item.card2_example}"</p>
+                    </div>
+                </div>
+            `;
+            watchOutGrid.appendChild(card);
+        });
+
+        // --- PRACTICE ARENA LOGIC ---
+        const modeButtons = document.querySelectorAll('.mode-button');
+        const practiceModes = document.querySelectorAll('.practice-mode');
+
+        function setPracticeMode(targetId) {
+            modeButtons.forEach(button => {
+                button.classList.toggle('active', button.dataset.target === targetId);
+            });
+            practiceModes.forEach(mode => {
+                mode.classList.toggle('active', mode.id === targetId);
+            });
+        }
+
+        modeButtons.forEach(button => {
+            button.addEventListener('click', (e) => setPracticeMode(e.target.dataset.target));
+        });
+
+        const rephraseSentenceModeContainer = document.getElementById('rephrase-sentence-mode');
+        const rephrasePhraseModeContainer = document.getElementById('rephrase-phrase-mode');
+        const inOtherWordsModeContainer = document.getElementById('in-other-words-mode');
+
+        const rephraseSentenceData = [
+            { q: "Perhaps Susan speaks Spanish.", a: "Susan may/might/could speak Spanish." },
+            { q: "John is likely to be at home.", a: "John should be at home." },
+            { q: "They are possibly watching television.", a: "They may/might/could be watching television." },
+            { q: "He’s bound to have some money.", a: "He must have some money." },
+            { q: "I don’t think they were home last night.", a: "They can't/couldn't have been home last night." },
+            { q: "You don’t have to do all the exercises.", a: "You needn't do all the exercises." },
+            { q: "I think Professor Martin is teaching at the moment.", a: "Professor Martin must be teaching at the moment." },
+            { q: "Jane is definitely in the pub.", a: "Jane must be in the pub." },
+            { q: "How about visiting the Tower of London?", a: "Shall we visit the Tower of London?" },
+            { q: "The law says that parking here is illegal.", a: "You mustn't/can't park here." },
+            { q: "I cannot allow you to leave, I’m afraid.", a: "You may not/mustn't leave." },
+            { q: "I would be grateful if you could help me with this exercise.", a: "Would/Could you help me with this exercise?" },
+            { q: "He is very tired. Why doesn't he take the day off?", a: "He should/ought to take the day off." },
+            { q: "Could I offer you some tea?", a: "Would you like some tea?" },
+            { q: "I don’t think it was necessary to be so rude to him.", a: "You needn't have been so rude to him." },
+            { q: "It is my duty to look after my son.", a: "I must/ought to look after my son." },
+            { q: "I don’t think I’m able to swim that far.", a: "I can't swim that far." },
+            { q: "Excuse me Sir! Would you mind if I borrowed your newspaper for a second?", a: "May/Might I borrow your newspaper for a second?" },
+            { q: "I don’t believe Paul has cheated in the exam. It’s impossible!", a: "Paul can't/couldn't have cheated in the exam." },
+            { q: "We wanted to go in the castle but the sign said we were not allowed to.", a: "We couldn't go in the castle." },
+            { q: "Why don’t we go somewhere else?", a: "Shall we go somewhere else?" },
+            { q: "I’m glad it wasn't necessary to study this chapter because I hadn’t.", a: "I'm glad I didn't need to study this chapter." },
+            { q: "Do you want me to help you?", a: "Shall I help you?" },
+            { q: "Is it possible that he’s left without paying the bill?", a: "Could/May/Might he have left without paying the bill?" },
+            { q: "I really don’t have to do such an exercise again, do I?", a: "I needn't do such an exercise again, need I?" }
+        ];
+
+        const rephrasePhraseData = [
+            { q: "Mary <i>is capable of</i> running very fast.", a: "Mary can run very fast." },
+            { q: "I <i>was never able to</i> understand a word she said.", a: "I could never understand a word she said." },
+            { q: "No one <i>was able to</i> find the answer.", a: "No one could find the answer." },
+            { q: "It <i>is just possible that</i> what you say is true.", a: "What you say could/may/might be true." },
+            { q: "I <i>suggest you</i> see a doctor about it.", a: "You should/ought to see a doctor about it." },
+            { q: "I <i>advise you to</i> buy this book.", a: "You should/ought to buy this book." },
+            { q: "It <i>is obligatory for us</i> to read it.", a: "We must/have to read it." },
+            { q: "You <i>are prohibited from</i> smoking here.", a: "You mustn't/can't smoke here." },
+            { q: "Yes, I'm <i>quite sure that</i> it is the one.", a: "Yes, it must be the one." },
+            { q: "<i>Is it advisable for us</i> to stay here?", a: "Should we stay here?" },
+            { q: "It <i>is not compulsory for us</i> to be there.", a: "We don't have to/don't need to/needn't be there." },
+            { q: "That, <i>presumably</i>, is the house we're looking for.", a: "That should/ought to be the house we're looking for." }
+        ];
+
+        const inOtherWordsData = [
+            { q: "<i>Can</i> I borrow your book, please?", o: ["Could", "Shall", "Must"], a: "Could" },
+            { q: "I <i>may</i> come home late tonight.", o: ["Might", "Shall", "Should"], a: "Might" },
+            { q: "I <i>could</i> never play the violin properly.", o: ["was able to", "can", "should"], a: "was able to" },
+            { q: "We <i>might</i> go to the concert if there's time.", o: ["may", "shall", "must"], a: "may" },
+            { q: "We <i>shall</i> let you know our decision in a couple of weeks.", o: ["will", "should", "can"], a: "will" },
+            { q: "<i>Shall</i> I come with you?", o: ["Will", "Should", "None"], a: "Should" },
+            { q: "<i>Will</i> you have a drink?", o: ["Would", "Can", "None"], a: "Would" },
+            { q: "<i>Would</i> you mind shutting the window?", o: ["Could", "Will", "None"], a: "Could" },
+            { q: "You <i>should</i> do as he says.", o: ["ought to", "must", "can"], a: "ought to" },
+            { q: "If there were a fire, I know what I <i>should</i> do, but I'm not sure what I would do.", o: ["ought to", "will", "None"], a: "ought to" },
+            { q: "You <i>ought</i> to see him play.", o: ["should", "must", "can"], a: "should" },
+            { q: "There <i>may have been</i> a misunderstanding.", o: ["might have been", "should have been", "None"], a: "might have been" },
+            { q: "You <i>must</i> be more careful.", o: ["have to", "should", "None"], a: "have to" },
+            { q: "<i>Would</i> you like some tea?", o: ["Will", "Can", "None"], a: "None" },
+            { q: "You <i>ought to</i> be more careful with your work.", o: ["should", "must", "can"], a: "should" }
+        ];
+
+        function createRewriteExercise(container, data, title) {
+            let currentIndex = 0;
+            container.innerHTML = `
+                <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 class="text-3xl font-bold text-amber-accent mb-2">${title}</h3>
+                    <p class="mb-4 text-slate-200">Question <span class="counter">1</span> of ${data.length}</p>
+                    <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                        <p class="question-text italic text-slate-200 text-lg"></p>
+                    </div>
+                    <textarea rows="2" class="input w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-amber-accent" placeholder="Type your answer here..."></textarea>
+                    <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button class="check-btn w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                        <button class="next-btn w-full sm:w-auto px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600">Next Question &rarr;</button>
+                    </div>
+                    <div class="answer-div mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                        <h4 class="font-bold text-lg text-green-300">Suggested Answer:</h4>
+                        <p class="solution-text italic mt-2"></p>
+                    </div>
+                </div>
+            `;
+
+            const counter = container.querySelector('.counter');
+            const questionText = container.querySelector('.question-text');
+            const input = container.querySelector('.input');
+            const checkBtn = container.querySelector('.check-btn');
+            const answerDiv = container.querySelector('.answer-div');
+            const solutionText = container.querySelector('.solution-text');
+            const nextBtn = container.querySelector('.next-btn');
+
+            function loadQuestion(index) {
+                counter.textContent = index + 1;
+                questionText.innerHTML = data[index].q;
+                solutionText.textContent = data[index].a;
+                input.value = '';
+                answerDiv.classList.add('hidden');
+            }
+
+            checkBtn.addEventListener('click', () => answerDiv.classList.remove('hidden'));
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % data.length;
+                loadQuestion(currentIndex);
+            });
+
+            loadQuestion(currentIndex);
+        }
+
+        function createQuizExercise(container, data, title) {
+            let currentIndex = 0;
+            container.innerHTML = `
+                 <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 class="text-3xl font-bold text-amber-accent mb-2">${title}</h3>
+                    <p class="mb-4 text-slate-200">Question <span class="counter">1</span> of ${data.length}</p>
+                    <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                        <p class="question-text italic text-slate-200 text-lg"></p>
+                    </div>
+                    <div class="options-div space-y-3"></div>
+                    <div class="feedback-div mt-4 text-lg"></div>
+                    <button class="next-btn mt-6 w-full sm:w-auto px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600" disabled>Next Question &rarr;</button>
+                </div>
+            `;
+            const counter = container.querySelector('.counter');
+            const questionText = container.querySelector('.question-text');
+            const optionsDiv = container.querySelector('.options-div');
+            const feedbackDiv = container.querySelector('.feedback-div');
+            const nextBtn = container.querySelector('.next-btn');
+
+            function loadQuestion(index) {
+                counter.textContent = index + 1;
+                feedbackDiv.innerHTML = '';
+                nextBtn.disabled = true;
+                const q = data[index];
+                questionText.innerHTML = q.q;
+                optionsDiv.innerHTML = '';
+                q.o.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.className = 'block w-full text-left p-3 border border-white/30 rounded-lg hover:bg-white/20';
+                    button.onclick = () => checkAnswer(option, q.a, button);
+                    optionsDiv.appendChild(button);
+                });
+            }
+
+            function checkAnswer(selected, correct, button) {
+                const buttons = optionsDiv.querySelectorAll('button');
+                buttons.forEach(btn => btn.disabled = true);
+                nextBtn.disabled = false;
+
+                if (selected === correct) {
+                    button.classList.add('bg-green-500/50', 'border-green-400');
+                    feedbackDiv.innerHTML = `<p class="text-green-300 font-semibold">Correct!</p>`;
+                } else {
+                    button.classList.add('bg-red-500/50', 'border-red-400');
+                    feedbackDiv.innerHTML = `<p class="text-red-300 font-semibold">Not quite. The answer is "${correct}".</p>`;
+                    buttons.forEach(btn => {
+                        if (btn.textContent === correct) btn.classList.add('bg-green-500/50', 'border-green-400');
+                    });
+                }
+            }
+            
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % data.length;
+                loadQuestion(currentIndex);
+            });
+
+            loadQuestion(currentIndex);
+        }
+
+        createRewriteExercise(rephraseSentenceModeContainer, rephraseSentenceData, "Rephrase the Sentence");
+        createRewriteExercise(rephrasePhraseModeContainer, rephrasePhraseData, "Replace");
+        createQuizExercise(inOtherWordsModeContainer, inOtherWordsData, "In Other Words");
+        
+        // Initial setup for Practice Arena
+        setPracticeMode('rephrase-sentence-mode');
+
+        // Initial view setup
+        displayFunctionResults(functionSelect.value);
+        updateView(window.location.hash);
+    });
+    </script>
+</body>
+</html>

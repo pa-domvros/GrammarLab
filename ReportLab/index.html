@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReportedSpeechLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'forest-green': '#1A4314',
+                        'mint-accent': '#A2E3C4',
+                        'soft-white': '#F0FFF0',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #1A4314; /* forest-green */
+            color: #F0FFF0; /* soft-white */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #A2E3C4; /* mint-accent */
+            border-color: #A2E3C4; /* mint-accent */
+        }
+        
+        .practice-mode { display: none; }
+        .practice-mode.active { display: block; }
+
+        .mode-button.active {
+            background-color: #A2E3C4;
+            color: #1A4314;
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <!-- Header and Navigation -->
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-mint-accent">ReportedSpeechLab 🗣️</h1>
+            <p class="mt-2 text-lg text-slate-200">
+                Your complete guide to mastering reported speech.
+            </p>
+             <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#core-mechanics" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Core Mechanics</a></li>
+                    <li><a href="#reporting-functions" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Reporting Functions</a></li>
+                    <li><a href="#verb-library" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Verb Library</a></li>
+                    <li><a href="#practice-arena" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Practice Arena</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: The Core Mechanics -->
+            <section id="core-mechanics" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-mint-accent">The Core Mechanics</h2>
+                <p class="mb-6 text-slate-200">These are the foundational rules that apply to most forms of reported speech. Master these before moving on.</p>
+                
+                <div id="mechanics-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Mechanic cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- View: Reporting Functions -->
+            <section id="reporting-functions" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-mint-accent">Reporting Functions</h2>
+                <p class="mb-6 text-slate-200">The structure of a reported sentence changes depending on whether you are reporting a statement, a question, or a command.</p>
+                <div id="functions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Function cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- View: The Verb Library -->
+            <section id="verb-library" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-mint-accent">The Art of Reporting: Verb Library</h2>
+                <p class="mb-6 text-slate-200">Move beyond "said" and "told". Discover a world of descriptive reporting verbs and the grammatical patterns they follow.</p>
+                <div id="verb-library-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Verb library cards will be injected here -->
+                </div>
+            </section>
+            
+            <!-- View: Practice Arena -->
+            <section id="practice-arena" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-mint-accent">Practice Arena</h2>
+                <div class="mb-6 flex flex-wrap gap-2 border-b border-white/20 pb-4">
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-mint-accent hover:text-forest-green" data-target="quiz-mode">Consolidation Quiz</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-mint-accent hover:text-forest-green" data-target="rewrite-mode">Rewrite Challenge</button>
+                </div>
+
+                <!-- Practice Mode: Quiz -->
+                <div id="quiz-mode" class="practice-mode">
+                    <div id="quiz-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <div id="quiz-content">
+                            <p id="quiz-question" class="text-lg font-semibold mb-4"></p>
+                            <div id="quiz-options" class="space-y-3"></div>
+                        </div>
+                        <div id="quiz-feedback" class="mt-4 text-lg"></div>
+                        <button id="quiz-next-btn" class="mt-6 w-full sm:w-auto px-6 py-2 bg-mint-accent text-forest-green font-semibold rounded-lg hover:bg-green-200 disabled:bg-slate-400 disabled:cursor-not-allowed">Next Question</button>
+                    </div>
+                </div>
+
+                <!-- Practice Mode: Rewrite Challenge -->
+                <div id="rewrite-mode" class="practice-mode">
+                     <div id="challenge-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 id="challenge-title" class="text-3xl font-bold text-mint-accent mb-2"></h3>
+                        <p class="mb-4 text-slate-200">Rewrite the direct speech using the given reporting verb. Apply all necessary shifts.</p>
+                        <div class="p-4 bg-black/20 rounded-md mb-2 border border-white/20">
+                            <p class="italic text-slate-300">"<span id="challenge-text"></span>"</p>
+                        </div>
+                         <p class="mb-4 text-sm">Use the verb: <span id="challenge-verb" class="font-bold text-mint-accent"></span></p>
+                        <textarea id="rewrite-input" rows="3" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-mint-accent focus:border-mint-accent" placeholder="Rewrite the sentence here..."></textarea>
+                        <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button id="rewrite-check-btn" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                            <button id="rewrite-next-btn" class="w-full sm:w-auto px-6 py-2 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600">Next Challenge &rarr;</button>
+                        </div>
+                        <div id="rewrite-answer" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                            <h4 class="font-bold text-lg text-green-300">Suggested Answer:</h4>
+                            <p id="rewrite-solution" class="italic mt-2"></p>
+                            <p class="mt-4 text-sm text-green-200"><strong class="font-semibold">Explanation:</strong> <span id="rewrite-explanation"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- NAVIGATION / VIEW MANAGEMENT ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const views = document.querySelectorAll('.view');
+
+        function updateView(hash) {
+            hash = hash || '#core-mechanics';
+            
+            navLinks.forEach(link => {
+                const linkHash = link.getAttribute('href');
+                if (linkHash === hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            views.forEach(view => {
+                if ('#' + view.id === hash) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const hash = e.target.getAttribute('href');
+                window.location.hash = hash;
+            });
+        });
+        
+        window.addEventListener('hashchange', () => updateView(window.location.hash));
+        updateView(window.location.hash);
+
+        // --- CORE MECHANICS LOGIC ---
+        const mechanicsData = [
+            { id: 'tense', title: 'Tense Backshift', direct: '"I am happy."', reported: 'She said that she was happy.', explanation: 'The tense of the verb in direct speech usually moves one step back into the past when reported.', boostContent: `<h4 class="text-2xl font-bold mb-4 text-mint-accent">Tense & Modal Shift Reference</h4><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b border-mint-accent/50"><th class="p-2">Direct Speech</th><th class="p-2">Reported Speech</th></tr></thead><tbody class="divide-y divide-white/10"><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">work</span>." (Present Simple)</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">worked</span>. (Past Simple)</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">am working</span>." (Present Continuous)</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">was working</span>. (Past Continuous)</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">have worked</span>." (Present Perfect)</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">had worked</span>. (Past Perfect)</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">worked</span>." (Past Simple)</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">had worked</span>. (Past Perfect)</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">was working</span>." (Past Continuous)</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">had been working</span>. (Past Perfect Continuous)</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">had worked</span>." (Past Perfect)</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">had worked</span>. (No Change)</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">will work</span>."</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">would work</span>.</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">can work</span>."</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">could work</span>.</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">may work</span>."</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">might work</span>.</td></tr><tr><td class="p-2 font-mono">"I <span class="text-mint-accent">must work</span>."</td><td class="p-2 font-mono">He said he <span class="text-mint-accent">had to work</span>.</td></tr></tbody></table></div>` },
+            { id: 'pronoun', title: 'Pronoun Shifts', direct: '"I will call you."', reported: 'He said that he would call me.', explanation: 'Pronouns change to reflect the perspective of the person reporting the speech.', boostContent: `<h4 class="text-2xl font-bold mb-4 text-mint-accent">Pronoun Shift Reference</h4><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b border-mint-accent/50"><th class="p-2">Direct Speech</th><th class="p-2">Reported Speech</th></tr></thead><tbody class="divide-y divide-white/10"><tr><td class="p-2 font-mono"><span class="text-mint-accent">I</span></td><td class="p-2 font-mono"><span class="text-mint-accent">he / she</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">me</span></td><td class="p-2 font-mono"><span class="text-mint-accent">him / her</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">my</span></td><td class="p-2 font-mono"><span class="text-mint-accent">his / her</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">we</span></td><td class="p-2 font-mono"><span class="text-mint-accent">they</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">us</span></td><td class="p-2 font-mono"><span class="text-mint-accent">them</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">our</span></td><td class="p-2 font-mono"><span class="text-mint-accent">their</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">you (subject)</span></td><td class="p-2 font-mono"><span class="text-mint-accent">I / he / she / we / they</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">you (object)</span></td><td class="p-2 font-mono"><span class="text-mint-accent">me / him / her / us / them</span></td></tr></tbody></table></div>` },
+            { id: 'time-place', title: 'Time & Place Shifts', direct: '"We will meet here tomorrow."', reported: 'They said they would meet there the next day.', explanation: 'Words indicating time and place also shift back.', boostContent: `<h4 class="text-2xl font-bold mb-4 text-mint-accent">Time & Place Shift Reference</h4><div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="border-b border-mint-accent/50"><th class="p-2">Direct Speech</th><th class="p-2">Reported Speech</th></tr></thead><tbody class="divide-y divide-white/10"><tr><td class="p-2 font-mono"><span class="text-mint-accent">now</span></td><td class="p-2 font-mono"><span class="text-mint-accent">then / at that time</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">today</span></td><td class="p-2 font-mono"><span class="text-mint-accent">that day</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">tonight</span></td><td class="p-2 font-mono"><span class="text-mint-accent">that night</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">yesterday</span></td><td class="p-2 font-mono"><span class="text-mint-accent">the day before / the previous day</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">tomorrow</span></td><td class="p-2 font-mono"><span class="text-mint-accent">the next day / the following day</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">this week</span></td><td class="p-2 font-mono"><span class="text-mint-accent">that week</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">last week</span></td><td class="p-2 font-mono"><span class="text-mint-accent">the week before / the previous week</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">next week</span></td><td class="p-2 font-mono"><span class="text-mint-accent">the week after / the following week</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">... ago</span></td><td class="p-2 font-mono"><span class="text-mint-accent">... before / previously</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">here</span></td><td class="p-2 font-mono"><span class="text-mint-accent">there</span></td></tr><tr><td class="p-2 font-mono"><span class="text-mint-accent">this / these</span></td><td class="p-2 font-mono"><span class="text-mint-accent">that / those</span></td></tr></tbody></table></div>` }
+        ];
+
+        const mechanicsGrid = document.getElementById('mechanics-grid');
+        mechanicsData.forEach((mechanic) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            card.innerHTML = `
+                <h3 class="text-3xl font-bold mb-2 text-mint-accent">${mechanic.title}</h3>
+                <p class="text-slate-200 mb-4">${mechanic.explanation}</p>
+                <div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="font-semibold text-slate-300" id="mechanic-label-${mechanic.id}">Direct Speech</p>
+                        <button class="switch-mechanic-btn text-xs font-semibold text-mint-accent hover:underline" data-id="${mechanic.id}">Switch to Reported</button>
+                    </div>
+                    <p class="font-mono text-white text-base" id="mechanic-display-${mechanic.id}">${mechanic.direct}</p>
+                </div>
+                <div class="mt-4">
+                    <button class="boost-button w-full text-left px-4 py-2 bg-mint-accent/10 text-mint-accent font-semibold rounded-lg hover:bg-mint-accent/20" data-target="${mechanic.id}-boost-table">Show Grammar Boost 🚀</button>
+                </div>
+                <div id="${mechanic.id}-boost-table" class="hidden mt-4 p-4 bg-black/20 rounded-lg">
+                    ${mechanic.boostContent}
+                </div>
+            `;
+            mechanicsGrid.appendChild(card);
+        });
+
+        document.querySelectorAll('.switch-mechanic-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                const mechanic = mechanicsData.find(m => m.id === id);
+                const label = document.getElementById(`mechanic-label-${id}`);
+                const display = document.getElementById(`mechanic-display-${id}`);
+                
+                const isCurrentlyDirect = display.textContent === mechanic.direct;
+
+                if (isCurrentlyDirect) {
+                    label.textContent = 'Reported Speech';
+                    display.textContent = mechanic.reported;
+                    e.target.textContent = 'Switch to Direct';
+                } else {
+                    label.textContent = 'Direct Speech';
+                    display.textContent = mechanic.direct;
+                    e.target.textContent = 'Switch to Reported';
+                }
+            });
+        });
+
+        document.querySelectorAll('.boost-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetId = e.target.dataset.target;
+                const targetTable = document.getElementById(targetId);
+                const isHidden = targetTable.classList.contains('hidden');
+
+                if (isHidden) {
+                    targetTable.classList.remove('hidden');
+                    e.target.textContent = 'Hide Grammar Boost 🚀';
+                } else {
+                    targetTable.classList.add('hidden');
+                    e.target.textContent = 'Show Grammar Boost 🚀';
+                }
+            });
+        });
+
+        // --- REPORTING FUNCTIONS LOGIC ---
+        const functionsData = [
+            { id: 'statements', title: 'Reporting Statements', direct: '"I\'m tired," she said.', reported: 'She said (that) she was tired.', explanation: 'Use "said" or "told". "Told" must be followed by an object (e.g., "told me"), while "said" does not require one. The word "that" is optional.' },
+            { id: 'yes-no-q', title: 'Reporting Yes/No Questions', direct: '"Are you coming?" he asked.', reported: 'He asked if I was coming.', explanation: 'Use "asked" followed by "if" or "whether". The word order changes from a question to a statement (no inversion).' },
+            { id: 'wh-q', title: 'Reporting Wh- Questions', direct: '"What is your name?" she asked.', reported: 'She asked what my name was.', explanation: 'Use "asked" and the question word (what, where, etc.). Crucially, the word order becomes a statement (subject + verb).' },
+            { id: 'commands', title: 'Reporting Commands', direct: '"Sit down!" the teacher said.', reported: 'The teacher told us to sit down.', explanation: 'Use a reporting verb like "told", "ordered", or "commanded", followed by an object and the to-infinitive.' },
+            { id: 'requests', title: 'Reporting Requests', direct: '"Can you help me, please?" I asked.', reported: 'I asked him to help me.', explanation: 'Use a reporting verb like "asked", followed by an object and the to-infinitive. "Please" is removed.' }
+        ];
+
+        const functionsGrid = document.getElementById('functions-grid');
+        functionsData.forEach((func) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            card.innerHTML = `
+                <h3 class="text-3xl font-bold mb-2 text-mint-accent">${func.title}</h3>
+                <p class="text-slate-200 mb-4 flex-grow">${func.explanation}</p>
+                <div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="font-semibold text-slate-300" id="func-label-${func.id}">Direct Speech</p>
+                        <button class="switch-func-btn text-xs font-semibold text-mint-accent hover:underline" data-id="${func.id}">Switch to Reported</button>
+                    </div>
+                    <p class="font-mono text-white text-base" id="func-display-${func.id}">${func.direct}</p>
+                </div>
+            `;
+            functionsGrid.appendChild(card);
+        });
+
+        document.querySelectorAll('.switch-func-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                const func = functionsData.find(f => f.id === id);
+                const label = document.getElementById(`func-label-${id}`);
+                const display = document.getElementById(`func-display-${id}`);
+                
+                const isCurrentlyDirect = display.textContent === func.direct;
+
+                if (isCurrentlyDirect) {
+                    label.textContent = 'Reported Speech';
+                    display.textContent = func.reported;
+                    e.target.textContent = 'Switch to Direct';
+                } else {
+                    label.textContent = 'Direct Speech';
+                    display.textContent = func.direct;
+                    e.target.textContent = 'Switch to Reported';
+                }
+            });
+        });
+
+        // --- VERB LIBRARY LOGIC ---
+        const verbLibraryData = [
+            { id: 'v-to-inf', title: 'Verbs + to-infinitive', verbs: 'agree, claim, decide, demand, offer, promise, refuse, threaten', direct: '"I will help you," he said.', reported: 'He offered to help me.', explanation: 'These verbs are followed directly by the infinitive form of the verb from the direct speech.' },
+            { id: 'v-obj-to-inf', title: 'Verbs + object + to-infinitive', verbs: 'advise, allow, ask, encourage, forbid, invite, order, remind, teach, tell, urge, warn', direct: '"You should leave now," she said to me.', reported: 'She advised me to leave then.', explanation: 'These verbs require an object (the person being spoken to) before the infinitive.' },
+            { id: 'v-gerund', title: 'Verbs + gerund (-ing)', verbs: 'admit, deny, mention, recommend, regret, suggest', direct: '"I broke the window," he said.', reported: 'He admitted breaking the window.', explanation: 'These verbs are followed by the -ing form of the verb from the direct speech.' },
+            { id: 'v-prep-gerund', title: 'Verbs + preposition + gerund (-ing)', verbs: 'apologize for, accuse of, blame for, confess to, congratulate on, insist on', direct: '"I\'m sorry for being late," she said.', reported: 'She apologized for being late.', explanation: 'These verbs use a specific preposition before the -ing form of the verb.' },
+            { id: 'v-that-clause', title: 'Meaning Specific Verbs (+ that-clause)', explanation: 'These verbs report statements, thoughts, or arguments and are followed by an optional "that" and a noun clause.', examples: [ { verb: 'allege', direct: '"The company is hiding the truth."', reported: 'He alleged that the company was hiding the truth.' }, { verb: 'announce', direct: '"We are launching a new product next month."', reported: 'The CEO announced that they were launching a new product the following month.' }, { verb: 'argue', direct: '"This is the best way to solve the problem."', reported: 'She argued that it was the best way to solve the problem.' }, { verb: 'boast', direct: '"I am the best player on the team!"', reported: 'He boasted that he was the best player on the team.' }, { verb: 'complain', direct: '"The music is too loud."', reported: 'They complained that the music was too loud.' }, { verb: 'confess', direct: '"I ate the last cookie."', reported: 'She confessed that she had eaten the last cookie.' }, { verb: 'confirm', direct: '"Yes, the meeting is at 3 PM."', reported: 'He confirmed that the meeting was at 3 PM.' }, { verb: 'explain', direct: '"The machine works by using steam power."', reported: 'The engineer explained that the machine worked by using steam power.' }, { verb: 'insist', direct: '"You must see a doctor!"', reported: 'She insisted that I see a doctor.' }, { verb: 'predict', direct: '"It will rain tomorrow."', reported: 'The weather forecaster predicted that it would rain the next day.' }, { verb: 'propose', direct: '"I think we should invest more in technology."', reported: 'He proposed that they should invest more in technology.' }, { verb: 'reassure', direct: '"Don\'t worry, everything will be fine," she said.', reported: 'She reassured me that everything would be fine.' }, { verb: 'state', direct: '"The project is officially complete."', reported: 'The manager stated that the project was officially complete.' }, { verb: 'suggest', direct: '"Let\'s go to the cinema tonight."', reported: 'He suggested that we go to the cinema that night.' }, { verb: 'testify', direct: '"I saw the suspect at the scene of the crime," he said.', reported: 'He testified that he had seen the suspect at the scene of the crime.' } ] }
+        ];
+
+        const verbLibraryGrid = document.getElementById('verb-library-grid');
+        verbLibraryData.forEach((lib) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+
+            if (lib.examples) {
+                const verbsList = lib.examples.map(ex => ex.verb).join(', ');
+                card.innerHTML = `<h3 class="text-3xl font-bold mb-2 text-mint-accent">${lib.title}</h3><p class="text-slate-300 text-sm mb-2">Common verbs:</p><p class="text-mint-accent/80 text-sm mb-4 flex-grow">${verbsList}</p><p class="text-slate-200 mb-4">${lib.explanation}</p><div class="mt-auto text-sm bg-black/20 p-4 rounded-lg"><div class="flex justify-between items-center mb-2"><p class="font-semibold text-slate-300" id="verb-label-${lib.id}">Direct Speech (<span id="verb-name-${lib.id}"></span>)</p><button class="switch-verb-btn text-xs font-semibold text-mint-accent hover:underline" data-id="${lib.id}">Switch to Reported</button></div><p class="font-mono text-white text-base" id="verb-display-${lib.id}"></p><div class="flex justify-between mt-4"><button class="verb-nav-btn text-xs" data-id="${lib.id}" data-direction="-1">&larr; Prev</button><button class="verb-nav-btn text-xs" data-id="${lib.id}" data-direction="1">Next &rarr;</button></div></div>`;
+            } else {
+                 card.innerHTML = `<h3 class="text-3xl font-bold mb-2 text-mint-accent">${lib.title}</h3><p class="text-slate-300 text-sm mb-2">Common verbs:</p><p class="text-mint-accent/80 text-sm mb-4 flex-grow">${lib.verbs}</p><p class="text-slate-200 mb-4">${lib.explanation}</p><div class="mt-auto text-sm bg-black/20 p-4 rounded-lg"><div class="flex justify-between items-center mb-2"><p class="font-semibold text-slate-300" id="verb-label-${lib.id}">Direct Speech</p><button class="switch-verb-btn text-xs font-semibold text-mint-accent hover:underline" data-id="${lib.id}">Switch to Reported</button></div><p class="font-mono text-white text-base" id="verb-display-${lib.id}">${lib.direct}</p></div>`;
+            }
+            verbLibraryGrid.appendChild(card);
+        });
+
+        verbLibraryData.filter(lib => lib.examples).forEach(lib => {
+            let currentIndex = 0;
+            const verbNameEl = document.getElementById(`verb-name-${lib.id}`);
+            const displayEl = document.getElementById(`verb-display-${lib.id}`);
+            const labelEl = document.getElementById(`verb-label-${lib.id}`);
+            const switchBtn = document.querySelector(`.switch-verb-btn[data-id="${lib.id}"]`);
+
+            function loadExample(index) {
+                const example = lib.examples[index];
+                verbNameEl.textContent = example.verb;
+                displayEl.textContent = example.direct;
+                labelEl.innerHTML = `Direct Speech (<span id="verb-name-${lib.id}">${example.verb}</span>)`;
+                switchBtn.textContent = 'Switch to Reported';
+            }
+
+            loadExample(currentIndex);
+
+            document.querySelectorAll(`.verb-nav-btn[data-id="${lib.id}"]`).forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const direction = parseInt(e.target.dataset.direction, 10);
+                    currentIndex = (currentIndex + direction + lib.examples.length) % lib.examples.length;
+                    loadExample(currentIndex);
+                });
+            });
+
+             switchBtn.addEventListener('click', () => {
+                const example = lib.examples[currentIndex];
+                const isCurrentlyDirect = displayEl.textContent === example.direct;
+
+                if (isCurrentlyDirect) {
+                    labelEl.innerHTML = `Reported Speech (<span id="verb-name-${lib.id}">${example.verb}</span>)`;
+                    displayEl.textContent = example.reported;
+                    switchBtn.textContent = 'Switch to Direct';
+                } else {
+                    labelEl.innerHTML = `Direct Speech (<span id="verb-name-${lib.id}">${example.verb}</span>)`;
+                    displayEl.textContent = example.direct;
+                    switchBtn.textContent = 'Switch to Reported';
+                }
+            });
+        });
+
+        document.querySelectorAll('.switch-verb-btn:not([data-id="v-that-clause"])').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.target.dataset.id;
+                const lib = verbLibraryData.find(v => v.id === id);
+                const label = document.getElementById(`verb-label-${id}`);
+                const display = document.getElementById(`verb-display-${id}`);
+                
+                const isCurrentlyDirect = display.textContent === lib.direct;
+
+                if (isCurrentlyDirect) {
+                    label.textContent = 'Reported Speech';
+                    display.textContent = lib.reported;
+                    e.target.textContent = 'Switch to Direct';
+                } else {
+                    label.textContent = 'Direct Speech';
+                    display.textContent = lib.direct;
+                    e.target.textContent = 'Switch to Reported';
+                }
+            });
+        });
+        
+        // --- PRACTICE ARENA LOGIC ---
+        const modeButtons = document.querySelectorAll('.mode-button');
+        const practiceModes = document.querySelectorAll('.practice-mode');
+
+        function setPracticeMode(targetId) {
+            modeButtons.forEach(button => {
+                if (button.dataset.target === targetId) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            practiceModes.forEach(mode => {
+                if (mode.id === targetId) {
+                    mode.classList.add('active');
+                } else {
+                    mode.classList.remove('active');
+                }
+            });
+        }
+
+        modeButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                setPracticeMode(e.target.dataset.target);
+            });
+        });
+
+        // --- QUIZ MODE LOGIC ---
+        const practiceQuizData = [
+            { question: 'Direct: "I will see you tomorrow." He told me...', options: ["...he would see me the next day.", "...he will see me tomorrow.", "...he would see you tomorrow."], answer: "...he would see me the next day." },
+            { question: 'Direct: "Where are you going?" She asked...', options: ["...where was I going.", "...where I was going.", "...where are you going."], answer: "...where I was going." },
+            { question: 'Direct: "Don\'t touch that!" He...', options: ["...warned me to not touch that.", "...warned me not to touch that.", "...warned me don\'t touch that."], answer: "...warned me not to touch that." },
+            { question: 'Direct: "I broke the vase." She...', options: ["...admitted to break the vase.", "...admitted breaking the vase.", "...admitted she break the vase."], answer: "...admitted breaking the vase." },
+            { question: 'Direct: "Are you a student?" He asked...', options: ["...if I was a student.", "...if was I a student.", "...if I am a student."], answer: "...if I was a student." },
+            { question: 'Direct: "Let\'s have a party." He...', options: ["...suggested to have a party.", "...suggested having a party.", "...suggested we will have a party."], answer: "...suggested having a party." },
+            { question: 'Direct: "I\'m sorry for being late." He...', options: ["...apologized for being late.", "...apologized to be late.", "...apologized for was late."], answer: "...apologized for being late." },
+            { question: 'Direct: "I promise I will behave." She promised...', options: ["...behaving.", "...that she will behave.", "...to behave."], answer: "...to behave." },
+            { question: 'Direct: "What time is it?" I asked...', options: ["...what time was it.", "...what time it is.", "...what time it was."], answer: "...what time it was." },
+            { question: 'Direct: "You should see a doctor." The doctor...', options: ["...advised me to see a doctor.", "...advised to see a doctor.", "...advised me seeing a doctor."], answer: "...advised me to see a doctor." },
+            { question: 'Direct: "I didn\'t do it!" He...', options: ["...denied doing it.", "...denied to do it.", "...denied he did do it."], answer: "...denied doing it." },
+            { question: 'Direct: "Congratulations on passing your exam!" She...', options: ["...congratulated me for passing my exam.", "...congratulated me on passing my exam.", "...congratulated me to pass my exam."], answer: "...congratulated me on passing my exam." },
+            { question: 'Direct: "I must finish this today." He said...', options: ["...he must finish that today.", "...he had to finish that that day.", "...he must have finished that day."], answer: "...he had to finish that that day." },
+            { question: 'Direct: "Can you open the window?" She...', options: ["...asked me could I open the window.", "...asked me to open the window.", "...asked me if I can open the window."], answer: "...asked me to open the window." },
+            { question: 'Direct: "The documents are in the safe," he stated.', options: ["He stated that the documents were in the safe.", "He stated the documents are in the safe.", "He stated that the documents had been in the safe."], answer: "He stated that the documents were in the safe." },
+        ];
+
+        let currentPracticeQuestionIndex = 0;
+        const quizQuestionEl = document.getElementById('quiz-question');
+        const quizOptionsEl = document.getElementById('quiz-options');
+        const quizFeedbackEl = document.getElementById('quiz-feedback');
+        const quizNextBtn = document.getElementById('quiz-next-btn');
+
+        function loadPracticeQuestion() {
+            quizFeedbackEl.innerHTML = '';
+            quizNextBtn.disabled = true;
+            quizNextBtn.textContent = 'Next Question';
+
+            if (currentPracticeQuestionIndex >= practiceQuizData.length) {
+                quizQuestionEl.textContent = "Quiz Complete! 🏆";
+                quizOptionsEl.innerHTML = `<p>You've finished the quiz. Great job!</p>`;
+                quizNextBtn.textContent = 'Restart Quiz';
+                currentPracticeQuestionIndex = -1;
+                return;
+            }
+
+            const q = practiceQuizData[currentPracticeQuestionIndex];
+            quizQuestionEl.textContent = q.question;
+            quizOptionsEl.innerHTML = '';
+            q.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'block w-full text-left p-3 border border-white/30 rounded-lg hover:bg-white/20';
+                button.onclick = () => checkPracticeAnswer(option, q.answer, button);
+                quizOptionsEl.appendChild(button);
+            });
+        }
+
+        function checkPracticeAnswer(selected, correct, button) {
+            const buttons = quizOptionsEl.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+            quizNextBtn.disabled = false;
+
+            if (selected === correct) {
+                button.classList.add('bg-green-500/50', 'border-green-400');
+                quizFeedbackEl.innerHTML = `<p class="text-green-300 font-semibold">Correct!</p>`;
+            } else {
+                button.classList.add('bg-red-500/50', 'border-red-400');
+                quizFeedbackEl.innerHTML = `<p class="text-red-300 font-semibold">Not quite. The correct answer was "${correct}"</p>`;
+                buttons.forEach(btn => {
+                    if (btn.textContent === correct) {
+                        btn.classList.add('bg-green-500/50', 'border-green-400');
+                    }
+                });
+            }
+        }
+
+        quizNextBtn.addEventListener('click', () => {
+            currentPracticeQuestionIndex++;
+            loadPracticeQuestion();
+        });
+
+        // --- REWRITE CHALLENGE LOGIC ---
+        const rewriteChallenges = [
+            { title: 'Using "promised"', direct: "I'll be there on time, I promise.", verb: 'promise', solution: "He promised to be there on time.", explanation: 'The verb "promise" is followed by the to-infinitive pattern.' },
+            { title: 'Using "denied"', direct: "I never took the money.", verb: 'deny', solution: "She denied taking the money.", explanation: 'The verb "deny" is followed by the gerund (-ing) pattern.' },
+            { title: 'Using "reminded"', direct: "Don't forget to buy milk.", verb: 'remind', solution: "He reminded me to buy milk.", explanation: '"Remind" uses the object + to-infinitive pattern.' },
+            { title: 'Using "accused"', direct: "You cheated on the test!", verb: 'accuse', solution: "She accused him of cheating on the test.", explanation: '"Accuse" uses the preposition "of" followed by a gerund.' },
+            { title: 'Using "suggested"', direct: "Why don't we go for a walk?", verb: 'suggest', solution: "He suggested going for a walk.", explanation: '"Suggest" is followed by the gerund (-ing) pattern.' },
+            { title: 'Using "warned"', direct: "Don't go near the edge.", verb: 'warn', solution: "They warned us not to go near the edge.", explanation: '"Warn" uses the object + not + to-infinitive pattern for negative commands.' },
+            { title: 'Using "offered"', direct: "Would you like me to help you with that?", verb: 'offer', solution: "She offered to help me with that.", explanation: '"Offer" is followed directly by the to-infinitive.' },
+            { title: 'Using "insisted"', direct: "You must accept my apology.", verb: 'insist', solution: "He insisted on me accepting his apology.", explanation: '"Insist" uses the preposition "on" followed by a gerund.' },
+            { title: 'Using "invited"', direct: "Would you like to come to my party?", verb: 'invite', solution: "She invited me to come to her party.", explanation: '"Invite" uses the object + to-infinitive pattern.' },
+            { title: 'Using "explained"', direct: "The reason the sky is blue is because of light scattering.", verb: 'explain', solution: "The teacher explained that the sky was blue because of light scattering.", explanation: '"Explain" is followed by a that-clause, and the tense backshifts.' },
+            { title: 'Using "agreed"', direct: "Okay, I'll help you with your project.", verb: 'agree', solution: "He agreed to help me with my project.", explanation: '"Agree" is followed by the to-infinitive pattern.' },
+            { title: 'Using "congratulated"', direct: "Well done on winning the competition!", verb: 'congratulate', solution: "She congratulated him on winning the competition.", explanation: '"Congratulate" uses the object + preposition "on" + gerund pattern.' },
+            { title: 'Using "refused"', direct: "No, I will not sign the document.", verb: 'refuse', solution: "He refused to sign the document.", explanation: '"Refuse" is followed by the to-infinitive.' },
+            { title: 'Using "complained"', direct: "This hotel room is too small.", verb: 'complain', solution: "The guest complained that the hotel room was too small.", explanation: '"Complain" is followed by a that-clause.' },
+            { title: 'Using "urged"', direct: "Please, you must reconsider your decision.", verb: 'urge', solution: "They urged her to reconsider her decision.", explanation: '"Urge" uses the object + to-infinitive pattern.' },
+            { title: 'Using "admitted"', direct: "Yes, it was me who made the mistake.", verb: 'admit', solution: "He admitted making the mistake.", explanation: '"Admit" can be followed by a gerund.' },
+            { title: 'Using "blamed"', direct: "It's your fault we missed the train.", verb: 'blame', solution: "She blamed me for missing the train.", explanation: '"Blame" uses the object + preposition "for" + gerund pattern.' },
+            { title: 'Using "threatened"', direct: "If you don't pay, there will be trouble.", verb: 'threaten', solution: "He threatened to cause trouble if I didn't pay.", explanation: '"Threaten" is followed by the to-infinitive.' },
+            { title: 'Using "forbade"', direct: "You are not allowed to go out tonight.", verb: 'forbid', solution: "His parents forbade him to go out that night.", explanation: '"Forbid" uses the object + to-infinitive pattern.' },
+            { title: 'Using "reassured"', direct: "Don't worry, the presentation will go well.", verb: 'reassure', solution: "She reassured him that the presentation would go well.", explanation: '"Reassure" uses the object + that-clause pattern.' },
+            { title: 'Using "confessed"', direct: "I have been stealing the supplies.", verb: 'confess', solution: "The employee confessed to stealing the supplies.", explanation: '"Confess" uses the preposition "to" + gerund pattern.' },
+            { title: 'Using "recommended"', direct: "You should try the new restaurant.", verb: 'recommend', solution: "He recommended trying the new restaurant.", explanation: '"Recommend" can be followed by a gerund.' },
+            { title: 'Using "ordered"', direct: "Get out of the car now!", verb: 'order', solution: "The police officer ordered the man to get out of the car.", explanation: '"Order" uses the object + to-infinitive pattern.' },
+            { title: 'Using "claimed"', direct: "I can speak six languages.", verb: 'claim', solution: "She claimed to speak six languages.", explanation: '"Claim" is followed by the to-infinitive.' },
+            { title: 'Using "regretted"', direct: "I wish I hadn't said that.", verb: 'regret', solution: "He regretted saying that.", explanation: '"Regret" is followed by the gerund pattern.' },
+            { title: 'Using "encouraged"', direct: "Go on, you can do it!", verb: 'encourage', solution: "The coach encouraged the team to do it.", explanation: '"Encourage" uses the object + to-infinitive pattern.' },
+            { title: 'Using "demanded"', direct: "I want to see the manager immediately.", verb: 'demand', solution: "The customer demanded to see the manager immediately.", explanation: '"Demand" is followed by the to-infinitive.' },
+            { title: 'Using "testified"', direct: "I swear I saw him at the bank at 3 PM.", verb: 'testify', solution: "The witness testified that she had seen him at the bank at 3 PM.", explanation: '"Testify" is followed by a that-clause.' },
+            { title: 'Using "proposed"', direct: "Let's postpone the meeting until next week.", verb: 'propose', solution: "She proposed postponing the meeting until the following week.", explanation: '"Propose" can be followed by a gerund.' },
+            { title: 'Using "boasted"', direct: "My new car is the fastest in the world.", verb: 'boast', solution: "He boasted that his new car was the fastest in the world.", explanation: '"Boast" is followed by a that-clause.' }
+        ];
+
+        let currentChallengeIndex = 0;
+        const challengeTitleEl = document.getElementById('challenge-title');
+        const challengeTextEl = document.getElementById('challenge-text');
+        const challengeVerbEl = document.getElementById('challenge-verb');
+        const rewriteInputEl = document.getElementById('rewrite-input');
+        const rewriteCheckBtn = document.getElementById('rewrite-check-btn');
+        const rewriteAnswerDiv = document.getElementById('rewrite-answer');
+        const rewriteSolutionEl = document.getElementById('rewrite-solution');
+        const rewriteExplanationEl = document.getElementById('rewrite-explanation');
+        const rewriteNextBtn = document.getElementById('rewrite-next-btn');
+
+        function loadChallenge(index) {
+            const challenge = rewriteChallenges[index];
+            challengeTitleEl.textContent = challenge.title;
+            challengeTextEl.textContent = challenge.direct;
+            challengeVerbEl.textContent = `"${challenge.verb}"`;
+            rewriteSolutionEl.textContent = challenge.solution;
+            rewriteExplanationEl.textContent = challenge.explanation;
+            rewriteInputEl.value = '';
+            rewriteAnswerDiv.classList.add('hidden');
+        }
+        
+        rewriteCheckBtn.addEventListener('click', () => {
+            rewriteAnswerDiv.classList.remove('hidden');
+        });
+
+        rewriteNextBtn.addEventListener('click', () => {
+            currentChallengeIndex = (currentChallengeIndex + 1) % rewriteChallenges.length;
+            loadChallenge(currentChallengeIndex);
+        });
+
+        // Initial setup for Practice Arena
+        setPracticeMode('quiz-mode');
+        loadPracticeQuestion();
+        loadChallenge(0);
+    });
+    </script>
+</body>
+</html>

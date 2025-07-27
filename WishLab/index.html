@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WishLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'deep-purple': '#4C1D95',
+                        'lavender': '#C4B5FD',
+                        'goldenrod': '#FBBF24',
+                        'cream-white': '#F0F0F0',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #4C1D95; /* deep-purple */
+            color: #F0F0F0; /* cream-white */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #C4B5FD; /* lavender */
+            border-color: #C4B5FD; /* lavender */
+        }
+
+        .reality-check {
+            display: none;
+            font-size: 0.875rem; /* text-sm */
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-lavender">WishLab 🧞</h1>
+            <p class="mt-2 text-lg text-slate-300">
+                Your guide to unreal tenses and expressing wishes.
+            </p>
+            <p class="mt-4 text-sm text-slate-400">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#wishes" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Wishes & Regrets</a></li>
+                    <li><a href="#its-time" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">It's Time</a></li>
+                    <li><a href="#would-rather" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Would Rather</a></li>
+                    <li><a href="#as-if" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">As If / As Though</a></li>
+                    <li><a href="#suppose" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Suppose / Imagine</a></li>
+                    <li><a href="#wish-box" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Wish Box 🧞</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Wishes & Regrets -->
+            <section id="wishes" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender">Wish / If Only</h2>
+                <div class="space-y-6">
+                    <!-- Card 1 -->
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: Wish / If Only + Past Simple / Past Continuous</h3>
+                        <p class="text-slate-300 mb-4">This is used for a wish in the present which is unlikely to come true.</p>
+                        <div class="space-y-3">
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <p class="font-mono">I wish I <i class="text-goldenrod">was/were</i> rich.</p>
+                                <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                                <p class="reality-check text-slate-400 mt-2">Reality: I am not rich.</p>
+                            </div>
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <p class="font-mono">I wish I <i class="text-goldenrod">wasn’t working</i> now.</p>
+                                <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                                <p class="reality-check text-slate-400 mt-2">Reality: I am working now.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: Wish / If Only + Past Perfect</h3>
+                        <p class="text-slate-300 mb-4">This is used for a regret about something in the past.</p>
+                        <div class="space-y-3">
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <p class="font-mono">I wish I <i class="text-goldenrod">hadn’t failed</i> my test.</p>
+                                <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                                <p class="reality-check text-slate-400 mt-2">Reality: I failed my test.</p>
+                            </div>
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <p class="font-mono">If only I <i class="text-goldenrod">had studied</i> harder.</p>
+                                <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                                <p class="reality-check text-slate-400 mt-2">Reality: I didn’t study harder.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: Wish / If Only + Subject + Would + Bare Infinitive</h3>
+                        <p class="text-slate-300 mb-4">This is used to express a wish for a change in a situation or in someone’s behaviour. It can show annoyance, impatience, or dissatisfaction. It can also be used for a wish about the future.</p>
+                        <div class="space-y-3">
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <p class="font-mono">I wish you <i class="text-goldenrod">would stop</i> making so much noise.</p>
+                            </div>
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <p class="font-mono">I wish it <i class="text-goldenrod">would stop</i> raining.</p>
+                            </div>
+                            <div class="mt-4 p-3 bg-yellow-900/30 border-l-4 border-goldenrod rounded-r-lg text-sm">
+                                <p>We cannot say "I wish I would...". The subject of "wish" and "would" must be different.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: It's Time -->
+            <section id="its-time" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender">It's (High/About) Time</h2>
+                 <div class="space-y-6">
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: It's Time + to-infinitive</h3>
+                        <p class="text-slate-300 mb-4">This means that this is the right time to do something.</p>
+                        <div class="bg-black/30 p-4 rounded-lg">
+                            <p class="font-mono">It's time <i class="text-goldenrod">to go</i> to bed.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: It's (High/About) Time + Past Tense</h3>
+                        <p class="text-slate-300 mb-4">This is used to criticise or complain about something that should have already been done.</p>
+                        <div class="bg-black/30 p-4 rounded-lg">
+                            <p class="font-mono">It's high time you <i class="text-goldenrod">started</i> thinking about your future.</p>
+                            <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                            <p class="reality-check text-slate-400 mt-2">Reality: You are not thinking about your future.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Would Rather -->
+            <section id="would-rather" class="view">
+                 <h2 class="text-4xl font-bold mb-4 text-lavender">Would Rather</h2>
+                 <div class="space-y-6">
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: Would Rather ('d rather) + Bare Infinitive</h3>
+                        <p class="text-slate-300 mb-4">Used to express preference when the subject is the same.</p>
+                        <div class="bg-black/30 p-4 rounded-lg"><p class="font-mono">I'd rather <i class="text-goldenrod">stay</i> at home.</p></div>
+                    </div>
+                     <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Formula: Would Rather ('d rather) + Past Tense</h3>
+                        <p class="text-slate-300 mb-4">Used to express preference when the subjects are different.</p>
+                        <div class="bg-black/30 p-4 rounded-lg"><p class="font-mono">I'd rather you <i class="text-goldenrod">paid</i> me in cash.</p></div>
+                    </div>
+                    <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold mb-2 text-lavender/90">Comparing Preferences</h3>
+                        <p class="text-slate-300 mb-4">There are several ways to compare preferences.</p>
+                        <div class="space-y-3">
+                            <div class="bg-black/30 p-4 rounded-lg">
+                                <h5 class="font-bold text-lavender/80">Would Rather ... Than</h5>
+                                <p class="font-mono mt-1">I'd rather <i class="text-goldenrod">have</i> tea than <i class="text-goldenrod">have</i> coffee.</p>
+                            </div>
+                             <div class="bg-black/30 p-4 rounded-lg">
+                                <h5 class="font-bold text-lavender/80">Prefer ... To (General)</h5>
+                                <p class="font-mono mt-1">I prefer <i class="text-goldenrod">having</i> tea to <i class="text-goldenrod">having</i> coffee.</p>
+                            </div>
+                             <div class="bg-black/30 p-4 rounded-lg">
+                                <h5 class="font-bold text-lavender/80">Prefer ... Rather Than (Specific)</h5>
+                                <p class="font-mono mt-1">I'd prefer <i class="text-goldenrod">to have</i> tea rather than <i class="text-goldenrod">have</i> coffee.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: As If / As Though -->
+            <section id="as-if" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender">As If / As Though</h2>
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <p class="text-slate-300 mb-4">These expressions are used for unreal comparisons. We use the Past Tense for a comparison in the present, and the Past Perfect for a comparison in the past.</p>
+                    <div class="space-y-3">
+                        <div class="bg-black/30 p-4 rounded-lg">
+                            <p class="font-mono">He acts as if he <i class="text-goldenrod">knew</i> everything.</p>
+                            <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                            <p class="reality-check text-slate-400 mt-2">Reality: He doesn't know everything.</p>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-lg">
+                            <p class="font-mono">He looked as though he <i class="text-goldenrod">had seen</i> a ghost.</p>
+                            <button class="reality-toggle text-xs text-lavender hover:underline mt-1">Reality Check</button>
+                            <p class="reality-check text-slate-400 mt-2">Reality: He hadn't seen a ghost.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Suppose / Imagine -->
+            <section id="suppose" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender">Suppose / Imagine</h2>
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <p class="text-slate-300 mb-4">These can be used instead of "if" in conditional sentences (Type 2 and 3) to talk about imaginary situations.</p>
+                     <div class="space-y-3">
+                        <div class="bg-black/30 p-4 rounded-lg">
+                            <h5 class="font-bold text-lavender/80">Type 2 Conditional</h5>
+                            <p class="font-mono mt-1">Suppose you <i class="text-goldenrod">won</i> the lottery, what would you do?</p>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-lg">
+                            <h5 class="font-bold text-lavender/80">Type 3 Conditional</h5>
+                            <p class="font-mono mt-1">Imagine you <i class="text-goldenrod">had been born</i> a century earlier. How would your life have been different?</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Wish Box -->
+            <section id="wish-box" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lavender">Wish Box 🧞</h2>
+                <p class="mb-6 text-slate-300">Complete the sentences with the correct form of the verb in brackets.</p>
+                <div id="exercise-container"></div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-400 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const practiceData = [
+            { q: "I'm so cold. I wish I ____ (have) a jumper with me.", a: "had" },
+            { q: "He's making so much noise. I wish he ____ (stop).", a: "would stop" },
+            { q: "The party was a disaster. I wish we ____ (not go).", a: "hadn't gone" },
+            { q: "It's high time you ____ (get) a haircut. It's too long.", a: "got" },
+            { q: "I'd rather you ____ (not tell) anyone what I said.", a: "didn't tell" },
+            { q: "She talks to the dog as if it ____ (understand) her.", a: "understood" },
+            { q: "Imagine you ____ (be) able to fly. Where would you go first?", a: "were" },
+            { q: "I'd rather ____ (watch) a film than go to the club.", a: "watch" },
+            { q: "If only I ____ (be) taller, I could reach the top shelf.", a: "were" },
+            { q: "It's time ____ (leave) for the airport.", a: "to leave" },
+            { q: "He looked exhausted, as though he ____ (not sleep) for days.", a: "hadn't slept" },
+            { q: "Suppose the internet ____ (disappear) tomorrow. What would be the biggest change?", a: "disappeared" },
+            { q: "I wish I ____ (learn) to play the piano when I was younger.", a: "had learned" },
+            { q: "It's about time the bus ____ (arrive). We've been waiting for ages.", a: "arrived" },
+            { q: "I'd prefer ____ (go) to the beach rather than ____ (go) to the mountains.", a: ["to go", "go"] }
+        ];
+
+        function initApp() {
+            // Setup navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+
+            function updateView(hash) {
+                hash = hash || '#wishes';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+            
+            // Setup Reality Check buttons
+            const realityToggles = document.querySelectorAll('.reality-toggle');
+            realityToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const realityText = toggle.nextElementSibling;
+                    const isHidden = realityText.style.display === 'none' || realityText.style.display === '';
+                    realityText.style.display = isHidden ? 'block' : 'none';
+                    toggle.textContent = isHidden ? 'Hide Reality' : 'Reality Check';
+                });
+            });
+
+            // Setup Practice Arena
+            const exerciseContainer = document.getElementById('exercise-container');
+            if (exerciseContainer) {
+                createPracticeExercise(exerciseContainer, practiceData);
+            }
+
+            // Initial view setup on page load
+            updateView(window.location.hash);
+        }
+
+        function createPracticeExercise(container, data) {
+            let currentIndex = 0;
+            container.innerHTML = `
+                <div class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <p class="mb-4 text-slate-300">Question <span class="counter">1</span> of ${data.length}</p>
+                    <div class="p-4 bg-black/30 rounded-md mb-4 border border-white/20">
+                        <p class="question-text italic text-cream-white text-lg"></p>
+                    </div>
+                    <div class="input-container space-y-2"></div>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 mt-4">
+                        <button class="check-btn w-full sm:w-auto px-6 py-2 bg-goldenrod text-deep-purple font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                        <button class="next-btn w-full sm:w-auto px-6 py-2 bg-lavender/80 text-deep-purple font-semibold rounded-lg hover:bg-lavender hidden">Next Wish &rarr;</button>
+                    </div>
+                    <div class="answer-div mt-6 p-4 rounded-lg hidden"></div>
+                </div>
+            `;
+
+            const counter = container.querySelector('.counter');
+            const questionText = container.querySelector('.question-text');
+            const inputContainer = container.querySelector('.input-container');
+            const checkBtn = container.querySelector('.check-btn');
+            const answerDiv = container.querySelector('.answer-div');
+            const nextBtn = container.querySelector('.next-btn');
+
+            function loadQuestion(index) {
+                counter.textContent = index + 1;
+                const questionData = data[index];
+                questionText.textContent = questionData.q;
+                
+                inputContainer.innerHTML = '';
+                const answerCount = (questionData.q.match(/____/g) || []).length || 1;
+
+                for (let i = 0; i < answerCount; i++) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'input w-full p-3 bg-deep-purple/50 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-goldenrod';
+                    input.placeholder = `Answer ${i + 1}...`;
+                    inputContainer.appendChild(input);
+                }
+                
+                answerDiv.classList.add('hidden');
+                checkBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                
+                const firstInput = inputContainer.querySelector('.input');
+                if(firstInput) firstInput.focus();
+            }
+
+            function checkAnswer() {
+                const userInputs = Array.from(container.querySelectorAll('.input')).map(input => input.value.trim().toLowerCase());
+                const correctAnswers = Array.isArray(data[currentIndex].a) ? data[currentIndex].a.map(a => a.toLowerCase()) : [data[currentIndex].a.toLowerCase()];
+                
+                let allCorrect = userInputs.length === correctAnswers.length && userInputs.every((val, i) => val === correctAnswers[i]);
+                
+                answerDiv.classList.remove('hidden');
+                if (allCorrect) {
+                    answerDiv.className = 'answer-div mt-6 p-4 rounded-lg bg-green-500/20 border border-green-400';
+                    answerDiv.innerHTML = `<h4 class="font-bold text-lg text-green-300">Correct!</h4>`;
+                } else {
+                    answerDiv.className = 'answer-div mt-6 p-4 rounded-lg bg-red-500/20 border border-red-400';
+                    const solution = (Array.isArray(data[currentIndex].a) ? data[currentIndex].a : [data[currentIndex].a]).join(', ');
+                    answerDiv.innerHTML = `<h4 class="font-bold text-lg text-red-300">Not quite.</h4><p class="solution-text italic mt-2 text-slate-200">Suggested Answer(s): ${solution}</p>`;
+                }
+                checkBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+            }
+
+            checkBtn.addEventListener('click', checkAnswer);
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % data.length;
+                loadQuestion(currentIndex);
+            });
+            
+            container.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    if (checkBtn.classList.contains('hidden')) {
+                        nextBtn.click();
+                    } else {
+                        checkBtn.click();
+                    }
+                }
+            });
+
+            loadQuestion(currentIndex);
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

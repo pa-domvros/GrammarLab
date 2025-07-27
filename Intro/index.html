@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrammarLab - Introduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'cream-white': '#FEFCF3',
+                        'beige': '#F5F5F4',
+                        'cinnamon': '#A16207',
+                        'dark-brown': '#44403C',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FEFCF3; /* cream-white */
+            color: #44403C; /* dark-brown */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        p, li {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-6xl md:text-7xl font-bold text-cinnamon">GrammarLab 🌐</h1>
+            <p class="mt-2 text-lg text-dark-brown">
+                A digital grammar resource designed for today's learners and educators.
+            </p>
+            <p class="mt-4 text-sm text-dark-brown italic">
+                Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved
+            </p>
+        </header>
+
+        <main id="intro-content" class="flex-grow space-y-6">
+            
+            <div class="p-6 bg-beige rounded-lg shadow-sm">
+                <h2 class="text-4xl font-bold text-cinnamon mb-4">Introduction to GrammarLab</h2>
+                <p class="text-sm text-dark-brown italic mb-4">
+                    Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved
+                </p>
+                <div class="space-y-4 text-lg text-dark-brown">
+                    <p>Welcome to GrammarLab, a digital grammar resource designed for today's learners and educators. Created by Panagiotis Domvros, an experienced EFL and Drama teacher, GrammarLab blends modern design with practical pedagogy to offer an improved grammar learning journey.</p>
+                    <p>Each interactive Lab—from articles and modals to reported speech, emphasis, and more—is structured for clarity, exploration, and real-world application. With colour-coded examples, scenario-based explanations, and practice zones built into each section, GrammarLab makes grammar active and accessible.</p>
+                    <p>Unlike traditional grammar books, GrammarLab invites learners to interact, experiment, and discover. Whether used in the classroom or independently, it provides a grammar experience that's engaging, effective, and empowering.</p>
+                </div>
+            </div>
+
+            <div class="bg-beige rounded-lg shadow-sm border border-stone-200">
+                <button class="w-full flex justify-between items-center p-4 text-left accordion-toggle">
+                    <h2 class="text-4xl font-bold text-cinnamon">✍️ To the Student</h2>
+                    <svg class="w-6 h-6 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content hidden p-6 border-t border-stone-200">
+                    <p class="text-sm text-dark-brown italic mb-4">
+                        Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved
+                    </p>
+                    <div class="space-y-4 text-lg text-dark-brown">
+                        <p>Welcome to a new way of learning grammar.</p>
+                        <p>GrammarLab is here to help you understand English grammar—not just to memorize rules, but to use them with confidence. Each section lets you:</p>
+                        <ul class="list-none space-y-2 my-4">
+                            <li class="flex items-start"><span class="text-cinnamon text-2xl mr-2">🧠</span> Learn through clear explanations and colourful examples</li>
+                            <li class="flex items-start"><span class="text-cinnamon text-2xl mr-2">🧪</span> Try quizzes and rewriting tasks that check your progress</li>
+                            <li class="flex items-start"><span class="text-cinnamon text-2xl mr-2">💬</span> Explore how grammar shapes meaning in real-life communication</li>
+                        </ul>
+                        <p>You're in control of how you learn. Whether you're preparing for an exam, improving your writing, or just trying to sound more natural, GrammarLab helps you do it your way—step by step.</p>
+                        <p>It was designed by a teacher who's worked with students just like you. So dive in, click around, and enjoy building your grammar power.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-beige rounded-lg shadow-sm border border-stone-200">
+                <button class="w-full flex justify-between items-center p-4 text-left accordion-toggle">
+                    <h2 class="text-4xl font-bold text-cinnamon">🎓 To the Teacher</h2>
+                    <svg class="w-6 h-6 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content hidden p-6 border-t border-stone-200">
+                    <p class="text-sm text-dark-brown italic mb-4">
+                        Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved
+                    </p>
+                    <div class="space-y-4 text-lg text-dark-brown">
+                        <p>GrammarLab was designed with you in mind.</p>
+                        <p>Created by Panagiotis Domvros, an educator with years of classroom experience, this tool offers ready-to-use grammar support for the intermediate to advanced learner (B1–C2). It's perfect for in-class reinforcement, remote learning, or independent student use.</p>
+                        <p>Each Lab:</p>
+                        <ul class="list-none space-y-2 my-4">
+                            <li class="flex items-start"><span class="text-green-600 font-bold mr-2">✅</span> Targets a high-impact grammar area</li>
+                            <li class="flex items-start"><span class="text-green-600 font-bold mr-2">🎯</span> Includes structured explanations with visual clarity</li>
+                            <li class="flex items-start"><span class="text-green-600 font-bold mr-2">🧠</span> Features active learning tools: quizzes, sentence rewrites, scenario-based grammar</li>
+                            <li class="flex items-start"><span class="text-green-600 font-bold mr-2">🕹️</span> Works across devices, ideal for blended and flipped learning</li>
+                        </ul>
+                        <p>Whether you're running a focused grammar workshop or assigning independent revision, GrammarLab saves prep time and enhances learner engagement. Use it as a toolkit, a supplement, or even the backbone of your grammar curriculum.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-stone-500 text-sm">
+            <p class="italic">Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const svgIcon = button.querySelector('svg');
+
+                    content.classList.toggle('hidden');
+                    svgIcon.classList.toggle('rotate-180');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

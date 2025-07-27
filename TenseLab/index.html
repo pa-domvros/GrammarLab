@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TenseLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'forest-green': '#0A2A1B',
+                        'lime-accent': '#AFFF3C',
+                        'soft-white': '#E8F5E9',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #0A2A1B; /* forest-green */
+            color: #E8F5E9; /* soft-white */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #AFFF3C; /* lime-accent */
+            border-color: #AFFF3C; /* lime-accent */
+        }
+        
+        .timeline-btn.active, .mode-button.active {
+            background-color: #AFFF3C;
+            color: #0A2A1B;
+            font-weight: bold;
+        }
+        
+        .practice-mode { display: none; }
+        .practice-mode.active { display: block; }
+
+        .story-select, .matrix-select {
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.375rem;
+            padding: 0.25rem 0.5rem;
+            color: #AFFF3C;
+            font-weight: bold;
+        }
+        .story-select.correct {
+            background-color: rgba(74, 222, 128, 0.3); /* green-500 with opacity */
+            border-color: #4ade80;
+        }
+        .story-select.incorrect {
+            background-color: rgba(248, 113, 113, 0.3); /* red-400 with opacity */
+            border-color: #f87171;
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <!-- Header and Navigation -->
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-lime-accent">TenseLab 🕰️</h1>
+            <p class="mt-2 text-lg text-slate-200">
+                Your interactive guide to English tenses.
+            </p>
+             <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#present-tenses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Present Tenses</a></li>
+                    <li><a href="#past-tenses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Past Tenses</a></li>
+                    <li><a href="#future-tenses" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Future Tenses</a></li>
+                    <li><a href="#tense-overview" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Tense Overview</a></li>
+                    <li><a href="#tense-timeline" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">The Tense Timeline</a></li>
+                    <li><a href="#grammar-matrix" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Grammar Matrix</a></li>
+                    <li><a href="#practice-arena" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Practice Arena</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Present Tenses -->
+            <section id="present-tenses" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">The Present Tenses</h2>
+                <div id="present-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <div id="present-watchout" class="mt-8"></div>
+            </section>
+
+            <!-- View: Past Tenses -->
+            <section id="past-tenses" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">The Past Tenses</h2>
+                <div id="past-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <div id="past-watchout" class="mt-8"></div>
+            </section>
+
+            <!-- View: Future Tenses -->
+            <section id="future-tenses" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">The Future Tenses</h2>
+                <div id="future-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <div id="future-watchout" class="mt-8"></div>
+            </section>
+
+            <!-- View: Tense Overview -->
+            <section id="tense-overview" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">Tense Overview</h2>
+                <p class="mb-6 text-slate-200">A summary of different tense uses across time categories.</p>
+                <div id="overview-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+            </section>
+            
+            <!-- View: The Tense Timeline -->
+            <section id="tense-timeline" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">The Tense Timeline</h2>
+                <p class="mb-6 text-slate-200">This timeline shows a morning's work. Click on a time to see how different tenses describe the events from that specific point of view.</p>
+                <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 class="text-3xl font-bold text-lime-accent mb-4">"All Work and No Play..."</h3>
+                    <div class="relative mb-8 p-4">
+                        <div class="absolute left-0 top-1/2 w-full h-0.5 bg-lime-accent/50"></div>
+                        <div class="relative flex justify-between">
+                            <div class="text-center"><div class="w-3 h-3 bg-lime-accent rounded-full mx-auto"></div><p class="text-xs mt-2">8:30</p></div>
+                            <div class="text-center"><div class="w-3 h-3 bg-lime-accent rounded-full mx-auto"></div><p class="text-xs mt-2">9:30</p></div>
+                            <div class="text-center"><div class="w-3 h-3 bg-lime-accent rounded-full mx-auto"></div><p class="text-xs mt-2">10:30</p></div>
+                            <div class="text-center"><div class="w-3 h-3 bg-lime-accent rounded-full mx-auto"></div><p class="text-xs mt-2">11:30</p></div>
+                            <div class="text-center"><div class="w-3 h-3 bg-lime-accent rounded-full mx-auto"></div><p class="text-xs mt-2">12:30</p></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-4 mb-6">
+                        <button class="timeline-btn px-4 py-2 rounded-md bg-white/10" data-time="9:30">Set Time to 9:30</button>
+                        <button class="timeline-btn px-4 py-2 rounded-md bg-white/10" data-time="10:30">Set Time to 10:30</button>
+                        <button class="timeline-btn px-4 py-2 rounded-md bg-white/10" data-time="12:30">Set Time to 12:30</button>
+                    </div>
+                    <div id="timeline-display" class="p-4 bg-black/20 rounded-lg min-h-[150px]">
+                        <p class="text-slate-400">Select a time to see the sentences.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- View: Grammar Matrix -->
+            <section id="grammar-matrix" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">Grammar Matrix</h2>
+                <p class="mb-6 text-slate-200">Select a combination of Time, Aspect, Voice, and Form to see the resulting sentence structure, or view the full table for a complete overview.</p>
+                <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div>
+                            <label for="matrix-time" class="block mb-1 text-sm font-medium">Time</label>
+                            <select id="matrix-time" class="matrix-select w-full">
+                                <option>PAST</option>
+                                <option selected>PRESENT</option>
+                                <option>FUTURE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="matrix-aspect" class="block mb-1 text-sm font-medium">Aspect</label>
+                            <select id="matrix-aspect" class="matrix-select w-full">
+                                <option selected>SIMPLE</option>
+                                <option>PROGRESSIVE</option>
+                                <option>PERFECT</option>
+                                <option>PERFECT PROGRESSIVE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="matrix-voice" class="block mb-1 text-sm font-medium">Voice</label>
+                            <select id="matrix-voice" class="matrix-select w-full">
+                                <option selected>ACTIVE</option>
+                                <option>PASSIVE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="matrix-form" class="block mb-1 text-sm font-medium">Form</label>
+                            <select id="matrix-form" class="matrix-select w-full">
+                                <option selected>ACTUAL</option>
+                                <option>REPORTED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="matrix-display" class="p-6 bg-black/20 rounded-lg min-h-[80px] flex items-center justify-center">
+                        <p id="matrix-result" class="font-mono text-xl text-center"></p>
+                    </div>
+                    <div class="mt-6">
+                        <button id="show-full-matrix-btn" class="w-full sm:w-auto px-6 py-2 bg-lime-accent/20 text-lime-accent font-semibold rounded-lg hover:bg-lime-accent/30">Show Full Matrix Table</button>
+                    </div>
+                    <div id="full-matrix-table" class="hidden mt-6 overflow-x-auto">
+                        <!-- Full table will be injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Practice Arena -->
+            <section id="practice-arena" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-lime-accent">Practice Arena</h2>
+                <div class="mb-6 flex flex-wrap gap-2 border-b border-white/20 pb-4">
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-lime-accent hover:text-forest-green" data-target="gap-fill-mode">Gap-Fill Quiz</button>
+                     <button class="mode-button px-4 py-2 text-sm font-semibold rounded-md bg-white/10 hover:bg-lime-accent hover:text-forest-green" data-target="story-mode">Story Completion</button>
+                </div>
+                <div id="gap-fill-mode" class="practice-mode">
+                    <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-lime-accent mb-2">Put the verbs in the correct tense</h3>
+                        <p class="mb-4 text-slate-200">Question <span id="gap-fill-counter">1</span> of 70</p>
+                        <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                            <p id="gap-fill-question" class="italic text-slate-200 text-lg"></p>
+                        </div>
+                        <textarea id="gap-fill-input" rows="2" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-lime-accent focus:border-lime-accent" placeholder="Type your answer here..."></textarea>
+                        <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button id="gap-fill-check-btn" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                            <button id="gap-fill-next-btn" class="w-full sm:w-auto px-6 py-2 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600">Next Question &rarr;</button>
+                        </div>
+                        <div id="gap-fill-answer" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                            <h4 class="font-bold text-lg text-green-300">Correct Answer:</h4>
+                            <p id="gap-fill-solution" class="italic mt-2"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="story-mode" class="practice-mode">
+                     <div class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                        <h3 class="text-3xl font-bold text-lime-accent mb-2">Romeo and Juliet</h3>
+                        <p class="mb-4 text-slate-200">Choose the correct verb form for each of the 70 gaps in the story.</p>
+                        <div id="story-text-container" class="p-4 bg-black/20 rounded-md mb-4 border border-white/20 max-h-[60vh] overflow-y-auto leading-loose"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DATA ---
+        const tenseData = {
+            present: [ { title: 'Present Simple', examples: [ { sentence: 'I take the bus to work every day.', use: 'Habitual actions (events)' }, { sentence: 'He lives in England.', use: 'States' }, { sentence: 'Water boils at 100 degrees Centigrade.', use: 'Eternal truths, Laws of Physics, etc.' }, { sentence: 'Lessons start at 9:00 a.m.', use: 'Timetables and Programmes' } ] }, { title: 'Present Progressive', examples: [ { sentence: 'I’m washing my face at the moment.', use: 'Temporary action of short duration' }, { sentence: 'I’m reading “Wuthering Heights.”', use: 'Unfinished action' }, { sentence: 'I’m visiting a gym nowadays.', use: 'Repeated temporary action' }, { sentence: 'He’s always telling me what to do.', use: 'Annoying habit' }, { sentence: 'Whenever I visit him, he’s working.', use: 'Repeated action within limits' } ] }, { title: 'Present Perfect Simple', examples: [ { sentence: 'I’ve known them for ages.', use: 'A state lasting until now' }, { sentence: 'I’ve seen that film.', use: 'Indefinite event in the past (no time given)' }, { sentence: 'She’s called ten times this week.', use: 'Repeated action until now' }, { sentence: 'He’s broken his arm.', use: 'The result of the action is still obvious' } ] }, { title: 'Present Perfect Progressive', examples: [ { sentence: 'It’s been raining hard all day.', use: 'Action that started in the past and is still happening' }, { sentence: 'Have you been working in the garden?', use: 'Action that only stopped a while ago and has an obvious result' }, { sentence: 'How long have you been seeing this doctor?', use: 'Actions that are repeated at certain times' } ] } ],
+            past: [ { title: 'Past Simple', examples: [ { sentence: 'I usually worked from 9 to 5.', use: 'Past habit' }, { sentence: 'All of a sudden she walked out of the room.', use: 'Telling a story' } ] }, { title: 'Past Progressive', examples: [ { sentence: 'While he was typing his report, it started raining heavily.', use: 'A longer action contrasted with a sudden event' }, { sentence: 'I was trying to get into the INTERNET all day yesterday.', use: 'An incomplete action' }, { sentence: 'She was thinking of marrying him, but she changed her mind.', use: 'An action that didn’t last long at a specific time in the past' }, { sentence: 'While I was doing my homework, my sister was fixing her bike.', use: 'Two actions happening at the same time' }, { sentence: 'He was always complaining about money.', use: 'Annoying habit' }, { sentence: 'As the plane was losing height people started to panic.', use: 'To add a dramatic effect to a story' } ] }, { title: 'Used to', examples: [ { sentence: 'I used to walk to work when I lived down town.', use: 'Past habit' }, { sentence: 'She used to like to stay out till late.', use: 'Past habitual state' } ] }, { title: 'Past Perfect Simple', examples: [ { sentence: 'When I got to the station the train had already left.', use: 'Past before past' } ] }, { title: 'Past Perfect Progressive', examples: [ { sentence: 'He felt sick because he had been drinking all night.', use: 'Past before past with emphasis on the duration of the event' } ] }, { title: 'Would', examples: [ { sentence: 'After dinner we would open our presents and would stay up most of the night.', use: 'For habitual events only, especially when we reminiscence' } ] } ],
+            future: [ { title: '"will" Future', examples: [ { sentence: 'I’ll probably pass the exam.', use: 'Prediction' }, { sentence: 'That’ll be John at the door.', use: 'Assumption (I suppose it is John)' }, { sentence: 'I’ll buy this one.', use: 'Immediate decision' }, { sentence: 'I’ll give you the money you need.', use: 'Promise' }, { sentence: 'I’ll do it for you if you like.', use: 'Offers of help' } ] }, { title: '"going to" Future', examples: [ { sentence: 'I’m going to visit my grandmother.', use: 'Intentions or plans already made' }, { sentence: 'Clouds are gathering. It’s going to rain.', use: 'Prediction based on evidence in the present' } ] }, { title: 'Present Progressive (as Future)', examples: [ { sentence: 'I’m visiting the doctor tomorrow.', use: 'Fixed arrangement (the time is usually mentioned)' } ] }, { title: 'Future Progressive', examples: [ { sentence: 'Don’t come early tomorrow morning. I’ll be working on my essay.', use: 'Thing that will be happening at a particular point in the future' }, { sentence: 'I’ll be needing my car for work next week.', use: 'Things which are going to happen anyway' }, { sentence: 'This time next year she will be studying in England.', use: 'Fixed arrangement or plan' } ] }, { title: 'Future Perfect Simple', examples: [ { sentence: 'By next month, I will have finished the book.', use: 'Time when something will have been completed. Emphasis on the event.' } ] }, { title: 'Future Perfect Progressive', examples: [ { sentence: 'At the end of summer, I will have been working with them for three years.', use: 'Time when something will have been completed. Emphasis on the process or duration.' } ] } ]
+        };
+        const overviewData = { present: { title: 'Present Time', uses: [ { use: 'State', sentence: 'I like oranges.' }, { use: 'Single event', sentence: 'I give up.' }, { use: 'Habitual', sentence: 'She gets up early.' }, { use: 'Timetables and Programmes', sentence: 'The match starts at 2:00 p.m.' }, { use: 'Temporary', sentence: 'He\'s drinking coffee.' }, { use: 'Temporary habit', sentence: 'She\'s getting up early (nowadays).' }, { use: 'State up to the present', sentence: 'I\'ve known him for years.' }, { use: 'Indefinite event(s)', sentence: 'I\'ve seen better films.' }, { use: 'Action up to present time', sentence: 'He\'s sung with that group for 5 years.' }, { use: 'With present result', sentence: 'You\'ve ruined my dress!' }, { use: 'Temporary state up to present time', sentence: 'I\'ve been waiting for two hours.' }, { use: 'Action continuously in progress up to present time', sentence: 'He\'s been learning English since 1994.' }, { use: 'Temporary, with present result', sentence: 'You\'ve been smoking!' } ] }, past: { title: 'Past Time', uses: [ { use: 'Definite state', sentence: 'I lived in Belgium when I was young.' }, { use: 'Definite event', sentence: 'I saw him yesterday.' }, { use: 'Definite habit', sentence: 'I got (used to get) up early in those days.' }, { use: 'Definite temporary', sentence: 'We were watching the game.' }, { use: 'Past before past time', sentence: 'I had visited the mountains before.' }, { use: 'State up to past time', sentence: 'I had known him since he came to Leeds.' }, { use: 'Temporary state up to past time', sentence: 'They had been waiting for him.' } ] }, future: { title: 'Future Time', uses: [ { use: 'Future time', sentence: 'The letter will arrive tomorrow.' }, { use: 'Future time (resulting from present time)', sentence: 'Prices are going to rise.' }, { use: 'Future time (plan or arrangement)', sentence: 'We\'re moving next week.' }, { use: 'Future time (fixed arrangement)', sentence: 'I\'ll be seeing you soon.' }, { use: 'Future time (temporary)', sentence: 'The team will be resting at 4.00 a.m.' }, { use: 'Past in Future Time', sentence: 'The ship will have arrived by then.' } ] } };
+        const timelineSentences = { "9:30": [ "I am just starting work.", "I’m going to write four reports.", "My boss has just come in.", "He arrives at the office at 9:30 everyday." ], "10:30": [ "I’m still working in the office.", "I have been working for an hour.", "I have already written one report.", "My friend George will come to see me at 11:30.", "I will still be working in the office at 11:30." ], "12:30": [ "It is 12:30 now.", "I have been working in the office for four hours.", "I have been working since 8:30.", "I have written four reports.", "I have just finished.", "My friend George came to see me at 10:30.", "At 9:30 I had been working for one hour.", "By 9:30 I had written one report.", "At 10:30 I was still working in the office." ] };
+        
+        // --- ALL INITIALIZATION ---
+        function initApp() {
+            // Setup navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view');
+            function updateView(hash) {
+                hash = hash || '#present-tenses';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                views.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+            }
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+            window.addEventListener('hashchange', () => updateView(window.location.hash));
+            
+            // Create Tense Cards
+            function createTenseCard(tense) {
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+                let examplesHtml = tense.examples.map(ex => `<div class="mb-3"><p class="font-mono text-white text-base">"${ex.sentence}"</p><p class="text-xs text-lime-accent/80 mt-1">${ex.use}</p></div>`).join('');
+                card.innerHTML = `<h3 class="text-3xl font-bold mb-4 text-lime-accent">${tense.title}</h3><div class="mt-auto bg-black/20 p-4 rounded-lg">${examplesHtml}</div>`;
+                return card;
+            }
+            document.getElementById('present-grid').innerHTML = '';
+            tenseData.present.forEach(tense => document.getElementById('present-grid').appendChild(createTenseCard(tense)));
+            document.getElementById('past-grid').innerHTML = '';
+            tenseData.past.forEach(tense => document.getElementById('past-grid').appendChild(createTenseCard(tense)));
+            document.getElementById('future-grid').innerHTML = '';
+            tenseData.future.forEach(tense => document.getElementById('future-grid').appendChild(createTenseCard(tense)));
+
+            // Create Overview Cards
+            function createOverviewCard(data) {
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg';
+                let usesHtml = data.uses.map(item => `<div class="flex justify-between items-start text-sm py-1 gap-4"><span class="text-slate-300 text-left">${item.use}:</span><span class="font-mono text-right">${item.sentence}</span></div>`).join('');
+                card.innerHTML = `<h3 class="text-3xl font-bold mb-4 text-lime-accent">${data.title}</h3><div class="space-y-2">${usesHtml}</div>`;
+                return card;
+            }
+            const overviewGrid = document.getElementById('overview-grid');
+            overviewGrid.innerHTML = '';
+            overviewGrid.appendChild(createOverviewCard(overviewData.present));
+            overviewGrid.appendChild(createOverviewCard(overviewData.past));
+            overviewGrid.appendChild(createOverviewCard(overviewData.future));
+
+            // Create Watch Out Accordions
+            function createWatchOutAccordion(title, content) {
+                const container = document.createElement('div');
+                container.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg';
+                container.innerHTML = `<button class="w-full text-left watchout-toggle"><h3 class="text-3xl font-bold text-lime-accent flex justify-between items-center"><span>${title}</span><svg class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></h3></button><div class="watchout-content hidden mt-4 overflow-x-auto">${content}</div>`;
+                return container;
+            }
+            const presentWatchOutContent = `<div class="prose prose-invert max-w-none text-soft-white"><h4>Simple or Progressive???</h4><p>Some verbs (state verbs) are rarely used in progressive forms. These include verbs of emotion (like, dislike), thinking (know, believe), possession (own, have), senses (see, hear), and others (seem, cost, want).</p><p>Some change meaning in the progressive form:</p><table class="w-full text-sm"><thead><tr><th class="p-2">Simple (Characteristic/Opinion)</th><th class="p-2">Progressive (Action)</th></tr></thead><tbody><tr><td class="p-2 border-t border-white/10">This soup <strong>tastes</strong> great.</td><td class="p-2 border-t border-white/10">He’s <strong>tasting</strong> the soup.</td></tr><tr><td class="p-2 border-t border-white/10">What do you <strong>think</strong> about it?</td><td class="p-2 border-t border-white/10">What are you <strong>thinking</strong> about?</td></tr><tr><td class="p-2 border-t border-white/10">I don’t <strong>see</strong> what you mean. (understand)</td><td class="p-2 border-t border-white/10">I’m <strong>seeing</strong> the doctor next week. (meeting)</td></tr></tbody></table><h4 class="mt-4">Other Notes</h4><ul><li><strong>been to</strong> vs <strong>gone to</strong>: "He’s been to Paris" (he visited and came back). "He’s gone to Paris" (he is there now).</li><li><strong>Passive Voice</strong>: The Present Perfect Progressive is not used in the Passive Voice.</li></ul></div>`;
+            document.getElementById('present-watchout').innerHTML = '';
+            document.getElementById('present-watchout').appendChild(createWatchOutAccordion('Watch Out: Present Tenses', presentWatchOutContent));
+            const pastWatchOutContent = `<div class="prose prose-invert max-w-none text-soft-white"><ul><li>The Past Progressive is not used to describe habitual events or states in the past. “Used to” is used for that purpose.</li><li><strong>Used to</strong> exists only in the past and can be replaced by Simple Past.</li><li><strong>Would</strong> is not used for habitual states and is characteristic of written English. (e.g., "She <s class="text-red-400">would be</s> a famous opera singer." is incorrect).</li><li><strong>Contrast with the present</strong>: "I used to play football, but now I don’t." Using "would" here is less common.</li><li><strong>Passive Voice</strong>: The Past Perfect Progressive is not used in the passive.</li></ul></div>`;
+            document.getElementById('past-watchout').innerHTML = '';
+            document.getElementById('past-watchout').appendChild(createWatchOutAccordion('Watch Out: Past Tenses', pastWatchOutContent));
+            const futureWatchOutContent = `<div class="prose prose-invert max-w-none text-soft-white"><ul><li>We <strong>NEVER</strong> use future forms including “will” after time words (when, as soon as), or after “if” in future time clauses. Instead we use the Present or the Present Perfect. (e.g., "When I <s class="text-red-400">will have finished</s> have finished my work, I’ll come.")</li><li><strong>Future in the Past</strong>: We often use “was/were going to” to talk about something we intended to do in the past but we didn’t. ("I was going to visit my aunt yesterday but something happened.")</li><li><strong>“Going to” vs. Present Progressive</strong>: "I’m visiting Sue tomorrow." (The speaker simply shows that he or she will do this). "I’m going to visit Sue tomorrow." (The speaker shows that he or she wants the action to take place).</li><li><strong>“Will” or “Going to”</strong>: "We have run out of milk.” “Really? I’ll get some.” (Decision made at the time of speaking). "We have run out of milk.” “I know. I’m going to get some.” (Decision made before the time of speaking).</li></ul></div>`;
+            document.getElementById('future-watchout').innerHTML = '';
+            document.getElementById('future-watchout').appendChild(createWatchOutAccordion('Watch Out: Future Tenses', futureWatchOutContent));
+            document.querySelectorAll('.watchout-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('svg');
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // --- TENSE TIMELINE LOGIC ---
+            const timelineButtons = document.querySelectorAll('.timeline-btn');
+            const timelineDisplay = document.getElementById('timeline-display');
+            timelineButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const selectedTime = e.target.dataset.time;
+                    timelineButtons.forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    const sentences = timelineSentences[selectedTime];
+                    let displayHtml = `<h4 class="font-bold text-lg text-lime-accent mb-2">From the perspective of ${selectedTime}:</h4><ul class="list-disc list-inside space-y-2">${sentences.map(s => `<li class="text-slate-200">${s}</li>`).join('')}</ul>`;
+                    timelineDisplay.innerHTML = displayHtml;
+                });
+            });
+
+            // --- GRAMMAR MATRIX LOGIC ---
+            const matrixData = {
+                PAST: {
+                    ACTIVE: {
+                        ACTUAL: { SIMPLE: "She opened the letter.", PROGRESSIVE: "She was reading a letter…", PERFECT: "She had opened the letter…", "PERFECT PROGRESSIVE": "She had been reading the letter…"},
+                        REPORTED: { SIMPLE: "that she had opened the letter.", PROGRESSIVE: "that she was reading/had been reading the letter", PERFECT: "that she had opened the letter.", "PERFECT PROGRESSIVE": "that she had been reading the letter."}
+                    },
+                    PASSIVE: {
+                        ACTUAL: { SIMPLE: "The letter was opened.", PROGRESSIVE: "The letter was being read.", PERFECT: "The letter had been opened.", "PERFECT PROGRESSIVE": "NO PASSIVE FORM"},
+                        REPORTED: { SIMPLE: "that the letter had been opened.", PROGRESSIVE: "NO PASSIVE FORM", PERFECT: "that the letter had been opened.", "PERFECT PROGRESSIVE": "NO PASSIVE FORM"}
+                    }
+                },
+                PRESENT: {
+                    ACTIVE: {
+                        ACTUAL: { SIMPLE: "She opens a letter the minute she gets it.", PROGRESSIVE: "She is reading a letter.", PERFECT: "She has opened the letter.", "PERFECT PROGRESSIVE": "She has been reading the letter…"},
+                        REPORTED: { SIMPLE: "that she opened the letter.", PROGRESSIVE: "that she was reading the letter.", PERFECT: "that she had opened the letter.", "PERFECT PROGRESSIVE": "that she had been reading the letter."}
+                    },
+                    PASSIVE: {
+                        ACTUAL: { SIMPLE: "The letter is opened.", PROGRESSIVE: "The letter is being read.", PERFECT: "The letter has been opened.", "PERFECT PROGRESSIVE": "NO PASSIVE FORM"},
+                        REPORTED: { SIMPLE: "that the letter was opened.", PROGRESSIVE: "that the letter was being read.", PERFECT: "that the letter had been opened.", "PERFECT PROGRESSIVE": "NO PASSIVE FORM"}
+                    }
+                },
+                FUTURE: {
+                    ACTIVE: {
+                        ACTUAL: { SIMPLE: "She will open the letter.", PROGRESSIVE: "She will be reading the letter.", PERFECT: "She will have opened the letter.", "PERFECT PROGRESSIVE": "She will have been reading the letter…"},
+                        REPORTED: { SIMPLE: "that she would open the letter.", PROGRESSIVE: "that she would be reading the letter.", PERFECT: "that she would have opened the letter.", "PERFECT PROGRESSIVE": "that she would have been reading the letter."}
+                    },
+                    PASSIVE: {
+                        ACTUAL: { SIMPLE: "The letter will be opened.", PROGRESSIVE: "NO PASSIVE FORM", PERFECT: "The letter will have been opened.", "PERFECT PROGRESSIVE": "NO PASSIVE FORM"},
+                        REPORTED: { SIMPLE: "that the letter would be read.", PROGRESSIVE: "NO PASSIVE FORM", PERFECT: "that the letter would have been read.", "PERFECT PROGRESSIVE": "NO PASSIVE FORM"}
+                    }
+                }
+            };
+
+            const matrixSelectors = document.querySelectorAll('#matrix-time, #matrix-aspect, #matrix-voice, #matrix-form');
+            const matrixResultEl = document.getElementById('matrix-result');
+
+            function updateMatrix() {
+                const time = document.getElementById('matrix-time').value;
+                const aspect = document.getElementById('matrix-aspect').value;
+                const voice = document.getElementById('matrix-voice').value;
+                const form = document.getElementById('matrix-form').value;
+                const result = matrixData[time]?.[voice]?.[form]?.[aspect] || "Combination not applicable.";
+                matrixResultEl.textContent = result;
+            }
+
+            matrixSelectors.forEach(select => select.addEventListener('change', updateMatrix));
+            updateMatrix(); // Initial call
+            
+            const showFullMatrixBtn = document.getElementById('show-full-matrix-btn');
+            const fullMatrixTableDiv = document.getElementById('full-matrix-table');
+            
+            const fullMatrixHTML = `
+                <table class="w-full text-xs text-left border-collapse border border-lime-accent/30">
+                    <thead class="bg-lime-accent/20">
+                        <tr>
+                            <th rowspan="2" class="border p-2 border-lime-accent/30">TIME</th>
+                            <th colspan="4" class="border p-2 border-lime-accent/30 text-center">ACTIVE VOICE</th>
+                            <th colspan="4" class="border p-2 border-lime-accent/30 text-center">PASSIVE VOICE</th>
+                        </tr>
+                        <tr>
+                            <th class="border p-2 border-lime-accent/30">SIMPLE</th>
+                            <th class="border p-2 border-lime-accent/30">PROGRESSIVE</th>
+                            <th class="border p-2 border-lime-accent/30">PERFECT</th>
+                            <th class="border p-2 border-lime-accent/30">PERFECT PROGRESSIVE</th>
+                            <th class="border p-2 border-lime-accent/30">SIMPLE</th>
+                            <th class="border p-2 border-lime-accent/30">PROGRESSIVE</th>
+                            <th class="border p-2 border-lime-accent/30">PERFECT</th>
+                            <th class="border p-2 border-lime-accent/30">PERFECT PROGRESSIVE</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-lime-accent/30">
+                        <tr>
+                            <th rowspan="2" class="border p-2 border-lime-accent/30">PAST</th>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.ACTUAL.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.ACTUAL.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.ACTUAL.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.ACTUAL['PERFECT PROGRESSIVE']}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.ACTUAL.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.ACTUAL.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.ACTUAL.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.ACTUAL['PERFECT PROGRESSIVE']}</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.REPORTED.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.REPORTED.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.REPORTED.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.ACTIVE.REPORTED['PERFECT PROGRESSIVE']}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.REPORTED.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.REPORTED.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.REPORTED.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PAST.PASSIVE.REPORTED['PERFECT PROGRESSIVE']}</td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" class="border p-2 border-lime-accent/30">PRESENT</th>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.ACTUAL.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.ACTUAL.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.ACTUAL.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.ACTUAL['PERFECT PROGRESSIVE']}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.ACTUAL.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.ACTUAL.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.ACTUAL.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.ACTUAL['PERFECT PROGRESSIVE']}</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.REPORTED.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.REPORTED.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.REPORTED.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.ACTIVE.REPORTED['PERFECT PROGRESSIVE']}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.REPORTED.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.REPORTED.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.REPORTED.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.PRESENT.PASSIVE.REPORTED['PERFECT PROGRESSIVE']}</td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" class="border p-2 border-lime-accent/30">FUTURE</th>
+                             <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.ACTUAL.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.ACTUAL.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.ACTUAL.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.ACTUAL['PERFECT PROGRESSIVE']}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.ACTUAL.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.ACTUAL.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.ACTUAL.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.ACTUAL['PERFECT PROGRESSIVE']}</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.REPORTED.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.REPORTED.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.REPORTED.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.ACTIVE.REPORTED['PERFECT PROGRESSIVE']}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.REPORTED.SIMPLE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.REPORTED.PROGRESSIVE}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.REPORTED.PERFECT}</td>
+                            <td class="border p-2 border-lime-accent/30">${matrixData.FUTURE.PASSIVE.REPORTED['PERFECT PROGRESSIVE']}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            fullMatrixTableDiv.innerHTML = fullMatrixHTML;
+            
+            showFullMatrixBtn.addEventListener('click', () => {
+                const isHidden = fullMatrixTableDiv.classList.contains('hidden');
+                fullMatrixTableDiv.classList.toggle('hidden');
+                showFullMatrixBtn.textContent = isHidden ? 'Hide Full Matrix Table' : 'Show Full Matrix Table';
+            });
+
+
+            // --- PRACTICE ARENA LOGIC ---
+            const modeButtons = document.querySelectorAll('.mode-button');
+            const practiceModes = document.querySelectorAll('.practice-mode');
+            function setPracticeMode(targetId) {
+                modeButtons.forEach(button => button.classList.toggle('active', button.dataset.target === targetId));
+                practiceModes.forEach(mode => mode.classList.toggle('active', mode.id === targetId));
+            }
+            modeButtons.forEach(button => button.addEventListener('click', (e) => setPracticeMode(e.target.dataset.target)));
+
+            // --- GAP-FILL QUIZ LOGIC ---
+            const gapFillQuestions = [ { q: `"He (write) another novel at the moment." "How many (he write) so far?"`, a: "is writing, has he written" }, { q: `When exactly (Alan-go) out?`, a: "did Alan go" }, { q: `"How many copies of the latest Metallica album (sell)?" "I’m not sure but I think that more than ten thousand copies (sell).”`, a: "have been sold, have been sold" }, { q: `"What (you-do) in Paris last week?" "We (visit) a paper factory."`, a: "did you do, visited" }, { q: `"You (look) very pale." "Yes, I must go to bed. I (not-feel) very well."`, a: "look, am not feeling" }, { q: `(it-stop) raining yet?`, a: "Has it stopped" }, { q: `When I (be) here for ten years, I'll ask for a transfer to London.`, a: "have been" }, { q: `(The police officer-ask) you any questions last night?`, a: "Did the police officer ask" }, { q: `(you-ever-play) golf?`, a: "Have you ever played" }, { q: `After she (eat) her supper, she'll go to bed.`, a: "has eaten" }, { q: `"How many languages (he-speak)?" "Six. And now he (learn) Japanese."`, a: "does he speak, is learning" }, { q: `After the railways (stop) using steam engines people (almost-forget) about them.`, a: "stopped, almost forgot" }, { q: `When I (finish) (write) the letter I'll show it to you.`, a: "finish/have finished, writing" }, { q: `Where (you-go) when you (leave) the theatre the other night?`, a: "did you go, left" }, { q: `We can eat as soon as they (arrive).`, a: "arrive" }, { q: `I (go) out if the weather hadn’t been rainy.`, a: "would have gone" }, { q: `Henry (show) the visitors around at the moment.`, a: "is showing" }, { q: `Paul (take) a long holiday when he's finished the book.`, a: "will take" }, { q: `He asked me where I (buy) that jacket.`, a: "had bought" }, { q: `She said she (speak) Spanish and offered (translate) the letter.`, a: "spoke, to translate" }, { q: `He told them he (forget) my name and asked them (give) him my address.`, a: "had forgotten, to give" }, { q: `I'd have brought an umbrella if I (know) what the weather (be) like.`, a: "had known, would be" }, { q: `She is not expecting us. She'll get a shock when she (open) the door.`, a: "opens" }, { q: `How long (he-wear) this shirt?`, a: "has he been wearing" }, { q: `How many games (the team-win) last season?`, a: "did the team win" }, { q: `I (not-think) anyone can answer all the questions.`, a: "don't think" }, { q: `I wish I (taken) my camera with me when I (visit) London. If I had, I could (take) so many lovely pictures.`, a: "had taken, visited, have taken" }, { q: `I (oversleep) and (miss) the bus on Monday morning.`, a: "overslept, missed" }, { q: `I (telephone) him four times since last Tuesday.`, a: "have telephoned" }, { q: `I got there after everyone (leave).`, a: "had left" }, { q: `If you don't hurry, you'll get to the station after the train (leave).`, a: "has left" }, { q: `John (be) at college for six years now.`, a: "has been" }, { q: `What a mess! The children must (try) (make) a cake.`, a: "have been trying, to make" }, { q: `She wishes she (attend) an English course when she was younger.`, a: "had attended" }, { q: `Jason is a fine athlete who (have) an interesting career.`, a: "has had" }, { q: `My brother (come) back from Germany a week ago but I (not-see) him yet.`, a: "came, haven't seen" }, { q: `Peter (join) the army next year.`, a: "is joining" }, { q: `She (be) friends with them since 1992.`, a: "has been" }, { q: `She (try) to learn French nowadays.`, a: "is trying" }, { q: `We asked her if she (know) Mr. Brown and she said he (be) her best friend for many years.`, a: "knew, had been" }, { q: `My mother (just-go) out to do some shopping. She (be) back in an hour.`, a: "has just gone, will be" }, { q: `My teacher gets annoyed when I (make) mistakes. I try (avoid) (make) so many mistakes but I (always forget) grammar rules.`, a: "make, to avoid, making, always forget" }, { q: `Samantha told her boss that she was tired of (work) in Paris and she (give up) her job the following month unless he (move) her to the offices in London.`, a: "working, would give up, moved" }, { q: `She suggested we (take) him to a hospital.`, a: "should take" }, { q: `Joana was glad because she (win) the first prize in the competition.`, a: "had won" }, { q: `She wishes she (speak) English as well as you do.`, a: "spoke" }, { q: `Since you (leave) here there (not-be) a single day when he (not-think) of you.`, a: "left, has not been, has not thought" }, { q: `Stephen said he (have) to leave then.`, a: "had" }, { q: `The doctor asked him what he (drink) at the party but he said he (not-drink) anything at all.`, a: "had been drinking, hadn't drunk" }, { q: `The secretary said he (not-be) in his office the following day.`, a: "would not be" }, { q: `We'll go to the Town Hall when we (see) the museum.`, a: "have seen" }, { q: `The workers (still-work) in the house. They (not-finish) yet.`, a: "are still working, haven't finished" }, { q: `They (be) in hospital for ten days now.`, a: "have been" }, { q: `It must (rain). Look at all the water on the road.`, a: "have been raining" }, { q: `They (not-be) there when you (arrive).`, a: "won't be, arrive" }, { q: `You needn’t (worry) about anything. I (take) care of all the details already.`, a: "worry, have taken" }, { q: `She (not-eat) anything since yesterday morning. I wonder if she (be) on a diet.`, a: "hasn't eaten, is" }, { q: `They (not-succeed) in the previous examinations. They (have to) take it again next June.`, a: "didn't succeed, will have to" }, { q: `Her husband called to find out if she (get) the children from school.`, a: "had got" }, { q: `A group of teachers (speak) to the Minister of Education about the exam system several times already.`, a: "have spoken" }, { q: `We can't go in now. The class (just-start). We should (take) an earlier bus. Then we (not be) late.`, a: "has just started, have taken, wouldn't have been" }, { q: `They can't move into their new house until it (be) ready.`, a: "is" }, { q: `We will have a cup of coffee after we (finish) this exercise.`, a: "have finished" }, { q: `What (you-think) about now?`, a: "are you thinking" }, { q: `When I (meet) him the other day, he (carry) a large parcel. I have no idea where he (take) it.`, a: "met, was carrying, was taking" }, { q: `You (buy) the Daily Express yesterday. (you-not-finish) with it yet?`, a: "bought, Haven't you finished" }, { q: `Your aunt (rest) in her room. Go and tell her we are here.`, a: "is resting" }, { q: `We will have a ten-minute break when the bell (ring).`, a: "rings" }, { q: `I wish my parents (let) me go on holiday alone.`, a: "would let" }, { q: `You (tidy) up the house as soon as everyone (go).`, a: "will tidy, has gone" } ];
+            let currentGapFillIndex = 0;
+            const gapFillCounter = document.getElementById('gap-fill-counter');
+            const gapFillQuestion = document.getElementById('gap-fill-question');
+            const gapFillInput = document.getElementById('gap-fill-input');
+            const gapFillCheckBtn = document.getElementById('gap-fill-check-btn');
+            const gapFillAnswer = document.getElementById('gap-fill-answer');
+            const gapFillSolution = document.getElementById('gap-fill-solution');
+            const gapFillNextBtn = document.getElementById('gap-fill-next-btn');
+
+            function loadGapFillQuestion(index) {
+                gapFillCounter.textContent = index + 1;
+                gapFillQuestion.innerHTML = gapFillQuestions[index].q;
+                gapFillSolution.textContent = gapFillQuestions[index].a;
+                gapFillInput.value = '';
+                gapFillAnswer.classList.add('hidden');
+            }
+            gapFillCheckBtn.addEventListener('click', () => gapFillAnswer.classList.remove('hidden'));
+            gapFillNextBtn.addEventListener('click', () => {
+                currentGapFillIndex = (currentGapFillIndex + 1) % gapFillQuestions.length;
+                loadGapFillQuestion(currentGapFillIndex);
+            });
+            
+            // --- STORY COMPLETION LOGIC ---
+            const storyText = "The Montagues and Capuletes, the two most important families of Verona, [...(1)...] bitter enemies. Romeo, the son of Lord Montague [...(2)...] in love with Lord Capulet’s niece Rosaline. But at a feast which [...(3)...] by Capulet, and which Romeo attended disguised by a mask, he [...(4)...] Juliet, Capulet’s daughter, and [...(5)...] in love with her and she with him. After the feast [...(6)...] he overheard, under her window, Juliet [...(7)...] that she [...(8)...] in love with him. Romeo, after he [...(9)...] a long speech with words of love for her he [...(10)...] [...(11)...] her to marry him secretly. The couple [...(12)...] next day with the help of Friar Laurence, a priest. In the meantime, Mercutio, a friend of Romeo, [...(13)...] Tybalt, a relative of Juliet, who [...(14)...] so much by his discovery of Romeo’s presence at the feast that he [...(15)...] [...(16)...] with Mercutio. While they [...(17)...] Romeo [...(18)...]. He [...(19)...] to stop Tybalt and talk reasonably with him, but Tybalt and Mercutio continued [...(20)...], and Mercutio [...(21)...] in the end. When Romeo [...(22)...] his best friend dead he [...(23)...] with Tybalt and [...(24)...] him. After [...(25)...] punished with banishment he [...(26)...] Verona for Mantua early next day. He [...(27)...] the previous night with Juliet and [...(28)...] her that everything [...(29)...] all right, since the friar [...(30)...] him that he [...(31)...] [...(32)...] Romeo’s marriage when the time [...(33)...] right. Unfortunately Capulet [...(34)...] his daughter Juliet that he [...(35)...] that she [...(36)...] Count Paris. Juliet [...(37)...] to find excuses [...(38)...] this marriage, but her father [...(39)...] on her [...(40)...] Count Paris. Juliet [...(41)...] the friar for advice. He suggested that she [...(42)...] [...(43)...] the Count. However, on the night before the wedding she [...(44)...] a special medicine which [...(45)...] her [...(46)...] dead for forty-two hours. The friar, on the other hand, [...(47)...] Romeo, who [...(48)...] her from the grave when she [...(49)...] up and [...(50)...] her to Mantua. The friar’s message to Romeo must [...(51)...], and Romeo [...(52)...] that Juliet [...(53)...]. [...(54)...] poison, he came to the grave [...(55)...] a last look of Juliet. To his bad luck he [...(56)...] to meet Count Paris outside the grave. They [...(57)...] and Paris [...(58)...]. Then Romeo, after a last kiss on Juliet’s’ lips, [...(59)...] the poison and [...(60)...]. When Juliet [...(61)...] up and [...(62)...] Romeo dead by her side [...(63)...] the cup in his hand she [...(64)...] down. [...(65)...] what [...(66)...], she [...(67)...] herself with a knife. After [...(68)...] what [...(69)...] by the Friar and Count Paris’s servant the two families realised how foolish they [...(70)...] to have been enemies and forgot their hatred for each other.";
+            const storyAnswers = [ "were", "was", "was given", "saw", "fell", "had finished", "saying", "had fallen", "had made", "managed", "to persuade", "were married", "met", "had been annoyed", "started", "to quarrel", "were fighting", "came", "attempted", "fighting", "was killed", "saw", "fought", "killed", "being", "left", "had spent", "promised", "would be", "had told", "intended", "to reveal", "was", "told", "had decided", "should marry", "desperately tried", "to avoid", "insisted", "marrying", "asked", "should agree", "to marry", "drank", "would make", "look", "would warn", "would rescue", "woke", "carry", "have been lost", "heard", "had died", "Having bought", "to have", "happened", "fought", "was killed", "drank", "died", "woke", "found", "holding", "broke", "Guessing", "had happened", "killed", "hearing", "had happened", "had been" ];
+            const storyDistractors = [ ["are", "had been"], ["is", "has been"], ["gave", "was giving"], ["sees", "had seen"], ["falls", "has fallen"], ["finished", "was finishing"], ["to say", "said"], ["was falling", "fell"], ["made", "was making"], ["was managing", "had managed"], ["persuading", "persuaded"], ["had married", "married"], ["had met", "was meeting"], ["annoyed", "was annoying"], ["had started", "was starting"], ["quarrelling", "quarrel"], ["had been fighting", "fight"], ["was coming", "had come"], ["was attempting", "had attempted"], ["to fight", "fought"], ["killed", "had killed"], ["was seeing", "had seen"], ["was fighting", "had fought"], ["had killed", "was killing"], ["having been", "was"], ["had left", "was leaving"], ["spent", "was spending"], ["was promising", "had promised"], ["will be", "is"], ["told", "was telling"], ["was intending", "had intended"], ["revealing", "revealed"], ["had been", "is"], ["was telling", "had told"], ["decided", "was deciding"], ["marries", "will marry"], ["was desperately trying", "had desperately tried"], ["avoiding", "avoided"], ["was insisting", "had insisted"], ["to marry", "marry"], ["was asking", "had asked"], ["agrees", "agreeing"], ["marrying", "marry"], ["was drinking", "had drunk"], ["makes", "had made"], ["to look", "looking"], ["had warned", "was warning"], ["rescues", "had rescued"], ["was waking", "had woken"], ["to carry", "carrying"], ["be lost", "had been lost"], ["was hearing", "had heard"], ["died", "was dying"], ["Buying", "To buy"], ["having", "had"], ["was happening", "had happened"], ["were fighting", "had fought"], ["killed", "had killed"], ["was drinking", "had drunk"], ["was dying", "had died"], ["was waking", "had woken"], ["was finding", "had found"], ["to hold", "held"], ["was breaking", "had broken"], ["To guess", "Guessed"], ["was happening", "happened"], ["was killing", "had killed"], ["To hear", "Having heard"], ["happened", "was happening"], ["were", "are"] ];
+
+            const storyTextContainer = document.getElementById('story-text-container');
+            let interactiveStoryHtml = storyText;
+            storyAnswers.forEach((answer, i) => {
+                const options = [...storyDistractors[i], answer].sort(() => Math.random() - 0.5);
+                let optionsHtml = `<option value="">...(${i+1})...</option>`;
+                options.forEach(opt => {
+                    optionsHtml += `<option value="${opt}">${opt}</option>`;
+                });
+                const selectHtml = `<select class="story-select" data-answer="${answer}">${optionsHtml}</select>`;
+                interactiveStoryHtml = interactiveStoryHtml.replace(`[...(${i+1})...]`, selectHtml);
+            });
+            storyTextContainer.innerHTML = interactiveStoryHtml;
+
+            storyTextContainer.addEventListener('change', (e) => {
+                if(e.target.classList.contains('story-select')) {
+                    const selectedValue = e.target.value;
+                    const correctAnswer = e.target.dataset.answer;
+                    e.target.classList.remove('correct', 'incorrect');
+                    if(selectedValue === correctAnswer) {
+                        e.target.classList.add('correct');
+                    } else if (selectedValue !== "") {
+                        e.target.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Initial setup for Practice Arena
+            setPracticeMode('gap-fill-mode');
+            loadGapFillQuestion(currentGapFillIndex);
+
+            // Initial call to set the view
+            updateView(window.location.hash);
+        }
+
+        initApp();
+    });
+    </script>
+</body>
+</html>

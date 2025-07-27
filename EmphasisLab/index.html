@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmphasisLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'ocean-teal': '#003B46',
+                        'gold-accent': '#FFD700',
+                        'off-white': '#F4F4F4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #003B46; /* ocean-teal */
+            color: #F4F4F4; /* off-white */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #FFD700; /* gold-accent */
+            border-color: #FFD700; /* gold-accent */
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #FFD700; }
+            50% { text-shadow: 0 0 10px #fff, 0 0 20px #FFD700, 0 0 30px #FFD700; }
+        }
+
+        .glowing-emoji {
+            animation: glow 1.5s infinite ease-in-out;
+            display: inline-block;
+            margin-left: 0.25rem;
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <!-- Header and Navigation -->
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-gold-accent">EmphasisLab 🔬</h1>
+            <p class="mt-2 text-lg text-slate-200">
+                Your guide to advanced emphasis in English (for C2 students).
+            </p>
+             <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved <span class="glowing-emoji">🎭</span><span class="glowing-emoji">✍️</span></i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#scenario-explorer" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Scenario Explorer</a></li>
+                    <li><a href="#quiz" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Consolidation Quiz</a></li>
+                    <li><a href="#rewrite-challenge" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Rewrite Challenge</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Scenario Explorer -->
+            <section id="scenario-explorer" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-gold-accent">Scenario Explorer</h2>
+                <p class="mb-6 text-slate-200">Explore different ways to add emphasis to your sentences. Switch between the standard and emphatic forms to see the effect.</p>
+                <div id="scenario-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Scenario cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- View: Quiz -->
+            <section id="quiz" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-gold-accent">Consolidation Quiz</h2>
+                 <div id="quiz-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <div id="quiz-content">
+                        <p id="quiz-question" class="text-lg font-semibold mb-4"></p>
+                        <div id="quiz-options" class="space-y-3"></div>
+                    </div>
+                    <div id="quiz-feedback" class="mt-4 text-lg"></div>
+                    <button id="quiz-next-btn" class="mt-6 w-full sm:w-auto px-6 py-2 bg-gold-accent text-ocean-teal font-semibold rounded-lg hover:bg-yellow-300 disabled:bg-slate-400 disabled:cursor-not-allowed">Next Question</button>
+                </div>
+            </section>
+
+            <!-- View: Rewrite Challenge -->
+            <section id="rewrite-challenge" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-gold-accent">Rewrite Challenge</h2>
+                <div id="challenge-container" class="p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 id="challenge-title" class="text-3xl font-bold text-gold-accent mb-2"></h3>
+                    <p class="mb-4 text-slate-200">The paragraph below is written in a standard voice. Rewrite it using the specified emphasis technique.</p>
+                    <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                        <p id="challenge-text" class="italic text-slate-300"></p>
+                    </div>
+                    <textarea id="rewrite-input" rows="5" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-gold-accent focus:border-gold-accent" placeholder="Rewrite the sentences here..."></textarea>
+                    <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button id="rewrite-check-btn" class="w-full sm:w-auto px-6 py-2 bg-gold-accent text-ocean-teal font-semibold rounded-lg hover:bg-yellow-300">Check Answer</button>
+                        <button id="rewrite-next-btn" class="w-full sm:w-auto px-6 py-2 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600">Next Challenge &rarr;</button>
+                    </div>
+                    <div id="rewrite-answer" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                        <h4 class="font-bold text-lg text-green-300">Suggested Rewrite:</h4>
+                        <p id="rewrite-solution" class="italic mt-2"></p>
+                        <p class="mt-4 text-sm text-green-200"><strong class="font-semibold">Why it's better:</strong> <span id="rewrite-explanation"></span></p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- NAVIGATION / VIEW MANAGEMENT ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const views = document.querySelectorAll('.view');
+
+        function updateView(hash) {
+            hash = hash || '#scenario-explorer';
+            
+            navLinks.forEach(link => {
+                const linkHash = link.getAttribute('href');
+                if (linkHash === hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            views.forEach(view => {
+                if ('#' + view.id === hash) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const hash = e.target.getAttribute('href');
+                window.location.hash = hash;
+            });
+        });
+        
+        window.addEventListener('hashchange', () => updateView(window.location.hash));
+        updateView(window.location.hash);
+
+        // --- SCENARIO EXPLORER LOGIC ---
+        const emphasisScenarios = [
+            { title: 'Inversion: Negative Adverbials', standard: 'I have never seen such a beautiful sight.', emphatic: 'Never have I seen such a beautiful sight.', explanation: 'When a negative adverbial (Never, Rarely, Seldom, Little) starts a sentence, we invert the subject and auxiliary verb to add strong emphasis.' },
+            { title: 'Inversion: Hardly, Scarcely, No Sooner', standard: 'I had no sooner closed the door than the phone rang.', emphatic: 'No sooner had I closed the door than the phone rang.', explanation: 'Used to describe two quick successive actions. The first clause is inverted and followed by "than" or "when".' },
+            { title: 'Inversion: Only + ...', standard: 'I understood the problem only after he explained it.', emphatic: 'Only after he explained it did I understand the problem.', explanation: 'When a phrase with "Only" begins the sentence, the main clause is inverted to emphasize the condition.' },
+            { title: 'Inversion: Conditionals', standard: 'If I had known, I would have helped.', emphatic: 'Had I known, I would have helped.', explanation: 'In formal conditionals, we can omit "if" and invert the subject and verb (had, were, should) for a more elegant tone.' },
+            { title: 'Fronting: Object/Phrase', standard: 'I can\'t stand his arrogance.', emphatic: 'His arrogance, I can\'t stand.', explanation: 'Moving an object or phrase to the front focuses the listener\'s attention on it. The subject-verb order is not usually inverted.' },
+            { title: 'Fronting: Locative Inversion', standard: 'The bus comes here.', emphatic: 'Here comes the bus.', explanation: 'A special case of fronting. When a prepositional phrase of place or movement starts the sentence, the verb and subject are often inverted.' },
+            { title: 'Cleft Sentence: It-Cleft', standard: 'My brother broke the window.', emphatic: 'It was my brother who broke the window.', explanation: 'The sentence is split to strongly emphasize one piece of information (the agent, object, time, etc.).' },
+            { title: 'Cleft Sentence: Wh-Cleft', standard: 'I need a long holiday.', emphatic: 'What I need is a long holiday.', explanation: 'A "what-clause" is used as the subject to emphasize the information that comes after the verb "to be".' },
+            { title: 'Emphatic "Do/Does/Did"', standard: 'He paid for the tickets.', emphatic: 'He did pay for the tickets!', explanation: 'Adding "do/does/did" to a positive statement adds strong emphasis, often to contradict, confirm, or insist on a fact.' }
+        ];
+
+        const scenarioGrid = document.getElementById('scenario-grid');
+        emphasisScenarios.forEach((scenario, index) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-white/5 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            card.innerHTML = `
+                <h3 class="text-3xl font-bold mb-2 text-gold-accent">${scenario.title}</h3>
+                <p class="text-slate-200 mb-4 flex-grow">${scenario.explanation}</p>
+                <div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="font-semibold text-slate-300" id="voice-label-${index}">Standard Form</p>
+                        <button class="switch-voice-btn text-xs font-semibold text-gold-accent hover:underline" data-index="${index}">Switch to Emphatic</button>
+                    </div>
+                    <p class="font-mono text-white text-base" id="sentence-display-${index}">${scenario.standard}</p>
+                </div>
+            `;
+            scenarioGrid.appendChild(card);
+        });
+
+        document.querySelectorAll('.switch-voice-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.dataset.index;
+                const scenario = emphasisScenarios[index];
+                const label = document.getElementById(`voice-label-${index}`);
+                const display = document.getElementById(`sentence-display-${index}`);
+                
+                const isCurrentlyStandard = display.textContent === scenario.standard;
+
+                if (isCurrentlyStandard) {
+                    label.textContent = 'Emphatic Form';
+                    display.textContent = scenario.emphatic;
+                    e.target.textContent = 'Switch to Standard';
+                } else {
+                    label.textContent = 'Standard Form';
+                    display.textContent = scenario.standard;
+                    e.target.textContent = 'Switch to Emphatic';
+                }
+            });
+        });
+        
+        // --- QUIZ LOGIC ---
+        const quizData = [
+            { question: "Which sentence correctly uses inversion for emphasis?", options: ["Never I have seen such a thing.", "Never have I seen such a thing.", "I have seen never such a thing."], answer: "Never have I seen such a thing." },
+            { question: "How would you rewrite 'I only understood when she explained' using inversion?", options: ["Only when she explained I understood.", "Only when she explained did I understand.", "I understood only when she explained."], answer: "Only when she explained did I understand." },
+            { question: "Identify the correct cleft sentence to emphasize 'the red car'.", options: ["The red car it was that hit the tree.", "What hit the tree was the red car.", "It was the red car that hit the tree."], answer: "It was the red car that hit the tree." },
+            { question: "Which sentence uses the emphatic 'do' correctly?", options: ["I do be liking this music.", "I do like this music!", "I am doing like this music."], answer: "I do like this music!" },
+            { question: "How can you rewrite 'If I were you, I wouldn't do that' using inversion?", options: ["Were I you, I wouldn't do that.", "I were you, I wouldn't do that.", "You were I, I wouldn't do that."], answer: "Were I you, I wouldn't do that." },
+            { question: "Which sentence correctly uses 'No sooner...than'?", options: ["No sooner had he left than she arrived.", "No sooner he had left than she arrived.", "No sooner had he left when she arrived."], answer: "No sooner had he left than she arrived." },
+            { question: "What does the sentence 'What we need is more time' emphasize?", options: ["The person who needs time.", "The action of needing.", "The thing that is needed (more time)."], answer: "The thing that is needed (more time)." },
+            { question: "Choose the correct example of fronting.", options: ["A great movie, that was!", "That was a great movie!", "Was that a great movie!"], answer: "A great movie, that was!" },
+            { question: "Which sentence is a correct example of locative inversion?", options: ["Down the street the dog ran.", "Down the street ran the dog.", "The dog ran down the street."], answer: "Down the street ran the dog." },
+            { question: "How do you emphasize 'She is very talented' using 'Not only'?", options: ["Not only she is talented, but she is also kind.", "Not only is she talented, but she is also kind.", "She is not only talented, but is also kind."], answer: "Not only is she talented, but she is also kind." },
+            { question: "Which sentence correctly uses 'Little...did'?", options: ["Little he knew about the plan.", "Little did he know about the plan.", "He little did know about the plan."], answer: "Little did he know about the plan." },
+            { question: "What is the standard form of 'So beautiful was the sunset that we were speechless'?", options: ["The sunset was so beautiful that we were speechless.", "Beautiful was the sunset so that we were speechless.", "We were speechless because the sunset was so beautiful."], answer: "The sunset was so beautiful that we were speechless." },
+            { question: "Which cleft sentence emphasizes the action?", options: ["It was a book that he was writing.", "What he was doing was writing a book.", "He was writing a book, it was."], answer: "What he was doing was writing a book." },
+            { question: "How can you insist that you finished your homework?", options: ["I have finished my homework.", "I did finish my homework!", "I do have finished my homework."], answer: "I did finish my homework!" },
+            { question: "Which sentence correctly inverts a conditional?", options: ["Should you will need help, let me know.", "If should you need help, let me know.", "Should you need help, let me know."], answer: "Should you need help, let me know." }
+        ];
+
+        let currentQuestionIndex = 0;
+        const quizQuestionEl = document.getElementById('quiz-question');
+        const quizOptionsEl = document.getElementById('quiz-options');
+        const quizFeedbackEl = document.getElementById('quiz-feedback');
+        const quizNextBtn = document.getElementById('quiz-next-btn');
+
+        function loadQuestion() {
+            quizFeedbackEl.innerHTML = '';
+            quizNextBtn.disabled = true;
+            quizNextBtn.textContent = 'Next Question';
+
+            if (currentQuestionIndex >= quizData.length) {
+                quizQuestionEl.textContent = "Quiz Complete! 🏆";
+                quizOptionsEl.innerHTML = `<p>You've finished the quiz. Great job!</p>`;
+                quizNextBtn.textContent = 'Restart Quiz';
+                currentQuestionIndex = -1;
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            quizQuestionEl.textContent = q.question;
+            quizOptionsEl.innerHTML = '';
+            q.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'block w-full text-left p-3 border border-white/30 rounded-lg hover:bg-white/20';
+                button.onclick = () => checkAnswer(option, q.answer, button);
+                quizOptionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            const buttons = quizOptionsEl.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+            quizNextBtn.disabled = false;
+
+            if (selected === correct) {
+                button.classList.add('bg-green-500/50', 'border-green-400');
+                quizFeedbackEl.innerHTML = `<p class="text-green-300 font-semibold">Correct!<span class="glowing-emoji">✨</span></p>`;
+            } else {
+                button.classList.add('bg-red-500/50', 'border-red-400');
+                quizFeedbackEl.innerHTML = `<p class="text-red-300 font-semibold">Not quite. The correct answer was "${correct}"</p>`;
+                buttons.forEach(btn => {
+                    if (btn.textContent === correct) {
+                        btn.classList.add('bg-green-500/50', 'border-green-400');
+                    }
+                });
+            }
+        }
+
+        quizNextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+
+        loadQuestion();
+
+        // --- REWRITE CHALLENGE LOGIC ---
+        const challenges = [
+            { title: 'Inversion (Negative)', standard: "I have rarely seen such a dedicated student.", suggested: "Rarely have I seen such a dedicated student.", explanation: "Starting with the negative adverbial 'Rarely' requires inverting the subject 'I' and the auxiliary verb 'have'." },
+            { title: 'Inversion (Only + ...)', standard: "We can achieve success only by working together.", suggested: "Only by working together can we achieve success.", explanation: "When the 'Only by...' phrase moves to the front, the main clause inverts the subject 'we' and the modal verb 'can'." },
+            { title: 'It-Cleft (Emphasize Agent)', standard: "The manager made the final decision.", suggested: "It was the manager who made the final decision.", explanation: "To emphasize 'the manager', we use the structure 'It was [agent] who...'" },
+            { title: 'Wh-Cleft (Emphasize Action)', standard: "She wants to travel the world.", suggested: "What she wants to do is travel the world.", explanation: "To emphasize the action 'to travel', we use a 'what-clause' as the subject of the sentence." },
+            { title: 'Inversion (Conditional)', standard: "If you were to win the lottery, what would you do?", suggested: "Were you to win the lottery, what would you do?", explanation: "In this formal conditional, 'if' is omitted and the subject 'you' and verb 'were' are inverted." },
+            { title: 'Fronting (Object)', standard: "I will not tolerate that kind of behavior.", suggested: "That kind of behavior, I will not tolerate.", explanation: "The object 'That kind of behavior' is moved to the front for emphasis, without changing the subject-verb order." },
+            { title: 'Emphatic "Did"', standard: "I told you to clean your room.", suggested: "I did tell you to clean your room!", explanation: "The emphatic 'did' is added to insist that the action happened, often in response to doubt or contradiction." },
+            { title: 'Inversion (No sooner)', standard: "He had no sooner finished his dinner than he fell asleep.", suggested: "No sooner had he finished his dinner than he fell asleep.", explanation: "The phrase 'No sooner' at the beginning triggers the inversion of the subject 'he' and the auxiliary verb 'had'." },
+            { title: 'It-Cleft (Emphasize Time)', standard: "The package arrived yesterday.", suggested: "It was yesterday that the package arrived.", explanation: "To emphasize 'yesterday', we use the structure 'It was [time] that...'" },
+            { title: 'Fronting (Locative)', standard: "The king's carriage rolled down the hill.", suggested: "Down the hill rolled the king's carriage.", explanation: "When the phrase of place 'Down the hill' is fronted, the verb 'rolled' and the subject 'the king's carriage' are inverted for a more dramatic effect." }
+        ];
+
+        let currentChallengeIndex = 0;
+        const challengeTitleEl = document.getElementById('challenge-title');
+        const challengeTextEl = document.getElementById('challenge-text');
+        const rewriteInputEl = document.getElementById('rewrite-input');
+        const rewriteCheckBtn = document.getElementById('rewrite-check-btn');
+        const rewriteAnswerDiv = document.getElementById('rewrite-answer');
+        const rewriteSolutionEl = document.getElementById('rewrite-solution');
+        const rewriteExplanationEl = document.getElementById('rewrite-explanation');
+        const rewriteNextBtn = document.getElementById('rewrite-next-btn');
+
+        function loadChallenge(index) {
+            const challenge = challenges[index];
+            challengeTitleEl.textContent = challenge.title;
+            challengeTextEl.textContent = challenge.standard;
+            rewriteSolutionEl.textContent = challenge.suggested;
+            rewriteExplanationEl.textContent = challenge.explanation;
+            rewriteInputEl.value = '';
+            rewriteAnswerDiv.classList.add('hidden');
+        }
+        
+        rewriteCheckBtn.addEventListener('click', () => {
+            rewriteAnswerDiv.classList.remove('hidden');
+        });
+
+        rewriteNextBtn.addEventListener('click', () => {
+            currentChallengeIndex = (currentChallengeIndex + 1) % challenges.length;
+            loadChallenge(currentChallengeIndex);
+        });
+
+        loadChallenge(0); // Load the first challenge initially
+    });
+    </script>
+</body>
+</html>

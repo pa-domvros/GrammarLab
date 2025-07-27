@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumberLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'soft-blue': '#F0F9FF',      // sky-50
+                        'navy-blue': '#1E40AF',      // blue-800
+                        'vibrant-teal': '#0D9488',   // teal-600
+                        'accent-gold': '#D97706',    // amber-600
+                        'interactive-blue': '#3B82F6',// blue-500
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F0F9FF; /* soft-blue */
+            color: #1E3A8A; /* Similar to navy-blue */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        .feedback-icon {
+            display: inline-block;
+            width: 1.5rem;
+            margin-left: 0.5rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .feedback-correct { color: #16A34A; }
+        .feedback-incorrect { color: #DC2626; }
+        .dropdown-select {
+            display: inline-block;
+            margin: 0 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid #3B82F6;
+            background-color: #EFF6FF;
+            color: #1E40AF;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12 text-left">
+            <h1 class="text-6xl md:text-7xl font-bold text-vibrant-teal">NumberLab 🔢</h1>
+            <p class="mt-2 text-lg text-navy-blue">
+                Your guide to singular, plural, countable, and uncountable nouns.
+            </p>
+            <p class="mt-4 text-sm text-navy-blue">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+        </header>
+
+        <main class="flex-grow">
+            <div id="numberlab-accordions" class="space-y-4">
+                </div>
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-600 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- DATA ---
+        const numberLabData = [
+            {
+                title: "The Plural of Nouns",
+                content: `
+                    <p class="mb-4">Countable nouns in English accept the plural, uncountable nouns do not.</p>
+                    <ul class="list-disc list-inside space-y-4 text-navy-blue">
+                        <li>Nouns ending in <strong>-f</strong> or <strong>-fe</strong> usually change that to <strong>-ves</strong> in the plural. <br><span class="text-sm p-2 mt-1 inline-block bg-amber-100 text-accent-gold rounded-md"><strong>Exceptions:</strong> belief, chief, cliff, gulf, reef, safe</span></li>
+                        <li>Nouns ending in <strong>-o</strong> change that to <strong>-os</strong>. <br><span class="text-sm p-2 mt-1 inline-block bg-amber-100 text-accent-gold rounded-md"><strong>Exceptions:</strong> heroes, potatoes, tomatoes, torpedoes</span></li>
+                        <li><strong>Irregular Plurals</strong>
+                            <table class="table-auto w-full md:w-1/2 mt-2 border-collapse border border-blue-200">
+                                <thead><tr><th class="border border-blue-200 px-2 py-1 bg-blue-50">Singular</th><th class="border border-blue-200 px-2 py-1 bg-blue-50">Plural</th></tr></thead>
+                                <tbody>
+                                    <tr><td class="border border-blue-200 px-2 py-1">man</td><td class="border border-blue-200 px-2 py-1">men</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">woman</td><td class="border border-blue-200 px-2 py-1">women</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">child</td><td class="border border-blue-200 px-2 py-1">children</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">foot</td><td class="border border-blue-200 px-2 py-1">feet</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">tooth</td><td class="border border-blue-200 px-2 py-1">teeth</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">mouse</td><td class="border border-blue-200 px-2 py-1">mice</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">louse</td><td class="border border-blue-200 px-2 py-1">lice</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">goose</td><td class="border border-blue-200 px-2 py-1">geese</td></tr>
+                                    <tr><td class="border border-blue-200 px-2 py-1">ox</td><td class="border border-blue-200 px-2 py-1">oxen</td></tr>
+                                </tbody>
+                            </table>
+                        </li>
+                        <li>Greek words ending in <strong>-on</strong> form the plural in <strong>-a</strong> (e.g., phenomenon - phenomena).</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Number Agreement",
+                content: `
+                    <h4 class="text-2xl font-bold text-accent-gold mb-2">Followed by a singular verb</h4>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li><strong>Group I:</strong> hair, money, rubbish, wood, paper</li>
+                        <li><strong>Group II:</strong> advice, baggage, furniture, information, jewellery, knowledge, luggage, machinery, news</li>
+                        <li>Words ending in <strong>-ics</strong> referring to subjects and sciences (physics, mathematics, gymnastics, etc.)</li>
+                    </ul>
+                    <div class="p-3 bg-teal-50 border-l-4 border-vibrant-teal text-teal-800 space-y-2">
+                        <p>The uncountable noun “hair” becomes countable when it means “individual hairs” and can be followed by a plural verb. (Hairs from my cat are all over my furniture)</p>
+                        <p>The uncountable noun “wood” when it means “forest” it is countable. (There are many woods in these parts of the country)</p>
+                        <p>The uncountable noun “paper” becomes countable when it means “newspaper”. (Have you bought the morning papers?)</p>
+                        <p>The words in (II) are usually preceded by the words <strong>item</strong>, <strong>piece</strong> in which case they can be followed by a plural verb (Three items of today’s news were lost in the reporter’s computer).</p>
+                    </div>
+
+                    <h4 class="text-2xl font-bold text-accent-gold mt-6 mb-2">Followed by a plural verb</h4>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li><strong>Group I:</strong> people, police</li>
+                        <li><strong>Group II:</strong> trousers, jeans, scissors, tights, shorts</li>
+                    </ul>
+                     <div class="p-3 bg-teal-50 border-l-4 border-vibrant-teal text-teal-800 space-y-2">
+                        <p>The noun “people” can be followed by a singular verb and can have a plural form when it means “nation”. (The peoples of the worlds should try hard for world peace)</p>
+                        <p>The words in (II) can be followed by a singular verb when the phrase <strong>a pair of</strong> precedes them. (My new pair of trousers is very comfortable.)</p>
+                    </div>
+
+                    <h4 class="text-2xl font-bold text-accent-gold mt-6 mb-2">Both singular and plural</h4>
+                    <p>(depending on whether the singular or plural is meant)</p>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                         <li><strong>Group I:</strong> sheep, deer, aircraft, spacecraft</li>
+                         <li><strong>Group II:</strong> means, series, species, cross-roads, headquarters</li>
+                         <li><strong>Group III:</strong> collective nouns (that show a group of people) such as, audience, class, crew, team, jury etc.</li>
+                    </ul>
+                    <div class="p-3 bg-teal-50 border-l-4 border-vibrant-teal text-teal-800 space-y-2">
+                        <p>The nouns in (III) are followed by a singular verb when we see them as a whole and with a plural verb when we see them as individuals.</p>
+                        <p>Example 1: The team <strong>is</strong> playing very well. (the play as a whole, group)</p>
+                        <p>Example 2: The team <strong>are</strong> resting at the moment. (each player individually)</p>
+                    </div>
+                `
+            },
+            {
+                title: "Practice Time",
+                content: `
+                    <div id="practice-exercise-1"></div>
+                    <div id="practice-exercise-2" class="mt-8 pt-4 border-t border-blue-200"></div>
+                `,
+                isPractice: true
+            }
+        ];
+
+        const practiceExercises = {
+            exercise1: {
+                instruction: "Complete the sentences with is, are, was, or were.",
+                questions: [
+                    { sentence: ["The news", "not very good last night."], options: ["is", "are", "was", "were"], answer: "was" },
+                    { sentence: ["Physics", "more difficult than I thought."], options: ["is", "are", "was", "were"], answer: "is" },
+                    { sentence: ["Darts", "a popular game in pubs."], options: ["is", "are", "was", "were"], answer: "is" },
+                    { sentence: ["The scissors", "not very sharp."], options: ["is", "are", "was", "were"], answer: "are" },
+                    { sentence: ["Three thousand pounds", "stolen in the robbery."], options: ["is", "are", "was", "were"], answer: "was" },
+                    { sentence: ["What time", "the news on T.V.?"], options: ["is", "are", "was", "were"], answer: "is" },
+                    { sentence: ["Her clothes", "terribly wet when she came."], options: ["is", "are", "was", "were"], answer: "were" },
+                    { sentence: ["Politics", "their favourite topic of discussion."], options: ["is", "are", "was", "were"], answer: "is" },
+                    { sentence: ["The stairs", "right in front of you. Can't you see them?"], options: ["is", "are", "was", "were"], answer: "are" },
+                    { sentence: ["Do you think measles", "dangerous?"], options: ["is", "are", "was", "were"], answer: "is" },
+                ]
+            },
+            exercise2: {
+                instruction: "Underline the correct alternative.",
+                questions: [
+                    { sentence: ["He's given me", "."], options: ["an advice", "a piece of advice"], answer: "a piece of advice" },
+                    { sentence: ["We've had", "."], options: ["such good weather", "such a good weather"], answer: "such good weather" },
+                    { sentence: ["He wants to read something. Buy him", "."], options: ["a paper", "some paper"], answer: "a paper" },
+                    { sentence: ["How many", "will they bring?"], options: ["pieces of furniture", "furniture"], answer: "pieces of furniture" },
+                    { sentence: ["The information", "to be correct."], options: ["doesn't seem", "don't seem"], answer: "doesn't seem" },
+                    { sentence: ["Have you got", "luggage?"], options: ["many", "much"], answer: "much" },
+                    { sentence: ["He hasn't made", "progress."], options: ["much", "many"], answer: "much" },
+                    { sentence: ["Why", "the police here?"], options: ["is", "are"], answer: "are" },
+                    { sentence: ["There", "a lot of people in the square."], options: ["is", "are"], answer: "are" },
+                    { sentence: ["I bought a", "last week."], options: ["pair of trousers", "trousers"], answer: "a pair of trousers" },
+                    { sentence: ["Your English", "improved."], options: ["have", "has"], answer: "has" },
+                    { sentence: ["", "beautiful! She needn't go to a hairdresser's."], options: ["Her hair is", "Her hairs are"], answer: "Her hair is" },
+                ]
+            }
+        };
+
+        // --- CORE APP LOGIC ---
+        function buildNumberLab() {
+            const container = document.getElementById('numberlab-accordions');
+            numberLabData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'bg-white rounded-lg shadow-sm border border-blue-200';
+                
+                div.innerHTML = `
+                    <button class="w-full flex justify-between items-center p-4 text-left accordion-toggle">
+                        <h3 class="text-3xl font-bold text-vibrant-teal">${item.title}</h3>
+                        <svg class="w-6 h-6 transform transition-transform text-interactive-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content hidden p-4 border-t border-blue-200 text-lg text-navy-blue">${item.content}</div>`;
+                container.appendChild(div);
+
+                if (item.isPractice) {
+                    buildPracticeExercise(div, practiceExercises.exercise1, 'practice-exercise-1');
+                    buildPracticeExercise(div, practiceExercises.exercise2, 'practice-exercise-2');
+                }
+            });
+
+            container.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.nextElementSibling.classList.toggle('hidden');
+                    button.querySelector('svg').classList.toggle('rotate-180');
+                });
+            });
+        }
+
+        function buildPracticeExercise(parent, exerciseData, containerId) {
+            const container = parent.querySelector(`#${containerId}`);
+            let questionsHtml = `<h4 class="text-2xl font-bold text-accent-gold mb-2">${exerciseData.instruction}</h4>`;
+            questionsHtml += exerciseData.questions.map((q, index) => {
+                const optionsHtml = q.options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                return `
+                    <div class="py-2 border-b border-blue-100" data-answer="${q.answer}">
+                        <p class="text-lg text-navy-blue">
+                            <span class="font-serif pr-2">${index + 1}.</span>
+                            <span>${q.sentence[0]}</span>
+                            <select class="dropdown-select">
+                                <option value="">-- select --</option>
+                                ${optionsHtml}
+                            </select>
+                            <span>${q.sentence[1]}</span>
+                            <span class="feedback-icon"></span>
+                        </p>
+                    </div>`;
+            }).join('');
+            container.innerHTML = `<div class="space-y-2">${questionsHtml}</div>`;
+
+            container.querySelectorAll('.dropdown-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const selectedValue = e.target.value;
+                    const questionDiv = e.target.closest('div[data-answer]');
+                    const correctAnswer = questionDiv.dataset.answer;
+                    const icon = questionDiv.querySelector('.feedback-icon');
+
+                    icon.classList.remove('feedback-correct', 'feedback-incorrect');
+                    if (selectedValue === "") {
+                        icon.innerHTML = '';
+                    } else if (selectedValue === correctAnswer) {
+                        icon.innerHTML = '✔';
+                        icon.classList.add('feedback-correct');
+                    } else {
+                        icon.innerHTML = '✘';
+                        icon.classList.add('feedback-incorrect');
+                    }
+                });
+            });
+        }
+
+        buildNumberLab();
+    });
+    </script>
+</body>
+</html>

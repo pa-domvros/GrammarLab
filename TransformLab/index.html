@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransformLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'pale-lavender': '#F5F3FF',
+                        'deep-violet': '#5B21B6',
+                        'vibrant-pink': '#EC4899',
+                        'bright-teal': '#14B8A6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #F5F3FF; /* pale-lavender */
+            color: #5B21B6; /* deep-violet */
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-link.active {
+            color: #EC4899; /* vibrant-pink */
+            border-color: #EC4899; /* vibrant-pink */
+        }
+        
+        .tab-link.active {
+            color: #EC4899; /* vibrant-pink */
+            border-color: #EC4899; /* vibrant-pink */
+        }
+
+        /* Drag and Drop Styles */
+        .draggable {
+            cursor: grab;
+            user-select: none;
+        }
+        .draggable.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-zone {
+            border: 2px dashed #D1D5DB;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .drop-zone.drag-over {
+            background-color: rgba(236, 72, 153, 0.1);
+            border-color: #EC4899;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-vibrant-pink">TransformLab ⚙️</h1>
+            <p class="mt-2 text-lg text-violet-700">
+                Your guide to passive structures.
+            </p>
+            <p class="mt-4 text-sm text-violet-600">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-violet-200">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#formation" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-vibrant-pink hover:border-pink-300">Passive Formation</a></li>
+                    <li><a href="#special-verbs" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-vibrant-pink hover:border-pink-300">Special Verbs</a></li>
+                    <li><a href="#impersonal" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-vibrant-pink hover:border-pink-300">Impersonal Passive</a></li>
+                    <li><a href="#causative" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-vibrant-pink hover:border-pink-300">Have Something Done</a></li>
+                    <li><a href="#practice" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-vibrant-pink hover:border-pink-300">Practice Challenge</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Passive Formation -->
+            <section id="formation" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vibrant-pink">Passive Formation</h2>
+                <p class="mb-6 text-violet-700">To form the passive we use the verb <b class="text-bright-teal">BE</b> in the tense we need, followed by the <b class="text-bright-teal">PAST PARTICIPLE</b>.</p>
+                <div class="space-y-4">
+                    <!-- Transformation Cards -->
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right font-mono">to service</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p class="font-mono">to <b class="text-bright-teal">be serviced</b></p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right font-mono">to have serviced</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p class="font-mono">to <b class="text-bright-teal">have been serviced</b></p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right font-mono">servicing</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p class="font-mono"><b class="text-bright-teal">being serviced</b></p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right font-mono">having serviced</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p class="font-mono"><b class="text-bright-teal">having been serviced</b></p>
+                    </div>
+                </div>
+                
+                <h3 class="text-3xl font-bold my-6 text-vibrant-pink/90">Examples in Tenses</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They must service the car today.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">must be serviced</b> today.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They service the car every 10,000 kilometres.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">is serviced</b> every 10,000 kilometres.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They are servicing the car at the moment.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">is being serviced</b> at the moment.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They have just serviced the car.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">has just been serviced</b>.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They serviced the car last week.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">was serviced</b> last week.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They had already serviced the car when I got to the garage.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">had already been serviced</b> when I got to the garage.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They will service the car before the end of the week.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">will be serviced</b> before the end of the week.</p>
+                    </div>
+                     <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They will have serviced the car by the end of the day.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">will have been serviced</b> by the end of the day.</p>
+                    </div>
+                     <div class="p-4 bg-white rounded-lg shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                        <p class="md:text-right">They are going to service the car next month.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>The car <b class="text-bright-teal">is going to be serviced</b> next month.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-pink-50 border-l-4 border-pink-400 text-pink-800 rounded-r-lg">
+                    <h4 class="text-2xl font-bold text-pink-900">Watch Out!</h4>
+                    <ul class="list-disc list-inside mt-2 text-sm space-y-2">
+                        <li>The passive is only possible when the verb is transitive (has an object). E.g., "They opened the boxes." &rarr; "The boxes were opened." You cannot make a passive from "Something terrible happened."</li>
+                        <li>The Present Perfect Continuous and the Past Perfect Continuous do not have a passive form.</li>
+                        <li>When you change a sentence to the passive, the number of the new subject must agree with the verb. E.g., "They are painting the room." &rarr; "The room <b class="text-bright-teal">is</b> being painted."</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- View: Special Verbs -->
+            <section id="special-verbs" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vibrant-pink">Special Verbs in the Passive</h2>
+                <div class="space-y-6">
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-vibrant-pink/90">Verbs with Two Objects</h3>
+                        <p class="mb-4 text-violet-700">Some verbs can have two objects, so it is possible to make two different passive sentences. Such verbs include: <i class="font-semibold">bring, give, lend, promise, offer, owe, show, throw</i>.</p>
+                        <p class="font-semibold">Active: We gave him the first prize.</p>
+                        <div class="mt-2 space-y-2">
+                            <p class="p-3 bg-slate-50 rounded-lg">Passive 1: <b class="text-bright-teal">He was given</b> the first prize.</p>
+                            <p class="p-3 bg-slate-50 rounded-lg">Passive 2: <b class="text-bright-teal">The first prize was given to him</b>.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-vibrant-pink/90">The Verb "make"</h3>
+                        <p class="mb-4 text-violet-700">The verb "make" (=force) needs "to" when in the passive.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                            <p class="md:text-right">They made me pay the fine.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>I <b class="text-bright-teal">was made to pay</b> the fine.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-vibrant-pink/90">The Verb "let"</h3>
+                        <p class="mb-4 text-violet-700">The verb "let" is not used in the passive voice. It is replaced by "be allowed to".</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                            <p class="md:text-right">They let me watch TV till late.</p><p class="text-2xl text-center text-vibrant-pink">&rarr;</p><p>I <b class="text-bright-teal">am allowed to watch</b> TV till late.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Impersonal Passive -->
+            <section id="impersonal" class="view">
+                 <h2 class="text-4xl font-bold mb-4 text-vibrant-pink">Impersonal Passive Constructions</h2>
+                 <p class="mb-6 text-violet-700">These passive constructions are often used when reporting opinions and statements. Verbs used in such constructions include: <i class="font-semibold">believe, consider, deny, expect, feel, find, know, report, say, think, understand</i>.</p>
+                 <div class="space-y-8">
+                    <!-- Flowchart 1 -->
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <div class="text-center"><p class="font-semibold">Active Sentence:</p><p class="italic">Many people say that he is the best painter in the world.</p></div>
+                        <div class="text-2xl text-center my-4 text-vibrant-pink">&darr;</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <h4 class="text-2xl font-bold text-vibrant-pink/90">Construction 1</h4>
+                                <p class="mt-1 font-semibold">It + passive verb + that</p>
+                                <p class="mt-2 italic"><b class="text-bright-teal">It is said that</b> he is the best painter in the world.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <h4 class="text-2xl font-bold text-vibrant-pink/90">Construction 2</h4>
+                                <p class="mt-1 font-semibold">Person + passive verb + infinitive</p>
+                                <p class="mt-2 italic"><b class="text-bright-teal">He is said to be</b> the best painter in the world.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Flowchart 2 -->
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <div class="text-center"><p class="font-semibold">Active Sentence:</p><p class="italic">People feel that the murderer deserved a harder punishment.</p></div>
+                        <div class="text-2xl text-center my-4 text-vibrant-pink">&darr;</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <h4 class="text-2xl font-bold text-vibrant-pink/90">Construction 1</h4>
+                                <p class="mt-1 font-semibold">It + passive verb + that</p>
+                                <p class="mt-2 italic"><b class="text-bright-teal">It is felt that</b> the murderer deserved a harder punishment.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-lg">
+                                <h4 class="text-2xl font-bold text-vibrant-pink/90">Construction 2</h4>
+                                <p class="mt-1 font-semibold">Person + passive verb + infinitive</p>
+                                <p class="mt-2 italic">The murderer <b class="text-bright-teal">is felt to have deserved</b> a harder punishment.</p>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- View: Causative -->
+            <section id="causative" class="view">
+                <h2 class="text-4xl font-bold mb-4 text-vibrant-pink">To Have/Get Something Done</h2>
+                <p class="mb-6 text-violet-700">This is a structure that resembles the passive and can be found with all tenses.</p>
+                <div class="space-y-6">
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-vibrant-pink/90">For Services Done by Someone Else</h3>
+                        <p class="mb-4 text-violet-700">Used for things which we make happen or services done for us.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>She <b class="text-bright-teal">had her car serviced</b>.</li>
+                            <li>He <b class="text-bright-teal">is having his hair cut</b>.</li>
+                            <li>I <b class="text-bright-teal">must have my house insured</b> against fire.</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-vibrant-pink/90">For Accidents or Unfortunate Events</h3>
+                        <p class="mb-4 text-violet-700">Used for unfortunate things that happen to us.</p>
+                         <ul class="list-disc list-inside space-y-2">
+                            <li>I <b class="text-bright-teal">had my car stolen</b>.</li>
+                            <li>She <b class="text-bright-teal">had her best dress stained</b>.</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border border-slate-200">
+                        <h3 class="text-3xl font-bold mb-3 text-vibrant-pink/90">Using "Get"</h3>
+                        <p class="mb-4 text-violet-700">When "get" is used, it can mean that we managed to do something or that it was our fault.</p>
+                         <ul class="list-disc list-inside space-y-2">
+                            <li>I <b class="text-bright-teal">got the problem solved</b> in the end. (it was difficult)</li>
+                            <li>He <b class="text-bright-teal">got his face slapped</b> because he tried to kiss her.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Practice Challenge -->
+            <section id="practice" class="view">
+                 <h2 class="text-4xl font-bold mb-4 text-vibrant-pink">Practice Challenge</h2>
+                <nav class="mb-6 border-b border-violet-200">
+                    <ul class="flex flex-wrap -mb-px">
+                        <li><a href="#headlines" class="tab-link inline-block p-4 border-b-2 border-transparent rounded-t-lg">Headlines</a></li>
+                        <li><a href="#news-articles" class="tab-link inline-block p-4 border-b-2 border-transparent rounded-t-lg">News Articles</a></li>
+                        <li><a href="#impersonal-passive" class="tab-link inline-block p-4 border-b-2 border-transparent rounded-t-lg">Impersonal Passive</a></li>
+                        <li><a href="#have-something-done" class="tab-link inline-block p-4 border-b-2 border-transparent rounded-t-lg">Have Something Done</a></li>
+                    </ul>
+                </nav>
+                <div id="practice-views">
+                    <div id="headlines" class="view">
+                        <div id="headlines-exercise" class="p-6 bg-white rounded-lg shadow-md border border-slate-200"></div>
+                    </div>
+                    <div id="news-articles" class="view">
+                        <div id="news-articles-exercise" class="p-6 bg-white rounded-lg shadow-md border border-slate-200"></div>
+                    </div>
+                    <div id="impersonal-passive" class="view">
+                        <div id="impersonal-exercise" class="p-6 bg-white rounded-lg shadow-md border border-slate-200"></div>
+                    </div>
+                    <div id="have-something-done" class="view">
+                        <div id="causative-exercise" class="p-6 bg-white rounded-lg shadow-md border border-slate-200"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DATA ---
+        const headlinesData = [
+            { q: "FIRE IN LONDON DISCO. SIX KILLED.", a: "There was a fire in a disco in London and six people were killed." },
+            { q: "CAR ACCIDENT IN LEEDS. DRIVER KILLED.", a: "There was a car accident in Leeds and the driver was killed." },
+            { q: "EARTHQUAKE IN PERU. TWENTY TRAPPED IN RUINS.", a: "There was an earthquake in Peru and twenty people were trapped in the ruins." },
+            { q: "GAS EXPLOSION IN PARIS RESTAURANT. TWO INJURED.", a: "There was a gas explosion in a Paris restaurant and two people were injured." },
+            { q: "FIRE IN MANHATAN SUPERMARKET. GUARD KILLED.", a: "There was a fire in a Manhattan supermarket and a guard was killed." },
+            { q: "BATTLE IN BAGHDAD STREETS. SIX AMERICAN SOLDIERS WOUNDED.", a: "There was a battle in the streets of Baghdad and six American soldiers were wounded." },
+            { q: "AIR RAID IN IRAQ. MILITARY CAMP BOMBED.", a: "There was an air raid in Iraq and a military camp was bombed." },
+            { q: "HIJACK IN EL-AL AIRLINES. TWO TERRORISTS SHOT DEAD.", a: "There was a hijack in El-Al airlines and two terrorists were shot dead." },
+            { q: "BURGLARY IN LONDON FLAT. KANDINSKY PAINTING STOLEN.", a: "There was a burglary in a London flat and a Kandinsky painting was stolen." }
+        ];
+
+        const impersonalData = [
+            { q: "People say that this house is haunted.", a1: "This house is said to be haunted.", a2: "It is said that this house is haunted." },
+            { q: "They found that the machine was in order.", a1: "The machine was found to be in order.", a2: "It was found that the machine was in order." },
+            { q: "People know Ibiza as a holiday resort.", a1: "Ibiza is known to be a holiday resort.", a2: "It is known that Ibiza is a holiday resort." },
+            { q: "People generally assume that money brings happiness.", a1: "Money is generally assumed to bring happiness.", a2: "It is generally assumed that money brings happiness." },
+            { q: "People believe that he is not guilty.", a1: "He is believed not to be guilty.", a2: "It is believed that he is not guilty." },
+            { q: "Newspapers report that her boss tried to kill her.", a1: "Her boss is reported to have tried to kill her.", a2: "It is reported that her boss tried to kill her." },
+            { q: "People will assume that the guard helped the prisoner escape.", a1: "The guard will be assumed to have helped the prisoner escape.", a2: "It will be assumed that the guard helped the prisoner escape." },
+        ];
+
+        const causativeData = [
+            { q: "Deborah's TV set was broken and she took it to the TV repair man. Now it is all right. What has Deborah done?", a: "She has had her TV set repaired." },
+            { q: "Tom's car needs servicing and he's going to ask a mechanic to do it. What's Tom going to do?", a: "He is going to have his car serviced." },
+            { q: "Julia's piano was out of tune and she called a piano-tuner to have a look at it. Now it's all right. What did Julia do?", a: "She had her piano tuned." },
+            { q: "Pat's photograph for her passport was rather blurred... Pat went back to the photographer's. What did she have to do?", a: "She had to have her photograph retaken." },
+            { q: "Helen needed some firewood and called someone to chop it up for her. What did she do?", a: "She had the firewood chopped up." },
+            { q: "These trousers were a bit short and Peter took them to the tailor's. Now they are just the length he wanted. What has Peter done?", a: "He has had the trousers lengthened." },
+            { q: "John has a bad toothache. He's at the dentist's right now. What is he doing?", a: "He is having a tooth taken out." }
+        ];
+
+        // --- CORE APP LOGIC ---
+        function initApp() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mainViews = document.querySelectorAll('main > .view');
+            const practiceTabLinks = document.querySelectorAll('#practice .tab-link');
+            const practiceViews = document.querySelectorAll('#practice-views .view');
+
+            function updateMainView(hash) {
+                hash = hash || '#formation';
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                mainViews.forEach(view => view.classList.toggle('active', '#' + view.id === hash));
+
+                if(hash === '#practice') {
+                    updatePracticeView(window.location.hash.split('/')[1] || 'headlines');
+                }
+            }
+            
+            function updatePracticeView(practiceHash) {
+                practiceHash = practiceHash || 'headlines';
+                const fullHash = '#practice/' + practiceHash;
+                practiceTabLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + practiceHash));
+                practiceViews.forEach(view => view.classList.toggle('active', view.id === practiceHash));
+            }
+
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                });
+            });
+
+             practiceTabLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const practiceHash = e.target.getAttribute('href');
+                    window.location.hash = 'practice/' + practiceHash.substring(1);
+                });
+            });
+            
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash;
+                if (hash.startsWith('#practice')) {
+                    updateMainView('#practice');
+                } else {
+                    updateMainView(hash);
+                }
+            });
+            
+            // --- INITIALIZE EXERCISES ---
+            createRewriteExercise(document.getElementById('headlines-exercise'), headlinesData, "Expand the Headlines", true);
+            createDragDropNewsExercise(document.getElementById('news-articles-exercise'));
+            createImpersonalExercise(document.getElementById('impersonal-exercise'), impersonalData, "Rewrite in the Impersonal Passive");
+            createRewriteExercise(document.getElementById('causative-exercise'), causativeData, "Use 'Have Something Done'", true);
+
+            updateMainView(window.location.hash);
+        }
+
+        // --- EXERCISE GENERATORS ---
+
+        function createRewriteExercise(container, data, title, showExample = false) {
+            let html = `<h3 class="text-3xl font-bold text-vibrant-pink/90 mb-2">${title}</h3>`;
+            if (showExample) {
+                html += `<div class="mb-4 p-3 bg-slate-100 rounded-lg text-sm">
+                    <p class="font-bold">Example:</p>
+                    <p class="italic text-slate-600">"${data[0].q}"</p>
+                    <p class="mt-1 text-bright-teal font-semibold">${data[0].a}</p>
+                </div>`;
+            }
+            html += `<div class="space-y-4">`;
+            const startIndex = showExample ? 1 : 0;
+            for(let i = startIndex; i < data.length; i++) {
+                html += `
+                    <div data-index="${i}">
+                        <label class="block text-sm text-violet-800 italic">"${data[i].q}"</label>
+                        <input type="text" class="mt-1 w-full p-2 bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-vibrant-pink" placeholder="Your rewritten sentence...">
+                        <div class="feedback-text text-sm mt-1"></div>
+                    </div>
+                `;
+            }
+            html += `</div><div class="mt-6 text-center"><button class="check-btn px-6 py-2 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600">Check Answers</button></div>`;
+            container.innerHTML = html;
+
+            container.querySelector('.check-btn').addEventListener('click', () => {
+                container.querySelectorAll('div[data-index]').forEach(item => {
+                    const index = parseInt(item.dataset.index);
+                    const input = item.querySelector('input');
+                    const feedback = item.querySelector('.feedback-text');
+                    const userAnswer = input.value.trim().toLowerCase().replace(/[.,]/g, '');
+                    const correctAnswer = data[index].a.toLowerCase().replace(/[.,]/g, '');
+                    if (userAnswer === correctAnswer) {
+                        feedback.innerHTML = `<span class="text-green-600 font-semibold">Correct! ✅</span>`;
+                    } else {
+                        feedback.innerHTML = `<span class="text-red-600 font-semibold">Not quite. Suggested: ${data[index].a}</span>`;
+                    }
+                });
+            });
+        }
+        
+        function createImpersonalExercise(container, data, title) {
+            let html = `<h3 class="text-3xl font-bold text-vibrant-pink/90 mb-2">${title}</h3>
+                        <div class="mb-4 p-3 bg-slate-100 rounded-lg text-sm">
+                            <p class="font-bold">Example:</p>
+                            <p class="italic text-slate-600">"${data[0].q}"</p>
+                            <p class="mt-1 text-bright-teal font-semibold">1: ${data[0].a1}</p>
+                            <p class="mt-1 text-bright-teal font-semibold">2: ${data[0].a2}</p>
+                        </div>
+                        <div class="space-y-4">`;
+            for(let i = 1; i < data.length; i++) {
+                html += `
+                    <div data-index="${i}">
+                        <label class="block text-sm text-violet-800 italic">"${data[i].q}"</label>
+                        <input type="text" class="mt-1 w-full p-2 bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-vibrant-pink" placeholder="Passive form 1...">
+                        <input type="text" class="mt-1 w-full p-2 bg-white border border-slate-300 rounded-md focus:ring-2 focus:ring-vibrant-pink" placeholder="Passive form 2...">
+                        <div class="feedback-text text-sm mt-1"></div>
+                    </div>
+                `;
+            }
+            html += `</div><div class="mt-6 text-center"><button class="check-btn px-6 py-2 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600">Check Answers</button></div>`;
+            container.innerHTML = html;
+
+            container.querySelector('.check-btn').addEventListener('click', () => {
+                container.querySelectorAll('div[data-index]').forEach(item => {
+                    const index = parseInt(item.dataset.index);
+                    const inputs = item.querySelectorAll('input');
+                    const feedback = item.querySelector('.feedback-text');
+                    const userA1 = inputs[0].value.trim().toLowerCase().replace(/[.,]/g, '');
+                    const userA2 = inputs[1].value.trim().toLowerCase().replace(/[.,]/g, '');
+                    const correctA1 = data[index].a1.toLowerCase().replace(/[.,]/g, '');
+                    const correctA2 = data[index].a2.toLowerCase().replace(/[.,]/g, '');
+
+                    if ((userA1 === correctA1 && userA2 === correctA2) || (userA1 === correctA2 && userA2 === correctA1)) {
+                        feedback.innerHTML = `<span class="text-green-600 font-semibold">Correct! ✅</span>`;
+                    } else {
+                        feedback.innerHTML = `<span class="text-red-600 font-semibold">Not quite. Suggested: <br>1: ${data[index].a1} <br>2: ${data[index].a2}</span>`;
+                    }
+                });
+            });
+        }
+
+        function createDragDropNewsExercise(container) {
+            const verbs = ['surprised', 'attracted', 'impressed', 'killed', 'brought', 'frightened'];
+            container.innerHTML = `
+                <h3 class="text-3xl font-bold text-vibrant-pink/90 mb-2">Newspaper Articles</h3>
+                <p class="mb-4 text-violet-700">Drag the correct passive verb from the word bank into the gaps in the stories.</p>
+                <div class="lg:flex lg:gap-6">
+                    <!-- Stories -->
+                    <div class="flex-grow space-y-6">
+                        <div class="p-4 bg-slate-50 rounded-lg">
+                            <h4 class="text-2xl font-bold text-vibrant-pink/90">SAVED BY MIRACLE</h4>
+                            <p class="mt-2">MOTHER Joanna Lovelace, along with many guests at the Hilton Hotel in Brussels, <span class="drop-zone h-8 w-28 inline-block align-middle"></span> to see her seven-year old son David hanging from the chandelier in the hotel lounge. David, who <span class="drop-zone h-8 w-28 inline-block align-middle"></span> by rich crystal balls on the chandelier, tried to remove some of them so that he could play with them. After some time spent in agony the boy <span class="drop-zone h-8 w-28 inline-block align-middle"></span> down by the firemen. “I have never been so <span class="drop-zone h-8 w-28 inline-block align-middle"></span> in my whole life” said the boy’s mother.</p>
+                        </div>
+                         <div class="p-4 bg-slate-50 rounded-lg">
+                            <h4 class="text-2xl font-bold text-vibrant-pink/90">FOUR FUNERALS AND A WEDDING</h4>
+                            <p class="mt-2">TEACHER John Carpenter and nurse Morticia Price were both fond of attending funerals. One day they met at the funeral of a mutual friend, who <span class="drop-zone h-8 w-28 inline-block align-middle"></span> in a car crash. They <span class="drop-zone h-8 w-28 inline-block align-middle"></span> to each other at once. They started talking and soon their common passion for funerals brought them closer. They started inviting each other to funerals. After the fourth funeral that Morticia <span class="drop-zone h-8 w-28 inline-block align-middle"></span> to, John proposed to her and soon after they became husband and wife.</p>
+                        </div>
+                    </div>
+                    <!-- Word Bank -->
+                    <div class="w-full lg:w-48 flex-shrink-0 mt-6 lg:mt-0">
+                        <h4 class="text-2xl font-bold text-center text-vibrant-pink/90">Word Bank</h4>
+                        <div id="word-bank" class="mt-2 p-2 bg-white border rounded-lg space-y-2">
+                            ${verbs.map(v => `<div class="draggable p-2 bg-teal-100 text-teal-800 text-center rounded cursor-grab">${v}</div>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const draggables = container.querySelectorAll('.draggable');
+            const dropZones = container.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', e => {
+                    e.target.classList.add('dragging');
+                });
+                draggable.addEventListener('dragend', e => {
+                    e.target.classList.remove('dragging');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+                zone.addEventListener('dragleave', e => {
+                    zone.classList.remove('drag-over');
+                });
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    const dragging = document.querySelector('.dragging');
+                    if (dragging) {
+                        if (zone.children.length > 0) {
+                            document.getElementById('word-bank').appendChild(zone.firstElementChild);
+                        }
+                        zone.appendChild(dragging);
+                    }
+                });
+            });
+        }
+        
+        initApp();
+    });
+    </script>
+</body>
+</html>

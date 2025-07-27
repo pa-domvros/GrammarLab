@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; }
+        .view.active { display: block; }
+
+        body {
+            background-color: #480CA8;
+            background-image: linear-gradient(145deg, #480CA8 0%, #F72585 60%, #FF9E00 100%);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #FFD700; }
+            50% { text-shadow: 0 0 10px #fff, 0 0 20px #FFD700, 0 0 30px #FFD700; }
+        }
+
+        .glowing-emoji {
+            animation: glow 1.5s infinite ease-in-out;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+    </style>
+</head>
+<body class="text-white font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <!-- Header and Navigation -->
+        <header class="mb-8 md:mb-12">
+            <div class="flex justify-between items-center">
+                <!-- Mobile-optimized font size -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">VoiceLab ✨</h1>
+            </div>
+            <p class="mt-2 text-lg text-slate-200">
+                Your guide to understanding and using the passive voice effectively. <br>
+                Designed for advanced students (B2-C2).
+            </p>
+            <p class="mt-4 text-sm text-slate-300">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+            <nav class="mt-6 border-b border-white/20">
+                <ul class="flex flex-wrap -mb-px">
+                    <li><a href="#scenario-explorer" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Scenario Explorer</a></li>
+                    <li><a href="#quiz" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Consolidation Quiz</a></li>
+                    <li><a href="#rewrite-challenge" class="nav-link inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white hover:border-slate-300">Rewrite Challenge</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="flex-grow">
+            <!-- View: Scenario Explorer -->
+            <section id="scenario-explorer" class="view">
+                <h2 class="text-4xl font-bold mb-4">Scenario Explorer</h2>
+                <p class="mb-6 text-slate-200">The passive voice isn't an error, it's a stylistic choice. Explore scenarios where it's preferred and switch between voices to see the effect.</p>
+                <!-- Grid defaults to single column on mobile, which is perfect -->
+                <div id="scenario-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Scenario cards will be injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- View: Quiz -->
+            <section id="quiz" class="view">
+                <h2 class="text-4xl font-bold mb-4">Consolidation Quiz</h2>
+                <div id="quiz-container" class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <div id="quiz-content">
+                        <p id="quiz-question" class="text-lg font-semibold mb-4"></p>
+                        <div id="quiz-options" class="space-y-3"></div>
+                    </div>
+                    <div id="quiz-feedback" class="mt-4 text-lg"></div>
+                    <button id="quiz-next-btn" class="mt-6 w-full sm:w-auto px-6 py-2 bg-green-500 text-black font-semibold rounded-lg hover:bg-green-400 disabled:bg-slate-400 disabled:cursor-not-allowed">Next Question</button>
+                </div>
+            </section>
+
+            <!-- View: Rewrite Challenge -->
+            <section id="rewrite-challenge" class="view">
+                <h2 class="text-4xl font-bold mb-4">Rewrite Challenge</h2>
+                <div id="challenge-container" class="p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h3 id="challenge-title" class="text-3xl font-bold text-yellow-300 mb-2"></h3>
+                    <p class="mb-4 text-slate-200">The paragraph below is written in a clunky, active voice. Rewrite it in the passive voice to improve its flow and objectivity.</p>
+                    <div class="p-4 bg-black/20 rounded-md mb-4 border border-white/20">
+                        <p id="challenge-text" class="italic text-slate-300"></p>
+                    </div>
+                    <textarea id="rewrite-input" rows="5" class="w-full p-3 bg-black/20 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500" placeholder="Rewrite the sentences here..."></textarea>
+                    <!-- Mobile-optimized button layout: stacks vertically on small screens -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-4 sm:space-y-0">
+                        <button id="rewrite-check-btn" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400">Check Answer</button>
+                        <button id="rewrite-next-btn" class="w-full sm:w-auto px-6 py-2 bg-pink-500 text-white font-semibold rounded-lg hover:bg-pink-600">Next Challenge &rarr;</button>
+                    </div>
+                    <div id="rewrite-answer" class="mt-6 p-4 bg-green-500/20 border border-green-400 rounded-lg hidden">
+                        <h4 class="font-bold text-lg text-green-300">Suggested Rewrite:</h4>
+                        <p id="rewrite-solution" class="italic mt-2"></p>
+                        <p class="mt-4 text-sm text-green-200"><strong class="font-semibold">Why it's better:</strong> <span id="rewrite-explanation"></span></p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-slate-300 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- NAVIGATION / VIEW MANAGEMENT ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const views = document.querySelectorAll('.view');
+
+        function updateView(hash) {
+            hash = hash || '#scenario-explorer';
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === hash) {
+                    link.classList.add('text-yellow-300', 'border-yellow-300');
+                    link.classList.remove('border-transparent', 'hover:text-white', 'hover:border-slate-300');
+                } else {
+                    link.classList.remove('text-yellow-300', 'border-yellow-300');
+                    link.classList.add('border-transparent', 'hover:text-white', 'hover:border-slate-300');
+                }
+            });
+
+            views.forEach(view => {
+                if ('#' + view.id === hash) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const hash = e.target.getAttribute('href');
+                window.location.hash = hash;
+            });
+        });
+        
+        window.addEventListener('hashchange', () => updateView(window.location.hash));
+        updateView(window.location.hash);
+
+        // --- SCENARIO EXPLORER LOGIC ---
+        const scenarioData = [
+            { title: 'Unknown Agent', active: 'Someone stole my wallet.', passive: 'My wallet was stolen.', explanation: 'Use passive when the agent (the person or thing doing the action) is unknown or unimportant.' },
+            { title: 'Scientific Context', active: 'Researchers conducted the experiment.', passive: 'The experiment was conducted.', explanation: 'Focuses on the action (the experiment) rather than the agent (the researchers), which is common in scientific and technical writing.' },
+            { title: 'Instructional Text', active: 'You mix the flour and sugar.', passive: 'The flour and sugar are mixed.', explanation: 'Creates a formal, impersonal tone used in recipes, manuals, and official instructions. The focus is on the action, not the reader.' },
+            { title: 'Maintaining Topic Focus', active: 'Leonardo da Vinci painted the Mona Lisa. He created it in the 16th century.', passive: 'The Mona Lisa was painted by da Vinci. It was created in the 16th century.', explanation: 'Keeps the main subject at the start of each sentence, creating a smoother flow, even when the subject is being acted upon.' },
+            { title: 'Tact and Politeness', active: 'You did not follow the procedure correctly.', passive: 'The procedure was not followed correctly.', explanation: 'Softens the delivery of a direct statement or command, making it feel less personal or confrontational.' },
+            { title: 'Avoiding Blame', active: 'You made an error in the report.', passive: 'An error was made in the report.', explanation: 'Can be used to be diplomatic or to avoid placing direct blame on a specific person, which can sound less confrontational.' },
+            { title: 'Formal Report', active: 'The committee released the report.', passive: 'The report was released by the committee.', explanation: 'Lends an objective and formal tone to official documents and announcements.' },
+            { title: 'Historical Fact', active: 'The Romans built this bridge.', passive: 'This bridge was built by the Romans.', explanation: 'Emphasizes the object of the historical action, giving it prominence.' },
+            { title: 'Unexpected Event', active: 'A storm damaged the roof.', passive: 'The roof was damaged by a storm.', explanation: 'Puts the focus on what was affected (the roof) rather than the cause.' },
+            { title: 'Security Notice', active: 'The guard checks bags at the door.', passive: 'Bags are checked at the door.', explanation: 'Makes a general statement about a rule or procedure without specifying the agent.' }
+        ];
+
+        const scenarioGrid = document.getElementById('scenario-grid');
+        scenarioData.sort((a, b) => a.title.localeCompare(b.title));
+        
+        scenarioData.forEach((scenario, index) => {
+            const card = document.createElement('div');
+            card.className = 'p-6 bg-black/20 backdrop-blur-sm rounded-lg shadow-lg flex flex-col';
+            card.innerHTML = `
+                <h3 class="text-3xl font-bold mb-2 text-yellow-300">${scenario.title}</h3>
+                <p class="text-slate-200 mb-4 flex-grow">${scenario.explanation}</p>
+                <div class="mt-auto text-sm bg-black/20 p-4 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="font-semibold text-slate-300" id="voice-label-${index}">Active Voice</p>
+                        <button class="switch-voice-btn text-xs font-semibold text-white hover:underline" data-index="${index}">Switch to Passive</button>
+                    </div>
+                    <p class="font-mono text-white" id="sentence-display-${index}">${scenario.active}</p>
+                </div>
+            `;
+            scenarioGrid.appendChild(card);
+        });
+
+        document.querySelectorAll('.switch-voice-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.dataset.index;
+                const scenario = scenarioData[index];
+                const label = document.getElementById(`voice-label-${index}`);
+                const display = document.getElementById(`sentence-display-${index}`);
+                
+                const isCurrentlyActive = display.textContent === scenario.active;
+
+                if (isCurrentlyActive) {
+                    label.textContent = 'Passive Voice';
+                    display.textContent = scenario.passive;
+                    e.target.textContent = 'Switch to Active';
+                } else {
+                    label.textContent = 'Active Voice';
+                    display.textContent = scenario.active;
+                    e.target.textContent = 'Switch to Passive';
+                }
+            });
+        });
+
+        // --- QUIZ LOGIC ---
+        const quizData = [
+            { question: "You are writing a lab report. Which sentence is more appropriate?", options: ["We heated the solution to 100°C.", "The solution was heated to 100°C."], answer: "The solution was heated to 100°C." },
+            { question: "A priceless vase has been broken. To avoid blaming your friend, you say:", options: ["You broke the vase.", "The vase was broken."], answer: "The vase was broken." },
+            { question: "You are writing a fantasy novel and want an exciting, action-packed sentence. Which is better?", options: ["The dragon was slain by the knight.", "The knight slew the dragon."], answer: "The knight slew the dragon." },
+            { question: "A public sign needs to state a rule. Which is more common?", options: ["Employees must wash hands.", "Hands must be washed."], answer: "Hands must be washed." },
+            { question: "The person who committed a crime is unknown. How would a news report likely phrase it?", options: ["Someone robbed the bank.", "The bank was robbed last night."], answer: "The bank was robbed last night." },
+            { question: "You are a manager giving feedback on a report. To be polite, which is better?", options: ["You calculated the totals incorrectly.", "The totals were calculated incorrectly."], answer: "The totals were calculated incorrectly." },
+            { question: "A paragraph is about a famous statue. Which sentence fits best? 'The Statue of Liberty is a global icon...'", options: ["A French sculptor designed the statue.", "The statue was designed by a French sculptor."], answer: "The statue was designed by a French sculptor." },
+            { question: "Your company is announcing a new policy. Which sounds more official?", options: ["The new guidelines will be implemented on Monday.", "We will implement the new guidelines on Monday."], answer: "The new guidelines will be implemented on Monday." },
+            { question: "A museum plaque wants to emphasize an ancient sword. Which text is better?", options: ["A Viking blacksmith forged this sword in the 9th century.", "This sword was forged in the 9th century by a Viking blacksmith."], answer: "This sword was forged in the 9th century by a Viking blacksmith." },
+            { question: "In a recipe, which instruction is more standard?", options: ["The eggs are beaten until fluffy.", "You should beat the eggs until they are fluffy."], answer: "The eggs are beaten until fluffy." }
+        ];
+
+        let currentQuestionIndex = 0;
+        const quizQuestionEl = document.getElementById('quiz-question');
+        const quizOptionsEl = document.getElementById('quiz-options');
+        const quizFeedbackEl = document.getElementById('quiz-feedback');
+        const quizNextBtn = document.getElementById('quiz-next-btn');
+
+        function loadQuestion() {
+            quizFeedbackEl.innerHTML = '';
+            quizNextBtn.disabled = true;
+            quizNextBtn.textContent = 'Next Question';
+
+            if (currentQuestionIndex >= quizData.length) {
+                quizQuestionEl.textContent = "Quiz Complete! 🏆";
+                quizOptionsEl.innerHTML = `<p>You've finished the quiz. Great job!</p>`;
+                quizNextBtn.textContent = 'Restart Quiz';
+                currentQuestionIndex = -1;
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            quizQuestionEl.textContent = q.question;
+            quizOptionsEl.innerHTML = '';
+            q.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = 'block w-full text-left p-3 border border-white/30 rounded-lg hover:bg-white/20';
+                button.onclick = () => checkAnswer(option, q.answer, button);
+                quizOptionsEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct, button) {
+            const buttons = quizOptionsEl.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+            quizNextBtn.disabled = false;
+
+            if (selected === correct) {
+                button.classList.add('bg-green-500/50', 'border-green-400');
+                quizFeedbackEl.innerHTML = `<p class="text-green-300 font-semibold">Correct!<span class="glowing-emoji">✨</span></p>`;
+            } else {
+                button.classList.add('bg-red-500/50', 'border-red-400');
+                quizFeedbackEl.innerHTML = `<p class="text-red-300 font-semibold">Not quite. The better choice was "${correct}"</p>`;
+                buttons.forEach(btn => {
+                    if (btn.textContent === correct) {
+                        btn.classList.add('bg-green-500/50', 'border-green-400');
+                    }
+                });
+            }
+        }
+
+        quizNextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+
+        loadQuestion();
+
+        // --- REWRITE CHALLENGE LOGIC ---
+        const challenges = [
+            { title: 'Scientific Report', awkwardActive: "In our lab, a scientist first took the beaker. Then, that scientist heated the solution inside it to a boil. After that, the same scientist observed the color change and recorded the results in a logbook.", suggestedPassive: "First, the beaker was taken. Then, the solution was heated to a boil. The color change was observed and the results were recorded in a logbook.", explanation: "In a scientific context, the focus is on the process, not the researcher. The passive voice makes the report sound more objective by removing the unimportant agent ('a scientist')." },
+            { title: 'News Article', awkwardActive: "Last night, an unknown person broke into the city museum. This person stole three priceless artifacts. The police are investigating the scene but they have not yet identified any suspects.", suggestedPassive: "The city museum was broken into last night. Three priceless artifacts were stolen. The scene is being investigated by the police, but no suspects have been identified yet.", explanation: "The key information is the museum and the artifacts. The passive voice puts these important details first, which is standard for news writing, especially when the agent is unknown." },
+            { title: 'Historical Account', awkwardActive: "In 1922, Howard Carter discovered the tomb of Tutankhamun. The discovery amazed the world. Inside the tomb, Carter and his team found thousands of incredible artifacts.", suggestedPassive: "The tomb of Tutankhamun was discovered in 1922 by Howard Carter. The world was amazed by the discovery. Inside the tomb, thousands of incredible artifacts were found.", explanation: "This text is about the tomb and its contents. The passive voice allows the paragraph to maintain its focus on the tomb and the artifacts, making the narrative flow more smoothly." },
+            { title: 'Company Memo', awkwardActive: "Management has decided to update the company's travel policy. The accounting department will implement the new rules on the first of next month. All employees must submit their expense reports under the new guidelines.", suggestedPassive: "It has been decided that the company's travel policy will be updated. The new rules will be implemented on the first of next month. All expense reports must be submitted under the new guidelines.", explanation: "For formal announcements, the passive voice creates an impersonal and authoritative tone. It focuses on the new policy itself rather than the specific people making the decision." },
+            { title: 'Product Manual', awkwardActive: "First, you should unpack all the components from the box. Next, you must connect the red wire to the red terminal. After you do that, you can insert the batteries into the compartment.", suggestedPassive: "First, all components should be unpacked from the box. Next, the red wire must be connected to the red terminal. After that, the batteries can be inserted into the compartment.", explanation: "Instructional texts like manuals use the passive voice to provide clear, objective steps. The focus is on the actions to be performed, not on the user ('you')." },
+            { title: 'Customer Complaint Response', awkwardActive: "We understand that you did not receive your package on time. I see that our shipping department made an error during processing. We will give you a full refund for the inconvenience.", suggestedPassive: "It is understood that your package was not received on time. It appears an error was made during processing. A full refund will be issued for the inconvenience.", explanation: "To be polite and tactful, the passive voice avoids direct blame ('our department made an error') and sounds more formal and less confrontational when delivering a solution." },
+            { title: 'Legal Document', awkwardActive: "Both parties must sign the contract by Friday. One party will deliver the payment on the following Monday. The other party must then transfer the property ownership within five business days.", suggestedPassive: "The contract must be signed by both parties by Friday. The payment will be delivered on the following Monday. The property ownership must then be transferred within five business days.", explanation: "Legal writing often uses the passive voice to sound objective and formal. It emphasizes the obligations and actions required by the contract rather than the individuals performing them." },
+            { title: 'Event Report', awkwardActive: "The event organizers planned a spectacular fireworks display to end the festival. However, a sudden thunderstorm forced them to cancel the show. The organizers announced the cancellation over the loudspeakers.", suggestedPassive: "A spectacular fireworks display was planned to end the festival. However, the show was forced to be canceled due to a sudden thunderstorm. The cancellation was announced over the loudspeakers.", explanation: "The focus of the report is on the events (the fireworks, the cancellation). The passive voice keeps the attention on what happened, which is more important than who was doing it." },
+            { title: 'Art History Description', awkwardActive: "In 1889, Vincent van Gogh painted 'The Starry Night'. He used bold colors and dramatic brushstrokes to create the masterpiece. Today, people from all over the world view the painting at the Museum of Modern Art.", suggestedPassive: "'The Starry Night' was painted by Vincent van Gogh in 1889. Bold colors and dramatic brushstrokes were used to create the masterpiece. Today, the painting is viewed by people from all over the world at the Museum of Modern Art.", explanation: "The paragraph is about the painting. Using the passive voice allows the painting to remain the subject of each sentence, creating a more cohesive and focused description." },
+            { title: 'Environmental Report', awkwardActive: "Factories are releasing thousands of tons of pollutants into the atmosphere each year. These pollutants are causing the planet's temperature to rise. We must take immediate action to reduce these emissions.", suggestedPassive: "Thousands of tons of pollutants are being released into the atmosphere each year. The planet's temperature is being caused to rise by these pollutants. Immediate action must be taken to reduce these emissions.", explanation: "The passive voice emphasizes the pollutants and the action that needs to be taken, making the statements sound more urgent and official. It focuses on the problem rather than just blaming 'factories'." },
+            { title: 'Police Statement', awkwardActive: "An officer discovered the abandoned vehicle at approximately 2:00 AM. The officer searched the car for evidence. Later, a forensics team examined the vehicle more thoroughly.", suggestedPassive: "The abandoned vehicle was discovered at approximately 2:00 AM. The car was searched for evidence. Later, the vehicle was examined more thoroughly by a forensics team.", explanation: "In official reports, the passive voice is used to maintain an objective and formal tone. The focus is on the chain of events and actions taken during the investigation." },
+            { title: 'Product Recall Notice', awkwardActive: "Our company has identified a potential safety issue with the product's battery. We are advising all customers to stop using the product immediately. We will provide a free replacement to all affected customers.", suggestedPassive: "A potential safety issue has been identified with the product's battery. All customers are advised to stop using the product immediately. A free replacement will be provided to all affected customers.", explanation: "A recall notice needs to be formal, clear, and authoritative. The passive voice achieves this by focusing on the safety issue and the instructions, removing the conversational 'we'." },
+            { title: 'Archaeological Find', awkwardActive: "The team unearthed a rare Roman coin at the excavation site. They believe that people used the coin for trade in the 2nd century. The team will send the artifact to the national museum for further study.", suggestedPassive: "A rare Roman coin was unearthed at the excavation site. The coin is believed to have been used for trade in the 2nd century. The artifact will be sent to the national museum for further study.", explanation: "The focus is on the coin and its history. The passive voice keeps the coin as the central subject of the paragraph, improving the narrative flow." },
+            { title: 'City Planning Announcement', awkwardActive: "The city council will begin construction on the new bridge next spring. The project will create hundreds of jobs. The council expects the bridge to reduce traffic congestion significantly.", suggestedPassive: "Construction on the new bridge will be begun next spring. Hundreds of jobs will be created by the project. The bridge is expected to reduce traffic congestion significantly.", explanation: "This makes the announcement sound more official and formal. It focuses on the project and its benefits rather than on the city council as the agent." },
+            { title: 'IT Department Alert', awkwardActive: "Someone has been sending phishing emails to our employees. You should not click on any suspicious links. You must report any such emails to the IT helpdesk immediately.", suggestedPassive: "Phishing emails have been sent to our employees. No suspicious links should be clicked. Any such emails must be reported to the IT helpdesk immediately.", explanation: "In a security alert, the instructions need to be clear and direct commands. The passive voice creates a formal, authoritative tone suitable for a company-wide notice." }
+        ];
+
+        let currentChallengeIndex = 0;
+        const challengeTitleEl = document.getElementById('challenge-title');
+        const challengeTextEl = document.getElementById('challenge-text');
+        const rewriteInputEl = document.getElementById('rewrite-input');
+        const rewriteCheckBtn = document.getElementById('rewrite-check-btn');
+        const rewriteAnswerDiv = document.getElementById('rewrite-answer');
+        const rewriteSolutionEl = document.getElementById('rewrite-solution');
+        const rewriteExplanationEl = document.getElementById('rewrite-explanation');
+        const rewriteNextBtn = document.getElementById('rewrite-next-btn');
+
+        function loadChallenge(index) {
+            const challenge = challenges[index];
+            challengeTitleEl.textContent = challenge.title;
+            challengeTextEl.textContent = challenge.awkwardActive;
+            rewriteSolutionEl.textContent = challenge.suggestedPassive;
+            rewriteExplanationEl.textContent = challenge.explanation;
+            rewriteInputEl.value = '';
+            rewriteAnswerDiv.classList.add('hidden');
+        }
+        
+        rewriteCheckBtn.addEventListener('click', () => {
+            rewriteAnswerDiv.classList.remove('hidden');
+        });
+
+        rewriteNextBtn.addEventListener('click', () => {
+            currentChallengeIndex = (currentChallengeIndex + 1) % challenges.length;
+            loadChallenge(currentChallengeIndex);
+        });
+
+        loadChallenge(0); // Load the first challenge initially
+        
+    });
+    </script>
+</body>
+</html>

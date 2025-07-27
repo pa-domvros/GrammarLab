@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinalCheckLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'cream-white': '#FEFCF3',
+                        'beige': '#F5F5F4',
+                        'cinnamon': '#A16207',
+                        'dark-brown': '#44403C',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FEFCF3; /* cream-white */
+            color: #44403C; /* dark-brown */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        .feedback-correct { color: #16A34A; }
+        .feedback-incorrect { color: #DC2626; }
+        .answer-input {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid #d6d3d1; /* stone-300 */
+        }
+        .answer-input:focus {
+            border-color: #A16207; /* cinnamon */
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(161, 98, 7, 0.3);
+        }
+        .show-answer-btn {
+             padding: 0.25rem 0.75rem;
+             background-color: #ca8a04; /* yellow-600 */
+             color: white;
+             font-family: 'Inter', sans-serif;
+             font-size: 0.875rem;
+             font-weight: 600;
+             border-radius: 0.375rem;
+             margin-top: 0.5rem;
+             cursor: pointer;
+        }
+        .show-answer-btn:disabled {
+            background-color: #a1a1aa; /* stone-400 */
+            cursor: not-allowed;
+        }
+        .revealed-answer {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background-color: #fefce8; /* yellow-50 */
+            color: #854d0e; /* yellow-800 */
+            font-weight: 500;
+            border-left: 4px solid #ca8a04;
+        }
+        .mc-option:hover {
+            background-color: #fefce8;
+        }
+        .feedback-icon {
+            display: inline-block;
+            width: 1.5rem;
+            margin-left: 0.5rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        /* Styles for FINAL CHECK 3 */
+        .annotation-phrase {
+            color: #A16207; /* cinnamon */
+            font-weight: 600;
+            border-bottom: 2px dotted #ca8a04;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .annotation-phrase:hover {
+            background-color: #fefce8; /* yellow-50 */
+        }
+        .annotation-answer-box {
+            margin-top: 0.5rem;
+            margin-left: 1.5rem;
+            padding: 0.75rem;
+            background-color: #fefce8;
+            border-left: 4px solid #ca8a04;
+            color: #854d0e;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            border-radius: 0 0.375rem 0.375rem 0;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-6xl md:text-7xl font-bold text-cinnamon">FinalCheckLab ✅</h1>
+            <p class="mt-2 text-lg text-dark-brown">
+                A comprehensive review of grammar and syntax.
+            </p>
+            <p class="mt-4 text-sm text-dark-brown">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+        </header>
+
+        <main id="final-check-content" class="flex-grow space-y-4">
+            </main>
+        
+        <footer class="text-center pt-8 mt-auto text-stone-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- DATA ---
+        const finalCheck1Data = [
+            {
+                title: "Check 1: Tense contrasts",
+                exercises: [
+                    { type: 'sentence_transformation', instruction: 'Complete the second sentence so that it has a similar meaning to the first sentence. Use the word given without changing it. Use two to five words.', questions: [ { prompt: "He left before I arrived at the station.", keyword: "HAD", sentence: "By the time I arrived at the station", answer: "he had already left" }, { prompt: "I haven’t seen him since 1994.", keyword: "LAST", sentence: "The", answer: "last time I saw him was in 1994" }, { prompt: "You are the first person to do that to me.", keyword: "EVER", sentence: "No-one", answer: "has ever done that to me" }, { prompt: "Next year is our tenth wedding anniversary.", keyword: "BEEN", sentence: "Next year we", answer: "will have been married for ten years" }, { prompt: "I was in Italy for the first time.", keyword: "HAD", sentence: "I", answer: "had never been to Italy before" }, { prompt: "First I will finish my work and then I’ll see you.", keyword: "BEFORE", sentence: "I will not see you", answer: "before I finish my work" }, { prompt: "It really annoys me that he comes late every time.", keyword: "ALWAYS", sentence: "He is", answer: "always coming late" }, { prompt: "I came here at six o’clock and John hasn’t come yet.", keyword: "BEEN", sentence: "I have", answer: "been here since six o’clock" }, { prompt: "I was listening to the news; at the same time Linda was typing her report.", keyword: "WHILE", sentence: "I was listening to the news", answer: "while Linda was typing her report" }, { prompt: "We will have a change in the weather.", keyword: "BE", sentence: "There", answer: "is going to be a change in the weather" } ] },
+                    { type: 'fill_in_the_blank', instruction: 'Put the verbs in brackets into a suitable tense.', questions: [ { sentence: ["She", "(sleep)", "all afternoon yesterday."], answer: "was sleeping" }, { sentence: ["We", "(have)", "dinner out tonight."], answer: "are having" }, { sentence: ["We", "(move)", "up to London next week."], answer: "are moving" }, { sentence: ["How long", "(you-try)", "to fix it?"], answer: "have you been trying" }, { sentence: ["At the moment, she", "(think)", "of taking a long leave."], answer: "is thinking" }, { sentence: ["The plane", "(fly)", "at over twenty thousand feet when the accident happened."], answer: "was flying" }, { sentence: ["Oil", "(become)", "very expensive nowadays."], answer: "has become" }, { sentence: ["Your brother", "(leave)", "early tomorrow."], answer: "is leaving" }, { sentence: ["I'm sorry I can't help you tomorrow. I", "(work)", "all morning."], answer: "will be working" }, { sentence: ["", "(You-use)", "your typewriter next weekend?"], answer: "Will you be using" } ] }
+                ]
+            },
+            {
+                title: "Check 2: Modal verbs",
+                exercises: [ { type: 'multiple_choice', instruction: 'Choose the best answer.', questions: [ { prompt: "Why is Samantha late for school? She may ... the bus.", options: ["have missed", "have caught", "had missed", "missed"], answer: "have missed" }, { prompt: "Are you sure this is her phone number? Yes, it ... .", options: ["must to have been", "must be", "had to have been", "have to be"], answer: "must be" }, { prompt: "You ... that book. I could have given it to you.", options: ["didn’t buy", "needn’t buy", "needn’t have bought", "don’t need to buy"], answer: "needn’t have bought" }, { prompt: "He ... the painting. He was with me all the time.", options: ["may have stolen", "can’t steal", "couldn’t have stolen", "may have stolen"], answer: "couldn’t have stolen" }, { prompt: "Where is Jack? He ... to be at the meeting now.", options: ["should", "ought", "can", "may"], answer: "ought" }, { prompt: "They ... to hurry up if they don’t want to miss the plane.", options: ["have", "had", "must", "must have"], answer: "have" }, { prompt: "Let’s have a party. Are you crazy? ... study for the exam?", options: ["Ought we", "Hadn’t we better", "We have to", "Don’t we"], answer: "Hadn’t we better" }, { prompt: "I think it’s going to rain. Yes, it ... . Look at all those clouds.", options: ["is bound to", "must have", "could", "won’t"], answer: "is bound to" }, { prompt: "You ... leave the door unlocked when you leave. There have been many burglaries in the area.", options: ["must", "need to", "can’t", "mustn’t"], answer: "mustn’t" }, { prompt: "Professor Brown, ... helping me with this question?", options: ["would you", "can’t you", "will you", "would you mind"], answer: "would you mind" }, { prompt: "... help you? I’m not busy at the moment. Yes, please.", options: ["Shall I", "Must I", "Need I", "Don’t I"], answer: "Shall I" }, { prompt: "She was so bright she ... any problem in less than 5 minutes.", options: ["can have solved", "could solve", "may have solved", "is able to solve"], answer: "could solve" }, { prompt: "The light is on. They ... in.", options: ["must be", "can’t be", "maybe", "aren’t"], answer: "must be" }, { prompt: "Look at all this mess in the kitchen. The children ... to make a cake.", options: ["must have tried", "could have tried", "should have tried", "possibly are trying"], answer: "must have tried" }, { prompt: "I have such a headache. You ... so much last night.", options: ["must drink", "should drink", "shouldn’t have drunk", "shouldn’t drink"], answer: "shouldn’t have drunk" } ] } ]
+            },
+            {
+                title: "Check 3: Passive 1,2",
+                exercises: [ { type: 'sentence_transformation', instruction: 'Complete the second sentence so that it has a similar meaning to the first sentence. Use the word given without changing it. Use two to five words.', questions: [ { prompt: "People say that she is going to leave the country soon.", keyword: "believed", sentence: "She", answer: "is believed to be leaving soon." }, { prompt: "Father told Ted off for breaking the vase.", keyword: "was", sentence: "Ted", answer: "was told off for breaking the vase." }, { prompt: "They will not accept your essay unless it’s typed.", keyword: "BE", sentence: "Your essay won’t", answer: "be accepted if it isn’t typed." }, { prompt: "Mary has done the cleaning for me.", keyword: "have", sentence: "I", answer: "have had the cleaning done by Mary." }, { prompt: "Thousands of people are watching the match.", keyword: "being", sentence: "The match", answer: "is being watched by thousands of people." }, { prompt: "They made me do the work again.", keyword: "to", sentence: "I", answer: "was made to do the work again." }, { prompt: "It is reported that the fire began in the basement.", keyword: "to", sentence: "The fire", answer: "is reported to have begun in the basement." }, { prompt: "After hours, the mechanic fixed my car.", keyword: "got", sentence: "After hours, I", answer: "got my car fixed." }, { prompt: "She is thought to have been a famous criminal.", keyword: "that", sentence: "People", answer: "think that she was a famous criminal." }, { prompt: "Someone has been following us for the past hour.", keyword: "have", sentence: "We", answer: "have been followed for the past hour." } ] }, { type: 'find_the_word', instruction: 'Find the word that should not be in the sentence. Type your answer and click away for feedback.', questions: [ { sentence: "We had been had new central heating installed.", answer: "been" }, { sentence: "The Minister is expected to have give a speech tonight.", answer: "have" }, { sentence: "Sue made her to swear not to do such a thing again.", answer: "to" }, { sentence: "They have been being examined for fifteen minutes.", answer: "being" }, { sentence: "She is reported to have been left the country.", answer: "been" }, { sentence: "The accident is supposed to have been being caused by heavy drinking.", answer: "being" }, { sentence: "While Jonathan was being arrested, his partner was being running off with Jonathan’s wife.", answer: "being" }, { sentence: "I had been being constantly told not to do it.", answer: "being" } ] } ]
+            },
+            {
+                title: "Check 4: Reported speech",
+                exercises: [ { type: 'dialogue_fill', instruction: 'Complete the following dialogue, then click the button at the end to see the full answer key.', dialogue: `<p class="mb-2"><strong class="text-cinnamon">TOM:</strong> You look pleased with yourself. What’s happened?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> I’ve just been to see the manager.</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> Harry told me ... (1) I suppose you got it.</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Of course.</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> Well you were lucky. You know that when Smith asked for a rise last month, he was told …………………………………………………………………………………….. (2)</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Oh, he probably did it in the wrong way.</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> How did you do it, then?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Well, the other day I asked the manager ……………………………………… (3) and he told me ……………………………………………………… (4). So I waited until today when he had just seen one of the firm’s best clients. His secretary told me …………………………………………………………………… (5).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> Go on. What happened?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Well, when I went in, he asked …………………………………………………….. (6) and offered …………………………………. (7).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> He certainly was in a good mood!</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Then he asked me ………………………………………………………………….. (8), although I think he had already guessed. I told him ……………………………… (9) but, after all, ………………………………………………………. (10) and ……………………………………………………………………………………….. (11).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> What did he say to that?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> He said …………………………………………………………………………………… (12).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> So what did you say?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> I said …………………………………………………………………….………. (13) but ………………………………………………………………………(14).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> And did he offer you a rise?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Not at first. But then I told him …………………………………………………….. (15). Well, then he said …………………………………………………………….(16) and asked me …………………………………………………………………….. (17). So I told him.</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> How much did he offer you then?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> He said …………………………………………………………………………………. (18).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> You were lucky. Did he say …………………………………………………………. (19)?</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> He mentioned ………………………………………………………………………… (20).</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> I may as well try then.</p><p class="mb-2"><strong class="text-cinnamon">DICK:</strong> Good luck!</p><p class="mb-2"><strong class="text-cinnamon">TOM:</strong> Thanks!</p>`, answers: [ "you were going to ask for a rise", "that no more rises would be given this year", "if I could come and see him one more time", "to come in any day after lunch", "he was in a good mood", "me to sit down", "me a cigar", "what it was all about", "I liked working for the firm", "I had been there for ten years", "I’d now like to know what my prospects were", "he couldn’t promise me promotion for another five years", "I wasn’t really interested in promotion", "I did need an increase in salary", "I’d been offered a job with another firm", "he’d be sorry to lose me", "how much the other firm had offered me", "he’d give me fifty pounds this year and another twenty-five next year", "whether he was thinking of giving any other employees a rise", "that a couple of people in the firm were irreplaceable" ] } ]
+            },
+            {
+                title: "Check 5: Clauses",
+                exercises: [ { type: 'sentence_transformation', instruction: 'Complete the second sentence so that it has a similar meaning to the first sentence. Use the word given without changing it. Use two to five words.', questions: [ { prompt: "I tried several shirts but none of them matched my trousers", keyword: "WHICH", sentence: "I tried several shirts", answer: "none of which matched my trousers." }, { prompt: "Do you know the reason for his coming late?", keyword: "WHY", sentence: "Do you know", answer: "why he came late?" }, { prompt: "The storm was so heavy that the boats were lost in the sea.", keyword: "SUCH", sentence: "It", answer: "was such a heavy storm that the boats were lost in the sea." }, { prompt: "He attends a language institute because he wants to learn German.", keyword: "ORDER", sentence: "He attends a language institute", answer: "in order to learn German." }, { prompt: "She has moved to the country to have peace and quiet.", keyword: "SO", sentence: "She has moved to the country", answer: "so that she can have peace and quiet." }, { prompt: "The moment he opened the door, he saw his neighbour kissing his wife.", keyword: "SOON", sentence: "He saw his neighbour kissing his wife", answer: "as soon as he opened the door." }, { prompt: "He didn’t know what to do so he left.", keyword: "KNOWING", sentence: "Not", answer: "knowing what to do, he left." }, { prompt: "Ibiza, to which many people travel, is a very expensive holiday resort.", keyword: "WHERE", sentence: "Ibiza,", answer: "where many people travel, is a very expensive holiday resort." }, { prompt: "Having unsatisfactory results, the scientists did the experiment again.", keyword: "DUE TO", sentence: "The scientists did the experiment again", answer: "due to the unsatisfactory results." }, { prompt: "You behave in such a way that people would think you hate everybody.", keyword: "IF", sentence: "You behave", answer: "as if you hated everybody." } ] } ]
+            },
+            {
+                title: "Check 6: Articles, determiners and plurals",
+                exercises: [ { type: 'multiple_choice', instruction: 'Choose the answer that fits best.', questions: [ { prompt: "Will five hundred pounds be enough? No, I need ... more.", options: ["some many", "much", "many", "little"], answer: "much" }, { prompt: "I have been to England only five times. I have been there even ... times.", options: ["few", "little", "fewer", "a few"], answer: "fewer" }, { prompt: "Would you like ... coffee?", options: ["much", "any", "some", "little"], answer: "some" }, { prompt: "Let me give you a(n) ... .", options: ["advice", "some advices", "some advice", "piece of advice"], answer: "piece of advice" }, { prompt: "He has all ... he needs to start.", options: ["the equipments", "the equipment", "of the equipments", "equipment"], answer: "the equipment" }, { prompt: "I’ve told you time after time to remove all ... from the bathtub.", options: ["the hair", "the pieces of hairs", "the hairs", "hair"], answer: "the hairs" }, { prompt: "I can give you ... sugar for now if you like.", options: ["a little", "some number of", "little", "many"], answer: "a little" }, { prompt: "How many seats have you got available? ..., I’m afraid.", options: ["Anything", "Nothing", "No one", "None"], answer: "None" }, { prompt: "... summer they visit their grandparents in France.", options: ["Some", "Every", "No", "Any"], answer: "Every" }, { prompt: "I’m afraid the news ... very bad.", options: ["are", "is", "there is", "there are"], answer: "is" } ] } ]
+            }
+        ];
+        const finalCheck2Data = {
+            title: "Final Check 2",
+            exercises: [ { type: 'sentence_transformation', instruction: 'Complete the second sentence so that it has a similar meaning to the first sentence. Use the word given without changing it. Use two to five words.', questions: [ { prompt: "It’s ages since I last went to the theatre.", keyword: "HAVE", sentence: "I", answer: "haven't been to the theatre for ages" }, { prompt: "I haven’t played tennis before.", keyword: "EVER", sentence: "This is the first time I", answer: "have ever played tennis" }, { prompt: "I haven’t been to England for five years.", keyword: "STOPPED", sentence: "I", answer: "stopped going to England five years ago" }, { prompt: "I have an appointment with Dr. Jones at 19:00.", keyword: "MEETING", sentence: "I", answer: "am meeting Dr. Jones at 19:00" }, { prompt: "Judging from those clouds over there, rain is bound to fall.", keyword: "GOING", sentence: "I think", answer: "it is going to rain" }, { prompt: "He learnt to play polo at the age of twelve.", keyword: "PLAYING", sentence: "He has", answer: "been playing polo since he was twelve" }, { prompt: "The ticket was so expensive that we didn’t go to the rock concert.", keyword: "GONE", sentence: "If the ticket hadn’t been so expensive", answer: "we would have gone to the rock concert" }, { prompt: "I think that you should take an umbrella with you.", keyword: "SUGGEST", sentence: "I", answer: "suggest you take an umbrella with you" }, { prompt: "My advice is that you should leave this place.", keyword: "WERE", sentence: "If I", answer: "were you, I would leave this place" }, { prompt: "The minister is expected to resign.", keyword: "THAT", sentence: "It", answer: "is expected that the minister will resign" }, { prompt: "It is absolutely necessary that we finish it today.", keyword: "BE", sentence: "It", answer: "must be finished today" }, { prompt: "I realised that I had left my wallet at your house, only when I got home.", keyword: "DID", sentence: "Only when I got home", answer: "did I realise I had left my wallet at your house" }, { prompt: "According to the policeman the thief escaped from the back door.", keyword: "HAD", sentence: "The policeman reported", answer: "that the thief had escaped from the back door" }, { prompt: "I’d prefer us to go somewhere else", keyword: "WE", sentence: "I’d rather", answer: "we went somewhere else" }, { prompt: "She was so excited with the film that she wanted to see it again.", keyword: "EXCITING", sentence: "It was", answer: "such an exciting film that she wanted to see it again" }, { prompt: "Although it was snowing, they went climbing.", keyword: "FACT", sentence: "Despite", answer: "the fact that it was snowing, they went climbing" }, { prompt: "Arriving at the school, he found the doors locked.", keyword: "ARRIVED", sentence: "When he", answer: "arrived at the school, he found the doors locked" }, { prompt: "Who is looking after your dog now that you are on holiday?", keyword: "OF", sentence: "Who is", answer: "taking care of your dog now that you are on holiday" }, { prompt: "We don’t hope to find the missing swimmers.", keyword: "FINDING", sentence: "We have no", answer: "hope of finding the missing swimmers" }, { prompt: "Matthew is a very reliable person.", keyword: "RELY", sentence: "You can", answer: "rely on Matthew" } ] } ]
+        };
+        const finalCheck3Data = {
+            title: "Final Check 3",
+            instruction: "In the following text, recognise the grammar points in bold type. More than one grammar points might be present in each case. Click on a highlighted phrase to reveal the answer.",
+            text: `I will surely remember high-school for a lot reasons but there was one particular incident in the fifth grade that will always haunt me no matter how old I grow.
+                <br><br>
+                The school year <strong>would soon be over (1)</strong> and as it is customary the headmaster and teacher announced the day of the school excursion. We <strong>had had (2)</strong> a very difficult year and everybody was really <strong>looking forward to (3)</strong> this event. I can still recall the endless preparations that started almost a week before the "big day." The sole topic of our conversations was the excursion.
+                <br><br>
+                On the day of the excursion everything seemed to work in our favour. Weather conditions were <strong>better than expected (4)</strong>, the teachers were in an unusually good mood and the coach arrived on time. Even George, my <strong>sworn (5)</strong> enemy, said "hello" that day. I felt that I was going to have the time of my life. <strong>Little did I know (6)</strong> though.
+                <br><br>
+                After a pleasant trip we got to our destination, a little forest outside the city. Since we were <strong>"old enough" to spend some time unsupervised (7)</strong>, the teachers allowed us to explore the place on our own. He <strong>had, however, to be (8)</strong> back before noon. I suddenly had this weird mood of <strong>being (9)</strong> alone for a few hours.
+                <br><br>
+                I started <strong>to walk (10)</strong> around the forest <strong>feeling (11)</strong> great joy and excitement. The place was magnificent. The trees, the bushes, the sounds of the forest and the fresh air were making a nice difference. I was feeling relaxed and adventurous and I soon got far away from the other groups of students, although the teachers <strong>had told us to try to stay in groups (12)</strong>.
+                <br><br>
+                After a couple of hours of wandering in the forest I felt tired so I sat down under a tree to rest. I closed my eyes for a few minutes and <strong>without realising it (13)</strong> I was fast asleep after a while. <strong>When I opened my eyes again (14)</strong> it was getting dark. I panicked. I got up and started running following the path that I thought would get me back. In vain, I was lost. The feelings of relaxation and joy had given way to feelings of anxiety and fear. <strong>If I didn’t find my way back soon, I would be in trouble (15)</strong>.`,
+            answers: [
+                "Future in the Past", "Past Perfect Tense", "Phrasal Verb (look forward to) + Gerund", "Comparative Degree", "Past Participle as Adjective", "Inversion (after negative adverbial)", "Adjective + enough", "Modal Verb of Obligation (had to)", "Gerund (after preposition)", "Infinitive (after 'start')", "Present Participle / Participle Clause", "Reported Speech (Imperative)", "Gerund (after preposition)", "Time Clause", "Second Conditional"
+            ]
+        };
+
+        // --- CORE APP LOGIC ---
+        function buildFinalCheckLab() {
+            const container = document.getElementById('final-check-content');
+            if (!container) return;
+            
+            // Build Final Check 1
+            const fc1_div = document.createElement('div');
+            fc1_div.className = 'bg-beige rounded-lg shadow-sm border border-stone-200';
+            let nestedAccordionsHtml = finalCheck1Data.map(check => {
+                 let exercisesHtml = check.exercises.map((exercise, index) => {
+                    let exerciseContent = `<h4 class="text-xl font-bold text-cinnamon/80 mb-2">${exercise.instruction}</h4>`;
+                    switch (exercise.type) {
+                        case 'sentence_transformation': exerciseContent += buildSentenceTransformationExercise(exercise); break;
+                        case 'fill_in_the_blank': exerciseContent += buildFillInTheBlankExercise(exercise); break;
+                        case 'multiple_choice': exerciseContent += buildMultipleChoiceExercise(exercise); break;
+                        case 'find_the_word': exerciseContent += buildFindTheWordExercise(exercise); break;
+                        case 'dialogue_fill': exerciseContent += buildDialogueFillExercise(exercise); break;
+                    }
+                    return `<div class="exercise-block ${index > 0 ? 'mt-8 pt-4 border-t border-stone-300' : ''}">${exerciseContent}</div>`;
+                }).join('');
+                return `
+                    <div class="bg-cream-white/50 rounded-lg border border-stone-200 mb-4">
+                        <button class="w-full flex justify-between items-center p-3 text-left accordion-toggle">
+                            <h3 class="text-2xl font-bold text-cinnamon">${check.title}</h3>
+                            <svg class="w-5 h-5 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content hidden p-4 border-t border-stone-200">
+                            ${exercisesHtml}
+                        </div>
+                    </div>`;
+            }).join('');
+            fc1_div.innerHTML = `<button class="w-full flex justify-between items-center p-4 text-left accordion-toggle"><h2 class="text-4xl font-bold text-cinnamon">Final Check 1</h2><svg class="w-6 h-6 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="accordion-content hidden p-6 border-t border-stone-200"><div class="space-y-4">${nestedAccordionsHtml}</div></div>`;
+            container.appendChild(fc1_div);
+
+            // Build Final Check 2
+            const fc2_div = document.createElement('div');
+            fc2_div.className = 'bg-beige rounded-lg shadow-sm border border-stone-200';
+            let fc2_exercisesHtml = finalCheck2Data.exercises.map((exercise) => `<div class="exercise-block"><h4 class="text-xl font-bold text-cinnamon/80 mb-2">${exercise.instruction}</h4>${buildSentenceTransformationExercise(exercise)}</div>`).join('');
+            fc2_div.innerHTML = `<button class="w-full flex justify-between items-center p-4 text-left accordion-toggle"><h2 class="text-4xl font-bold text-cinnamon">${finalCheck2Data.title}</h2><svg class="w-6 h-6 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="accordion-content hidden p-6 border-t border-stone-200">${fc2_exercisesHtml}</div>`;
+            container.appendChild(fc2_div);
+
+            // Build Final Check 3
+            const fc3_div = document.createElement('div');
+            fc3_div.className = 'bg-beige rounded-lg shadow-sm border border-stone-200';
+            fc3_div.innerHTML = `<button class="w-full flex justify-between items-center p-4 text-left accordion-toggle"><h2 class="text-4xl font-bold text-cinnamon">${finalCheck3Data.title}</h2><svg class="w-6 h-6 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="accordion-content hidden p-6 border-t border-stone-200">${buildAnnotationExercise(finalCheck3Data)}</div>`;
+            container.appendChild(fc3_div);
+
+            addFinalCheckLogic();
+            addAnnotationLogic(finalCheck3Data);
+            
+            container.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.nextElementSibling.classList.toggle('hidden');
+                    button.querySelector('svg').classList.toggle('rotate-180');
+                });
+            });
+        }
+
+        // --- EXERCISE BUILDERS ---
+        function buildSentenceTransformationExercise(exercise) {
+            return exercise.questions.map((q, i) => `
+                <div class="mt-4" data-answer="${q.answer}">
+                    <p class="font-medium text-dark-brown"><span class="font-serif pr-2">${i+1}.</span>${q.prompt}</p>
+                    <p class="pl-6 font-semibold text-cinnamon/90">(${q.keyword})</p>
+                    <p class="pl-6">${q.sentence} <input type="text" class="answer-input inline-block w-1/2" placeholder="..."></p>
+                    <div class="pl-6"><button class="show-answer-btn">Show Answer</button><div class="feedback-container mt-2"></div></div>
+                </div>
+            `).join('');
+        }
+        function buildFillInTheBlankExercise(exercise) {
+            let html = exercise.questions.map((q, i) => `<div class="mt-4" data-answer="${q.answer}"><p class="font-medium text-dark-brown"><span class="font-serif pr-2">${i+1}.</span>${q.sentence[0]} <input type="text" class="answer-input inline-block w-48" placeholder="${q.sentence[1]}"> ${q.sentence[2]}</p></div>`).join('');
+            html += `<div class="mt-6"><button class="show-answer-btn" data-target="fill_in_the_blank">Show All Answers</button></div>`;
+            return html;
+        }
+        function buildMultipleChoiceExercise(exercise) {
+            return exercise.questions.map((q, i) => `<div class="mt-4" data-answer="${q.answer}"><p class="font-medium text-dark-brown"><span class="font-serif pr-2">${i+1}.</span>${q.prompt}</p><div class="pl-6 mt-2 space-y-1 mc-options">${q.options.map((opt, opt_i) => `<div class="mc-option p-1 rounded-md"><label class="flex items-center cursor-pointer"><input type="radio" name="mc-q-${i}" value="${opt}" class="mr-2">${String.fromCharCode(65 + opt_i)}. ${opt}</label></div>`).join('')}</div><div class="pl-10 feedback-container font-bold text-lg"></div></div>`).join('');
+        }
+        function buildFindTheWordExercise(exercise) {
+            return exercise.questions.map((q, i) => `<div class="mt-4 flex items-center gap-4" data-answer="${q.answer}"><p class="font-medium text-dark-brown flex-grow"><span class="font-serif pr-2">${i+1}.</span><span>${q.sentence}</span></p><input type="text" class="answer-input inline-block w-48 find-word-input" placeholder="Type incorrect word..."><span class="feedback-icon"></span></div>`).join('');
+        }
+        function buildDialogueFillExercise(exercise) {
+            let interactiveIndex = 0;
+            const interactiveDialogueHtml = exercise.dialogue.replace(/[.…\s]+\(\d+\)/g, () => `<input type="text" class="answer-input inline-block w-full" data-blank-index="${interactiveIndex++}">`);
+            let answerIndex = 0;
+            const answerKeyHtml = exercise.dialogue.replace(/[.…\s]+\(\d+\)/g, () => `<strong class="font-sans bg-amber-100 text-cinnamon p-1 rounded">${exercise.answers[answerIndex++]}</strong>`);
+            return `<div class="dialogue-container"><div class="dialogue-interactive-version">${interactiveDialogueHtml}<div class="mt-6"><button class="show-answer-btn" data-target="dialogue_fill">Show All Answers</button></div></div><div class="dialogue-answer-key hidden">${answerKeyHtml}</div></div>`;
+        }
+        function buildAnnotationExercise(exercise) {
+            let interactiveText = exercise.text.replace(/<strong>(.*?)<\/strong>/g, (match, content) => {
+                const answerId = parseInt(content.match(/\((\d+)\)/)[1], 10) - 1;
+                return `<span class="annotation-phrase" data-answer-id="${answerId}">${content}</span>`;
+            });
+            return `<div class="p-4"><h4 class="text-xl font-bold text-cinnamon/80 mb-2">${exercise.instruction}</h4><p class="text-lg leading-relaxed">${interactiveText}</p></div>`;
+        }
+
+        // --- LOGIC ATTACHMENT ---
+        function addFinalCheckLogic() {
+            document.querySelectorAll('.show-answer-btn').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const button = e.target;
+                    const singleQuestion = button.closest('div[data-answer]');
+                    if(singleQuestion) {
+                        const answer = singleQuestion.dataset.answer;
+                        const feedbackDiv = singleQuestion.querySelector('.feedback-container');
+                        feedbackDiv.innerHTML = `<div class="revealed-answer"><strong>Answer:</strong> ${answer}</div>`;
+                    }
+                    const targetType = button.dataset.target;
+                    if(targetType === 'dialogue_fill') {
+                         const dialogueContainer = button.closest('.dialogue-container');
+                         dialogueContainer.querySelector('.dialogue-interactive-version').classList.add('hidden');
+                         dialogueContainer.querySelector('.dialogue-answer-key').classList.remove('hidden');
+                    } else if (targetType) {
+                        const exerciseBlock = button.closest('.exercise-block');
+                        exerciseBlock.querySelectorAll('div[data-answer]').forEach(qDiv => {
+                           qDiv.querySelector('input').value = qDiv.dataset.answer;
+                           qDiv.querySelector('input').classList.add('border-cinnamon', 'font-bold');
+                        });
+                        button.disabled = true;
+                    }
+                });
+            });
+            document.querySelectorAll('.mc-options input[type="radio"]').forEach(radio => {
+                radio.addEventListener('click', e => {
+                    const choice = e.target;
+                    const questionDiv = choice.closest('div[data-answer]');
+                    const answer = questionDiv.dataset.answer;
+                    const feedbackDiv = questionDiv.querySelector('.feedback-container');
+                    if (choice.value === answer) { feedbackDiv.innerHTML = `<span class="feedback-correct">✔</span>`; } 
+                    else { feedbackDiv.innerHTML = `<span class="feedback-incorrect">✘</span>`; }
+                });
+            });
+            document.querySelectorAll('.find-word-input').forEach(input => {
+                input.addEventListener('change', e => {
+                    const userInput = e.target.value.trim().toLowerCase();
+                    const questionDiv = e.target.closest('div[data-answer]');
+                    const answer = questionDiv.dataset.answer.toLowerCase();
+                    const icon = questionDiv.querySelector('.feedback-icon');
+                    if (!userInput) { icon.innerHTML = ''; return; }
+                    if (userInput === answer) { icon.innerHTML = `<span class="feedback-correct">✔</span>`; }
+                    else { icon.innerHTML = `<span class="feedback-incorrect">✘</span>`; }
+                });
+            });
+        }
+        function addAnnotationLogic(exerciseData) {
+            document.querySelectorAll('.annotation-phrase').forEach(phrase => {
+                phrase.addEventListener('click', e => {
+                    const currentPhrase = e.currentTarget;
+                    const parentPara = currentPhrase.closest('p');
+                    const existingAnswer = parentPara.nextElementSibling;
+
+                    if (existingAnswer && existingAnswer.classList.contains('annotation-answer-box')) {
+                        existingAnswer.remove();
+                        return;
+                    }
+                    
+                    document.querySelectorAll('.annotation-answer-box').forEach(box => box.remove());
+
+                    const answerId = parseInt(currentPhrase.dataset.answerId, 10);
+                    const answerText = exerciseData.answers[answerId];
+                    
+                    const answerBox = document.createElement('div');
+                    answerBox.className = 'annotation-answer-box';
+                    answerBox.innerHTML = `<strong>${answerId + 1}.</strong> ${answerText}`;
+                    
+                    parentPara.after(answerBox);
+                });
+            });
+        }
+        
+        buildFinalCheckLab();
+    });
+    </script>
+</body>
+</html>

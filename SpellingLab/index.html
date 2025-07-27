@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpellingLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'cream-white': '#FEFCF3',
+                        'beige': '#F5F5F4',
+                        'cinnamon': '#A16207',
+                        'dark-brown': '#44403C',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FEFCF3; /* cream-white */
+            color: #44403C; /* dark-brown */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-6xl md:text-7xl font-bold text-cinnamon">SpellingLab ✍️</h1>
+            <p class="mt-2 text-lg text-dark-brown">
+                Your guide to English spelling rules.
+            </p>
+            <p class="mt-4 text-sm text-dark-brown">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+        </header>
+
+        <main id="spelling-lab-content" class="flex-grow space-y-4">
+            </main>
+        
+        <footer class="text-center pt-8 mt-auto text-stone-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const spellingLabData = [
+            {
+                title: "A. Doubling of consonants",
+                content: [
+                    { type: 'rule', text: "Final consonants (except x) are doubled before endings beginning with a vowel letter when the vowel before them is stressed and spelled with a single letter." },
+                    { type: 'example', text: "permit &rarr; permitting, permitted" },
+                    { type: 'example', text: "hot &rarr; hotter, hottest" },
+                    { type: 'rule', text: "but" },
+                    { type: 'example', text: "develop &rarr; developed, developed (unstressed)" },
+                    { type: 'rule', text: "There is no doubling when the vowel is unstressed or written with two letters." },
+                    { type: 'example', text: "enter &rarr; entering, entered" },
+                    { type: 'example', text: "dread &rarr; dreading, dreaded" },
+                    {
+                        type: 'exception',
+                        title: "Exceptions",
+                        points: [
+                            "<strong>i. Words ending in certain consonants are doubled also after single unstressed vowels:</strong><div class='flex flex-wrap gap-x-8 gap-y-2 mt-2'><div>-g &rarr; -gg- <br> <span class='font-mono'>humbug &rarr; humbugging, humbugged</span></div><div>-c &rarr; -ck- <br> <span class='font-mono'>traffic &rarr; trafficking, trafficked</span></div></div>",
+                            "<strong>ii. British English breaks the rule as regards certain other consonants as well:</strong><ul class='list-disc list-inside mt-2 space-y-1'><li>-l &rarr; -ll- <span class='font-mono'>(signal &rarr; signalling, signalled (BrE) / signaling, signaled (AmE))</span></li><li>-m &rarr; -mm- <span class='font-mono'>(programme &rarr; programming, programmed (BrE) / program &rarr; programing, programed (AmE))</span></li><li>-p &rarr; -pp- <span class='font-mono'>(worship &rarr; worshipping, worshipped (BrE) / worshiping, worshiped (AmE))</span></li></ul>"
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "B. Treatment of -y",
+                content: [
+                    { type: 'rule', text: "i. -y changes to -ie before -s" },
+                    { type: 'example', text: "lady &rarr; ladies" },
+                    { type: 'example', text: "carry &rarr; carries" },
+                    { type: 'rule', text: "ii. -y changes to -i before -ed" },
+                    { type: 'example', text: "carry &rarr; carried" },
+                    { type: 'rule', text: "iii. -y changes to -i before -er and -est" },
+                    { type: 'example', text: "easy &rarr; easier, easiest" },
+                    { type: 'rule', text: "iv. -y changes to -i before -ly" },
+                    { type: 'example', text: "heavy &rarr; heavily" },
+                    { type: 'rule', text: "v. -y does not change before -ing" },
+                    { type: 'example', text: "carry &rarr; carrying" },
+                    { type: 'rule', text: "vi. -y does not change if the word ends in vowel + y" },
+                    { type: 'example', text: "play &rarr; plays, played" },
+                    { type: 'example', text: "boy &rarr; boys" },
+                    {
+                        type: 'exception',
+                        title: "Exceptions",
+                        points: ["day &rarr; daily", "pay &rarr; paid", "lay &rarr; laid", "say &rarr; said"]
+                    }
+                ]
+            },
+            {
+                title: "C. Treatment of -e",
+                content: [
+                    { type: 'rule', text: "i. Final -e is regularly dropped before -ing and -ed" },
+                    { type: 'example', text: "shave &rarr; shaving, shaved" },
+                    { type: 'rule', text: "ii. Verbs ending in -ie change -ie to -y before -ing" },
+                    { type: 'example', text: "die &rarr; dying" },
+                    { type: 'rule', text: "iii. Verbs with ending in -ee, -ye, -oe, and often -ge, are exceptions to the rule in that they do not drop the -e before -ing; but they do drop it before -ed" },
+                    { type: 'example', text: "agree &rarr; agreeing, agreed" },
+                    { type: 'example', text: "dye &rarr; dyeing, dyed" },
+                    { type: 'example', text: "hoe &rarr; hoeing, hoed" },
+                    { type: 'example', text: "singe &rarr; singeing, singed" }
+                ]
+            }
+        ];
+
+        function buildSpellingLab() {
+            const container = document.getElementById('spelling-lab-content');
+            if (!container) return;
+
+            spellingLabData.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'bg-beige rounded-lg shadow-sm border border-stone-200';
+
+                let contentHtml = '';
+                section.content.forEach(item => {
+                    if (item.type === 'rule') {
+                        contentHtml += `<p class="text-lg mb-2">${item.text}</p>`;
+                    } else if (item.type === 'example') {
+                        contentHtml += `<p class="text-lg font-mono ml-4 text-stone-600 mb-4 p-2 bg-cream-white rounded-md">${item.text}</p>`;
+                    } else if (item.type === 'exception') {
+                        let pointsHtml = item.points.map(p => `<li class="mb-2">${p}</li>`).join('');
+                        contentHtml += `
+                            <div class="mt-4 p-4 bg-amber-50 border-l-4 border-cinnamon/50 text-amber-900">
+                                <h4 class="font-bold text-2xl text-cinnamon mb-2">${item.title}</h4>
+                                <ul class="space-y-1">${pointsHtml}</ul>
+                            </div>`;
+                    }
+                });
+
+                sectionDiv.innerHTML = `
+                    <button class="w-full flex justify-between items-center p-4 text-left accordion-toggle">
+                        <h2 class="text-4xl font-bold text-cinnamon">${section.title}</h2>
+                        <svg class="w-6 h-6 transform transition-transform text-cinnamon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content hidden p-6 border-t border-stone-200">
+                        ${contentHtml}
+                    </div>
+                `;
+                container.appendChild(sectionDiv);
+            });
+
+            container.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.nextElementSibling.classList.toggle('hidden');
+                    button.querySelector('svg').classList.toggle('rotate-180');
+                });
+            });
+        }
+
+        buildSpellingLab();
+    });
+    </script>
+</body>
+</html>

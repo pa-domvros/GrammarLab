@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentenceLab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Caveat', 'cursive'],
+                    },
+                    colors: {
+                        'cream-white': '#FEFCF3',
+                        'beige': '#F5F5F4',
+                        'cinnamon': '#A16207',
+                        'dark-brown': '#44403C',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FEFCF3; /* cream-white */
+            color: #44403C; /* dark-brown */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Caveat', cursive;
+        }
+        .toggle-btn {
+             padding: 0.5rem 1rem;
+             background-color: #ca8a04; /* yellow-600 */
+             color: white;
+             font-family: 'Inter', sans-serif;
+             font-size: 0.875rem;
+             font-weight: 600;
+             border-radius: 0.375rem;
+             cursor: pointer;
+        }
+        .interactive-card {
+            border: 1px solid #e7e5e4; /* stone-200 */
+            border-radius: 0.5rem;
+            background-color: white;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .collapsible-header {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .collapsible-header:hover {
+            background-color: #F5F5F4; /* beige */
+        }
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+        .transition-transform {
+            transition: transform 0.2s ease;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div id="app" class="min-h-screen container mx-auto p-4 sm:p-6 md:p-8 flex flex-col">
+        
+        <header class="mb-8 md:mb-12">
+            <h1 class="text-6xl md:text-7xl font-bold text-cinnamon">SentenceLab 🏗️</h1>
+            <p class="mt-2 text-lg text-dark-brown">
+                A guide to sentence elements, questions, and emphasis.
+            </p>
+            <p class="mt-4 text-sm text-dark-brown">
+                <i>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</i>
+            </p>
+        </header>
+
+        <main id="sentencelab-content" class="flex-grow space-y-4">
+            <!-- Sections will be inserted here -->
+        </main>
+        
+        <footer class="text-center pt-8 mt-auto text-stone-500 text-sm">
+            <p>Devised by Panagiotis Domvros, English and Drama Teacher, All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const sentenceLabData = [
+            {
+                title: "The sentence and its elements",
+                content: [
+                    { type: 'rule', text: "Major Types of Sentences <br><strong>Statements:</strong> I told him. <strong>Questions:</strong> Did you tell him? <strong>Commands:</strong> Tell him!" },
+                    { type: 'rule', text: "There are three elements that make up a simple sentence: <strong>Subject - Verb - Object</strong>" },
+                    { type: 'rule', text: "The object is not always present." },
+                    { type: 'rule', text: "Verbs which don't have an object are called <strong>intransitive</strong>: The sun rises." },
+                    { type: 'rule', text: "Verbs which have an object are called <strong>transitive</strong>. I play basketball." },
+                    { type: 'rule', text: "The order Subject-Verb-Object is fixed in statements." },
+                    { type: 'note', text: "This order is changed in some types of questions and inversions." },
+                    { type: 'rule', text: "In commands the subject is missing because it is always the same ('you')." },
+                    { type: 'rule', text: "Some commands might have a subject for emphasis or clarification: <strong>Mary and John</strong> stand here! <strong>You</strong> over there be quiet! (The subject in these cases is always stressed in speech)" },
+                    { type: 'rule', text: "Subjects and Objects are mainly <strong>Pronouns</strong> (I/Me), <strong>Nouns</strong> (sun, table), <strong>Proper Nouns</strong> (John, England), <strong>Gerunds</strong> (fishing, reading)." },
+                    { type: 'rule', text: "The sentence might also have an <strong>adverb</strong>, an <strong>adjective</strong>, a <strong>noun</strong>, a <strong>prepositional phrase</strong>." },
+                    { type: 'list', items: ["An adjective accompanies a noun. (a pretty girl)", "An adverb accompanies a verb. (run fast).", "An adverb can sometimes accompany an adjective. (a really beautiful face)", "An adverb can sometimes accompany another adjective and make it 'stronger' (it's raining very heavily)"] }
+                ]
+            },
+            {
+                title: "Question Formation",
+                content: [
+                    { type: 'subtitle', text: "Open Questions: expecting the answer YES or NO" },
+                    { type: 'rule', text: "Each question of this type begins with an auxiliary verb (is/are, do/does, was/were, did, have/has, had) or a modal verb (can, must, should, may etc.)." },
+                    { type: 'rule', text: "Open questions begin with an inversion of subject and auxiliary or modal verb:" },
+                    { type: 'interactive_example', before: "She <strong>is</strong> a teacher.", after: "<strong>Is she</strong> a teacher?", buttonText: "Transform to Question" },
+                    { type: 'interactive_example', before: "She <strong>can</strong> swim.", after: "<strong>Can she</strong> swim?", buttonText: "Transform to Question" },
+                    { type: 'rule', text: "An open question can be negative. Negative questions can express surprise, anxiety, disapproval, persuasion." },
+                    { type: 'rule', text: "The word not comes immediately after the auxiliary or modal verb and before the subject." },
+                    { type: 'example', text: "<strong>Can't you</strong> do what I tell you?" },
+                    { type: 'example', text: "<strong>Don't you</strong> love me any more?" },
+
+                    { type: 'subtitle', text: "Wh- questions: asking for information" },
+                    { type: 'rule', text: "The question word (who, what, where, which, why, how, etc.) is placed before the normal interrogative form of the verb (in other words, inversion of subject and auxiliary or modal verb)." },
+                    { type: 'note', text: "<strong>NOTE:</strong> Inversion takes place only when the question word is the <strong>object</strong> of the sentence." },
+                    { type: 'example', text: "<strong>What did you</strong> do yesterday? ('what' is the object)" },
+                    { type: 'example', text: "<strong>Who did you</strong> meet on the way to work? ('who' is the object)" },
+                    { type: 'rule', text: "<strong>BUT</strong>" },
+                    { type: 'example', text: "<strong>What happened</strong> when you came back? ('what' is the subject - NO INVERSION)" },
+                    { type: 'example', text: "<strong>Who told</strong> you about it? ('who' is the subject - NO INVERSION)" },
+
+                    { type: 'subtitle', text: "Question within a question (Embedded Questions)" },
+                    { type: 'example', text: "Do you know <strong>how often the bus comes?</strong>" },
+                    { type: 'rule', text: "In questions which begin with phrases like Can you tell me….? or Do you know…..? the real question does not take the interrogative form." },
+                    { type: 'note', text: "In this sentence, the real question 'How often does the bus come?' loses the inversion of the subject 'the bus' and the auxiliary verb 'does' after the phrase 'Do you know.'" },
+                    { type: 'note', text: "Note: the word 'if' is necessary before 'there be': Do you know <strong>if there is</strong> a bus stopping here?" }
+                ]
+            },
+            {
+                title: "Question Tags",
+                content: [
+                    { type: 'rule', text: "Question tags are very common in spoken English and are added to the end of statements in order to form questions." },
+                    { type: 'rule', text: "Normally a positive statement is followed by a negative question tag and a negative statement is followed by a positive question tag." },
+                    { type: 'rule', text: "The meaning of a question tag depends on how it is said. If your voice goes down at the end then you expect the other person to agree with you. If the voice goes up then it is a real question." },
+                    { type: 'example', text: "You are late, <strong>aren't you?</strong>" },
+                    { type: 'example', text: "I don't suppose you know the answer, <strong>do you?</strong>" },
+                    { type: 'exception', title: "Watch Out!!!", points: ["I'm taller than you, <strong>aren't I?</strong>", "You used to play tennis, <strong>didn't you?</strong>", "Come later, <strong>will you?</strong>", "Don't do that, <strong>will you?</strong>", "Let's play chess, <strong>shall we?</strong>", "Let her do it, <strong>will you/won't you?</strong>", "He has a bath every evening, <strong>doesn't he?</strong>", "She had a wonderful time, <strong>didn't she?</strong>", "That's your sister, <strong>isn't she?</strong>"] }
+                ]
+            },
+            {
+                title: "Inversion and Emphasis",
+                content: [
+                    { type: 'rule', text: "Inversion is one of the commonest ways to add emphasis." },
+                    { type: 'rule', text: "What frequently happens is that the verb and the subject of the sentence change places as in questions and this is why an inverted sentence looks like a question." },
+                    { type: 'interactive_example', before: "He is never late. <span class='text-sm text-stone-500'>(Subject - Verb)</span>", after: "<strong>Never is he</strong> late. <span class='text-sm text-stone-500'>(Verb - Subject)</span>", buttonText: "Emphasize!" },
+                    { type: 'interactive_example', before: "We rarely go to the cinema. <span class='text-sm text-stone-500'>(Subject - Verb)</span>", after: "<strong>Rarely do we</strong> go to the cinema. <span class='text-sm text-stone-500'>(Verb - Subject)</span>", buttonText: "Emphasize!" },
+                    { type: 'rule', text: "Inversion takes place when a sentence begins with:" },
+                    { type: 'list', items: [
+                        "<strong>never, rarely, seldom, hardly, scarcely</strong> → <em>Never have I seen such a terrible film.</em>",
+                        "<strong>Hardly/Scarcely … when, No sooner … than</strong> → <em>Hardly/Scarcely had I finished my homework, when my friend came over.</em>",
+                        "<strong>only</strong> and any phrase including 'only' → <em>Not only did he steal the money, but also lied about it.</em>",
+                        "any phrase including <strong>no</strong> or <strong>not</strong> → <em>Under no circumstances should you leave the door unlocked.</em>",
+                        "<strong>little</strong> → <em>Little did she realise how serious the situation was.</em>",
+                        "<strong>so + adjective/adverb</strong> or <strong>such (a) + (adjective) + noun</strong> → <em>So much did she complain, that no one wanted to listen to her.</em>"
+                    ]},
+                    { type: 'rule', text: "We can also have inversion in conditional sentences with <strong>had, should</strong> and <strong>were</strong>." },
+                    { type: 'table', headers: ['Original Conditional', 'Inverted Conditional'], rows: [
+                        ["'If I had seen you coming, I wouldn't have left.'", "'<strong>Had I seen you</strong> coming, I wouldn't have left.'"],
+                        ["'If she should phone, tell her I'm out.'", "'<strong>Should she phone</strong>, tell her I'm out.'"],
+                        ["'If it were possible, I would help you.'", "'<strong>Were it</strong> possible, I would help you.'"]
+                    ]},
+                    { type: 'subtitle', text: "Other Emphatic Structures" },
+                    { type: 'list', items: [
+                        "<strong>It + be … that</strong> → <em>It was <strong>she</strong> that gave you trouble. (she is emphasised)</em>",
+                        "<strong>Question word + subject + verb (+ be..)</strong> → <em><strong>What you need</strong> is more practice.</em>",
+                        "<strong>Do/does/did + infinitive</strong> → <em>I <strong>did</strong> tell you.</em>"
+                    ]}
+                ]
+            }
+        ];
+
+        // --- CORE APP LOGIC ---
+        function buildSentenceLab() {
+            const container = document.getElementById('sentencelab-content');
+            if (!container) return;
+
+            sentenceLabData.forEach(section => {
+                const sectionId = section.title.toLowerCase().replace(/\s+/g, '-');
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-stone-200';
+                
+                // Create collapsible header
+                const header = document.createElement('div');
+                header.className = 'collapsible-header p-4 flex justify-between items-center';
+                header.innerHTML = `
+                    <h2 class="text-3xl font-bold text-cinnamon">${section.title}</h2>
+                    <svg class="w-6 h-6 text-cinnamon transition-transform transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                `;
+                
+                // Create collapsible content
+                const content = document.createElement('div');
+                content.className = 'collapsible-content';
+                content.id = `content-${sectionId}`;
+                
+                let contentHtml = `<div class="p-4 pt-0">`;
+                section.content.forEach(item => {
+                    switch(item.type) {
+                        case 'rule':
+                            contentHtml += `<p class="text-lg mb-3">${item.text}</p>`;
+                            break;
+                        case 'note':
+                            contentHtml += `<p class="text-lg mb-3 p-3 bg-amber-50 border-l-4 border-cinnamon/50">${item.text}</p>`;
+                            break;
+                        case 'example':
+                            contentHtml += `<p class="text-lg font-mono ml-4 text-stone-600 mb-4 p-2 bg-cream-white rounded-md">${item.text}</p>`;
+                            break;
+                        case 'list':
+                            contentHtml += `<ul class="list-disc list-inside space-y-2 mb-4 text-lg ml-4">${item.items.map(li => `<li>${li}</li>`).join('')}</ul>`;
+                            break;
+                        case 'subtitle':
+                            contentHtml += `<h3 class="text-2xl font-bold text-cinnamon/80 mt-6 mb-3">${item.text}</h3>`;
+                            break;
+                        case 'exception':
+                            contentHtml += `<div class="mt-4 p-4 bg-amber-50 border-l-4 border-cinnamon/50 text-amber-900"><h4 class="font-bold text-xl text-cinnamon mb-2">${item.title}</h4><ul class="space-y-1">${item.points.map(p => `<li class="mb-2">${p}</li>`).join('')}</ul></div>`;
+                            break;
+                        case 'interactive_example':
+                            contentHtml += buildInteractiveCard(item);
+                            break;
+                        case 'table':
+                            let headerHtml = item.headers.map(h => `<th class="border border-stone-300 px-4 py-2 bg-stone-200">${h}</th>`).join('');
+                            let rowsHtml = item.rows.map(row => `<tr>${row.map(cell => `<td class="border border-stone-300 px-4 py-2">${cell}</td>`).join('')}</tr>`).join('');
+                            contentHtml += `<div class="overflow-x-auto"><table class="table-auto w-full my-4 border-collapse border border-stone-300"><thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`;
+                            break;
+                    }
+                });
+                contentHtml += `</div>`;
+                content.innerHTML = contentHtml;
+                
+                // Add click handler to header
+                header.addEventListener('click', () => {
+                    const isExpanded = content.style.maxHeight && content.style.maxHeight !== '0px';
+                    content.style.maxHeight = isExpanded ? '0' : `${content.scrollHeight}px`;
+                    header.querySelector('svg').classList.toggle('rotate-90');
+                    
+                    // Close other sections when opening this one
+                    if (!isExpanded) {
+                        document.querySelectorAll('.collapsible-content').forEach(el => {
+                            if (el.id !== content.id && el.style.maxHeight !== '0px') {
+                                el.style.maxHeight = '0';
+                                el.previousElementSibling.querySelector('svg').classList.remove('rotate-90');
+                            }
+                        });
+                    }
+                });
+                
+                // Initially expand the first section
+                if (section === sentenceLabData[0]) {
+                    content.style.maxHeight = `${content.scrollHeight}px`;
+                    header.querySelector('svg').classList.add('rotate-90');
+                }
+                
+                sectionDiv.appendChild(header);
+                sectionDiv.appendChild(content);
+                container.appendChild(sectionDiv);
+            });
+
+            addSentenceLabLogic();
+        }
+
+        function buildInteractiveCard(item) {
+            return `
+                <div class="interactive-card my-4 shadow-sm">
+                    <div class="p-4">
+                        <div class="interactive-before text-lg">${item.before}</div>
+                        <div class="interactive-after text-lg hidden">${item.after}</div>
+                        ${item.explanation ? `<div class="interactive-explanation text-md text-stone-600 mt-2 hidden">${item.explanation}</div>` : ''}
+                    </div>
+                    <div class="bg-stone-100 p-2 text-right">
+                        <button class="toggle-btn">${item.buttonText || 'Toggle'}</button>
+                    </div>
+                </div>`;
+        }
+        
+        function addSentenceLabLogic() {
+            document.querySelectorAll('.toggle-btn').forEach(button => {
+                button.addEventListener('click', e => {
+                    const card = e.target.closest('.interactive-card');
+                    const before = card.querySelector('.interactive-before');
+                    const after = card.querySelector('.interactive-after');
+                    const explanation = card.querySelector('.interactive-explanation');
+                    
+                    before.classList.toggle('hidden');
+                    after.classList.toggle('hidden');
+                    if (explanation) explanation.classList.toggle('hidden');
+
+                    if (before.classList.contains('hidden')) {
+                        e.target.textContent = 'Revert';
+                    } else {
+                        e.target.textContent = e.target.closest('.interactive-card').querySelector('.interactive-before').dataset.buttonText || 'Transform!';
+                    }
+                });
+            });
+        }
+
+        buildSentenceLab();
+    });
+    </script>
+</body>
+</html>
